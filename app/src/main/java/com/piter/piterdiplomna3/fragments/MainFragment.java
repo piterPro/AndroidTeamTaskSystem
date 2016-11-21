@@ -33,20 +33,16 @@ import okhttp3.*;
  * A simple {@link Fragment} subclass.
  */
 public class MainFragment extends Fragment{
-//    public int pidInput=-1;
-//    String SpinnerChoice;
     String TAG="TAG MainFragment";
     View view;
     ArrayList<TaskClass> yourList;
     ArrayList<UserClass> UserClass;
-//    ArrayList<String> UserName = new ArrayList();
     ArrayList<ChatMessageClass> ChatList = new ArrayList();
-//    static final String urlGetTasks = MainActivity.urlIP+"/com.piter.jersey.first/api/v2/manage/tasks?id=";
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-//MainTasksAdapter
     public static MainFragment mainFragment;
+
     public MainFragment() {
         // Required empty public constructor
     }
@@ -68,7 +64,6 @@ public class MainFragment extends Fragment{
     //function AsyncGetNameOfReceiver uses Get url and write that to main fragment
     //
     public void AsyncGetTasksAndPrint(String url, final String S) throws Exception{
-//        OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -93,7 +88,6 @@ public class MainFragment extends Fragment{
 
                 Log.d(TAG, "onResponse:FETCH_TASKS= "+responseString);
                 response.body().close();
-//                if (S == "AddRecyclerView") {
                     Type listType = new TypeToken<List<TaskClass>>() {
                     }.getType();
                     try {
@@ -125,9 +119,6 @@ public class MainFragment extends Fragment{
             }
         });
     }
-
-
-
 
     //
     //function AddRecyclerView
@@ -175,12 +166,4 @@ public class MainFragment extends Fragment{
 
         Log.d("TAG", "AddRecyclerView: adapter added!");
     }
-
-
-
-    public void YouDaMen(){
-        Toast.makeText(getContext(), "You are the man!", Toast.LENGTH_SHORT).show();
-    }
-// nz za kakvo mi e
-
 }

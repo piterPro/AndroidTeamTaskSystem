@@ -29,6 +29,7 @@ import com.google.gson.reflect.TypeToken;
 import com.piter.piterdiplomna3.ObjectClasses.CommentClass;
 import com.piter.piterdiplomna3.ObjectClasses.UserClass;
 import com.piter.piterdiplomna3.R;
+import com.piter.piterdiplomna3.adapters.CommentAdapter;
 import com.piter.piterdiplomna3.helper.Constants;
 import com.piter.piterdiplomna3.helper.SharedPreferencesManage;
 import com.piter.piterdiplomna3.helper.URLs;
@@ -59,13 +60,15 @@ public class CommentsFragment extends Fragment {
     public String ready="false";
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    private ArrayList<UserClass> mUserDetails;
     private View view;
     private ArrayList<CommentClass> mCommentList;
-    private ArrayList<UserClass> mUserDetails;
     private String mIdTask;
     private String mParam2;
     private final String TAG = "TAG CommentsFragment";
     public FunDapter adapter;
+    public CommentAdapter mAdapter;
     public Button sendBtn;
     public EditText CommentText;
     private boolean wait=false;
@@ -109,8 +112,17 @@ public class CommentsFragment extends Fragment {
                 try {
                     if(CommentText.length()>0){
                         Log.d(TAG, "onCreateView: onClick:if there is a comment post it ");
-                        postComment(URLs.URL_SEND_COMMENT, CommentText.getText().toString(), getTimeStamp(), Integer.parseInt(mIdTask), SharedPreferencesManage.getInstance().getUserId());
-                        adapter.notifyDataSetChanged();
+                        postComment(URLs.URL_SEND_COMMENT, CommentText.getText().toString().trim(), getTimeStamp(), Integer.parseInt(mIdTask), SharedPreferencesManage.getInstance().getUserId());
+
+                        CommentClass newObj = new CommentClass(getTimeStamp(),Integer.parseInt(mIdTask),CommentText.getText().toString().trim(),SharedPreferencesManage.getInstance().getUserId());
+                        if (mCommentList.isEmpty()) {
+                            mCommentList.add(newObj);
+                            AddAdapterForComments(getView(), mCommentList);
+                        }else
+                            mAdapter.add(newObj);
+                        mAdapter.notifyDataSetChanged();
+//                        adapter.add(newObj);
+//                        adapter.notifyDataSetChanged();
                         CommentText.setText("");
                     }
                 } catch (Exception e) {                    e.printStackTrace();                }
@@ -197,115 +209,78 @@ public class CommentsFragment extends Fragment {
         });
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }
     public void AddAdapterForComments(View view, ArrayList<CommentClass> yourList){
 //        myfview=view;
         if(yourList.isEmpty()) return;
-        Log.d(TAG, "AddAdapterForComments se izvika: ");
-        BindDictionary<CommentClass> dictionary = new BindDictionary<>();
-        dictionary.addStringField(R.id.CommentTextTV,new StringExtractor<CommentClass>(){
-            @Override
-            public String getStringValue(CommentClass item, int position) { return item.getText();            }
-        });
-
-        dictionary.addStringField(R.id.CommentDateTV,new StringExtractor<CommentClass>(){
-            @Override
-            public String getStringValue(CommentClass item, int position) {
-                return item.getCreate_date_time();
-            }
-
-        });
-
-        Log.d(TAG, "AddAdapterForComments: zadadoha se drugite 2 poleta");
-        dictionary.addStringField(R.id.CommentPersonNameTV,new StringExtractor<CommentClass>(){
-            @Override
-            public String getStringValue(CommentClass item, int position) {
-                try {
-                    Log.d(TAG, "getStringValue: vlezna v try bloka getUserDetails");
-                    wait=true;
-                    getUserDetails(URLs.URL_FETCH_USERS + "?id=" + item.getUser_id());
-                    while(wait==true){//wait
-                         }
-                    Log.d(TAG, "getStringValue: izlezna ot try bloka getUserDetails");
-//                    Thread.sleep(500);
-                } catch (Exception e) {e.printStackTrace();Log.d(TAG, "getStringValue: cant get userName in time");}
-//                try {                    Thread.sleep(400);                }
-//                catch (InterruptedException e) {                    e.printStackTrace();                }
-//                int i = 0;//                while(mUserDetails.isEmpty())
-//                if (mUserDetails.isEmpty()) {
-//                    return "exapmle name ";
-//                }
-//                Log.d(TAG, "getStringValue: " + "" + mUserDetails.get(0).getFname() + " " + mUserDetails.get(0).getLname());
-               // Log.d(TAG, "getStringValue: Start syncTask");
-               // LongOperation async =  new LongOperation("Fetching comments...");
-               /// try {
-//                    async.execute(""+item.getUser_id());
-//                    async.get(10000, TimeUnit.MILLISECONDS);
-//                    Thread.sleep(10000);
-               // }         catch (Exception e) {            e.printStackTrace();        }
-                return "" + mUserDetails.get(0).getFname() + " " + mUserDetails.get(0).getLname();
-                //                return "exapmle name ";//                }else
-            }
-        });
+        //Made new adapter for this
+//        Log.d(TAG, "AddAdapterForComments se izvika: ");
+//        BindDictionary<CommentClass> dictionary = new BindDictionary<>();
+//        dictionary.addStringField(R.id.CommentTextTV,new StringExtractor<CommentClass>(){
+//            @Override
+//            public String getStringValue(CommentClass item, int position) { return item.getText();            }
+//        });
+//
+//        dictionary.addStringField(R.id.CommentDateTV,new StringExtractor<CommentClass>(){
+//            @Override
+//            public String getStringValue(CommentClass item, int position) {
+//                return item.getCreate_date_time();
+//            }
+//
+//        });
+//
+//        Log.d(TAG, "AddAdapterForComments: zadadoha se drugite 2 poleta");
+//        dictionary.addStringField(R.id.CommentPersonNameTV,new StringExtractor<CommentClass>(){
+//            @Override
+//            public String getStringValue(CommentClass item, int position) {
+//                try {
+//                    Log.d(TAG, "getStringValue: vlezna v try bloka getUserDetails");
+//                    wait=true;
+//                    getUserDetails(URLs.URL_FETCH_USERS + "?id=" + item.getUser_id());
+//                    while(wait==true){//wait
+//                         }
+//                    Log.d(TAG, "getStringValue: izlezna ot try bloka getUserDetails");
+////                    Thread.sleep(500);
+//                } catch (Exception e) {e.printStackTrace();Log.d(TAG, "getStringValue: cant get userName in time");}
+////                try {                    Thread.sleep(400);                }
+////                catch (InterruptedException e) {                    e.printStackTrace();                }
+////                int i = 0;//                while(mUserDetails.isEmpty())
+////                if (mUserDetails.isEmpty()) {
+////                    return "exapmle name ";
+////                }
+////                Log.d(TAG, "getStringValue: " + "" + mUserDetails.get(0).getFname() + " " + mUserDetails.get(0).getLname());
+//               // Log.d(TAG, "getStringValue: Start syncTask");
+//               // LongOperation async =  new LongOperation("Fetching comments...");
+//               /// try {
+////                    async.execute(""+item.getUser_id());
+////                    async.get(10000, TimeUnit.MILLISECONDS);
+////                    Thread.sleep(10000);
+//               // }         catch (Exception e) {            e.printStackTrace();        }
+//                return "" + mUserDetails.get(0).getFname() + " " + mUserDetails.get(0).getLname();
+//                //                return "exapmle name ";//                }else
+//            }
+//        });
 
 
 
         final View myfview = view;
-        adapter = new FunDapter(CommentsFragment.this.getActivity(), yourList,R.layout.cc_comment_fragment,dictionary);
+//        adapter = new FunDapter(CommentsFragment.this.getActivity(), yourList,R.layout.cc_comment_fragment,dictionary);
+        mAdapter = new CommentAdapter(CommentsFragment.this.getActivity(),R.layout.cc_comment_fragment, yourList);
         getActivity().runOnUiThread(new Runnable() {
            @Override
            public void run() {
                final ListView tasksLV = (ListView) myfview.findViewById(R.id.CommentsListView);
                tasksLV.setItemsCanFocus(true);
-               tasksLV.setAdapter(adapter);
+               tasksLV.setAdapter(mAdapter);
                ready="true";
             }
        });
     }
 
-    //
-    //function getUserDetails uses Get url and write that to main fragment
-    //
-    public void getUserDetails(String url) throws Exception{
-//        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
 
-        Log.d(TAG, "getUserDetails: url="+url);
-        SharedPreferencesManage.client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.i("TAG", "onFailure:async task  ");
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                String responseString;
-                responseString = response.body().string();
-                response.body().close();
-                Log.d("TAG", "onResponse: getUserDetails"+responseString);
-
-                Type listType = new TypeToken<List<UserClass>>() {
-                }.getType();
-                mUserDetails = new Gson().fromJson(responseString, listType);
-                wait=false;
-            }
-        });
-    }
 
     public class getSupportedFrgManager extends AppCompatActivity{
         public FragmentManager getIt(){

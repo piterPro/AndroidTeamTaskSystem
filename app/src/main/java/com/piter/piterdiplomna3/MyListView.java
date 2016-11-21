@@ -25,26 +25,27 @@ public class MyListView extends ListView {
     {
         if (getCount() != oldCount)
         {
-            Log.d("TAG", "onDraw: getCount="+getCount()+"!= oldCount ="+oldCount);
+//            Log.d("TAG", "onDraw: getCount="+getCount()+"!= oldCount ="+oldCount);
             if(getChildCount()>0) {
-                Log.d("TAG", "onDraw: getCount= "+getCount());
+//                Log.d("TAG", "onDraw: getCount= "+getCount());
                 int height = getChildAt(0).getHeight() + 1;
                 oldCount = getCount();
                 params = getLayoutParams();
-                params.height = (getCount() * height)+130;
+                params.height = (getCount() * height);
                 setLayoutParams(params);
             }
             else{
-                Log.d("TAG", "onDraw: getChildCount= "+getChildCount());
+//                Log.d("TAG", "onDraw: getChildCount= "+getChildCount());
                 oldCount = getCount();
                 params = getLayoutParams();
                 params.height = 1;
                 setLayoutParams(params);
             }
-        }else {
-            Log.d("TAG  ", "onDraw: Ne vliza nikude");
-//            oldCount = getCount();
         }
+//        else {
+//            Log.d("TAG  ", "onDraw: Ne vliza nikude");
+//            oldCount = getCount();
+//        }
 
         super.onDraw(canvas);
     }

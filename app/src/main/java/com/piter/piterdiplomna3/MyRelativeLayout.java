@@ -3,6 +3,7 @@ package com.piter.piterdiplomna3;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.RelativeLayout;
 
 /**
@@ -26,7 +27,9 @@ public class MyRelativeLayout extends RelativeLayout {
             int height = getChildAt(0).getHeight() + 1 ;
             oldCount = getChildCount();
             params = getLayoutParams();
-            params.height = (getChildCount() * height)+80;
+            Log.d("TAG", "onDraw: params.height="+params.height);
+            params.height = (getChildCount() * height)+230;
+            Log.d("TAG", "onDraw: params.height="+params.height);
             setLayoutParams(params);
         }
         super.onDraw(canvas);
