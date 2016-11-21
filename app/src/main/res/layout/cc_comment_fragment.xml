@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:text="CommentPersonNameTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/CommentPersonNameTV"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/CommentDateTV"
+        android:layout_marginStart="15dp"
+        android:textSize="15sp"
+        android:textStyle="normal|bold" />
+    <TextView
+        android:text="CommentDateTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:id="@+id/CommentDateTV"
+        android:textColor="@android:color/darker_gray" />
+
+    <TextView
+        android:text="CommentTextTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/CommentTextTV"
+        android:layout_below="@+id/CommentPersonNameTV"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="15dp"
+        android:textSize="15sp" />
+
+
+</RelativeLayout>

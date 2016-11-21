@@ -1,0 +1,106 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.piter.piterdiplomna3.fragments.TaskAddFragment">
+
+    <TextView
+        android:text="@string/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/enterTitleTv"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="13dp"
+        android:layout_alignParentEnd="true"
+        android:textAlignment="center"
+        android:layout_marginTop="27dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_below="@+id/enterTitleTv"
+        android:layout_alignStart="@+id/enterTitleTv"
+        android:id="@+id/titleET"
+        android:layout_alignParentEnd="true"
+        android:textSize="24sp"
+        android:layout_height="60dp"
+        android:labelFor="@+id/enterTitleTv" />
+
+    <TextView
+        android:text="@string/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/titleET"
+        android:layout_alignStart="@+id/titleET"
+        android:id="@+id/enterDscrTv"
+        android:layout_alignParentEnd="true"
+        android:textAlignment="center" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:layout_below="@+id/enterDscrTv"
+        android:layout_alignStart="@+id/enterDscrTv"
+        android:id="@+id/decsriptionET"
+        android:layout_alignParentEnd="true"
+        android:layout_height="120dp"
+        style="@style/Widget.AppCompat.AutoCompleteTextView"
+        android:hint="Description" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/decsriptionET"
+        android:layout_alignStart="@+id/decsriptionET"
+        android:id="@+id/statusSpnr" />
+
+    <Button
+        android:text="@string/check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/viewBtn"
+        android:elevation="0dp"
+        android:layout_marginStart="45dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="13dp" />
+
+    <Button
+        android:text="@string/send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/addTaskBtn"
+        android:layout_alignBaseline="@+id/viewBtn"
+        android:layout_alignBottom="@+id/viewBtn"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="21dp" />
+
+    <Button
+        android:text="@string/end_date"
+        android:layout_height="wrap_content"
+        android:id="@+id/endBtn"
+        android:visibility="visible"
+        android:layout_marginBottom="43dp"
+        android:layout_width="120dp"
+        android:layout_above="@+id/addTaskBtn"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="@string/begin_date"
+        android:layout_height="wrap_content"
+        android:id="@+id/beginDateBtn"
+        android:layout_width="120dp"
+        android:layout_above="@+id/endBtn"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="@string/select_users"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/beginDateBtn"
+        android:layout_alignStart="@+id/viewBtn"
+        android:id="@+id/userSelectBtn" />
+</RelativeLayout>

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "92748725348",
+    "project_id": "piterdiplomna3-e4b7a"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:92748725348:android:26b18419fe09f606",
+        "android_client_info": {
+          "package_name": "com.piter.piterdiplomna3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "92748725348-tfr0trvfbfl37liei2j446u1h2hq8g7c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.piter.piterdiplomna3",
+            "certificate_hash": "7132B6800BBCCA1B94377F6A473E93B42B7DBCD2"
+          }
+        },
+        {
+          "client_id": "92748725348-92iolq5urihja3io3tkcbke35sgjb7hq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBl0wwpXXkftlhZazuzN6Q_v44X4jo1M6M"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

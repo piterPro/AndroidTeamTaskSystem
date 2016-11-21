@@ -1,0 +1,23 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.piter.piterdiplomna3.fragments.Task_UserListFragment">
+
+    <!-- TODO: Update blank mainFragment layout -->
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/userListLV"
+        android:layout_above="@+id/doneAddinUserBtn"/>
+
+    <Button
+        android:text="@string/userListDoneBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/doneAddinUserBtn" />
+
+</RelativeLayout>

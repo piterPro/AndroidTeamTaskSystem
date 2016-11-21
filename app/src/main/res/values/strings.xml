@@ -1,0 +1,66 @@
+<resources>
+    <string name="app_name">Piter Diplomna v3</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="piter_diplomna">Piter Diplomna</string>
+    <string name="piter_diplomna_tuplovdiv_bg">Piter.Diplomna@tuplovdiv.bg</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello from the Home fragment</string>
+    <string name="button">Button</string>
+    <string name="Begin_date">Begin date</string>
+    <string name="EndDate">End Date</string>
+    <string-array name="ListItems">
+        <item>Add task</item>
+        <item>Review tasks</item>
+        <item>View calendar</item>
+    </string-array>
+    <string name="Enter_task">Enter task</string>
+    <string name="Enter_priority">Enter priority</string>
+    <string name="Add_task_btn">Add task</string>
+    <string name="Add_task_type">Add task type</string>
+    <string name="mainDragmentBtn">I Like it!</string>
+    <string name="Add_type_task">Add type task</string>
+    <string name="Add_task_resourse">Add task resourse</string>
+    <string name="hello_from_add_task_fragment">Hello from add task fragment</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_username">Username</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_username">This username is invalid</string>
+    <string name="error_title_not_found">This name is required</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="LoadingTxt">Loading...</string>
+    <string name="Add_title">Add Title</string>
+    <string name="Add_task_desciption">Add task description</string>
+    <string name="userListDoneBtn">Done</string>
+    <string name="begin_date">Begin date</string>
+    <string name="check">Check</string>
+    <string name="name">Title</string>
+    <string name="description">Description</string>
+    <string name="end_date">End Date</string>
+    <string name="select_users">Select users</string>
+    <string name="send">Send</string>
+    <string name="registerBtn">REGISTER</string>
+    <string name="prompt_fname">First Name</string>
+    <string name="promps_lname">Last Name</string>
+    <string name="promps_Cname">Company Name</string>
+    <string name="promps_CDesc">Company Description</string>
+    <string name="defaultValuePending">Pending</string>
+    <string name="Comments_hint">Comments</string>
+    <string-array name="listStatus">
+        <item>Pending</item>
+        <item>Done</item>
+    </string-array>
+</resources>

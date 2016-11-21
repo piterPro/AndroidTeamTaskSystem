@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/task_card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="4dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:id="@+id/rlTaskCardview"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <RelativeLayout
+        android:id="@+id/task_card_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:text="@string/defaultValuePending"
+            android:id="@+id/statusTV"
+            android:layout_width="70dp"
+            android:textAlignment="center"
+            android:layout_height="20dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:text="Title"
+            android:id="@+id/titleTV"
+            android:textSize="18sp"
+            android:layout_height="35dp"
+            android:layout_width="340dp"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@+id/statusTV"
+            android:paddingStart="30dp" />
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:id="@+id/descriptionTV"
+            android:text="Description"
+            android:layout_below="@+id/titleTV"
+            android:layout_alignParentEnd="true"
+            android:paddingStart="50dp"
+            android:visibility="gone"
+            android:layout_width="280dp" />
+
+        <TextView
+            android:text="Description:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/descriptionTV"
+            android:layout_below="@+id/titleTV"
+            android:id="@+id/DescriptionHintTV"
+            android:textSize="12sp"
+            android:textAlignment="viewStart"
+            android:textColor="@color/common_google_signin_btn_text_dark_disabled"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+        <RelativeLayout
+            android:orientation="vertical"
+            android:id="@+id/comment_fragment_container"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/task_card_rl"
+            />
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
+
