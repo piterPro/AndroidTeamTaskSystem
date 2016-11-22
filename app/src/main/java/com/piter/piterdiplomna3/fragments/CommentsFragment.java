@@ -61,18 +61,19 @@ public class CommentsFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    private ArrayList<UserClass> mUserDetails;
+
     private View view;
     private ArrayList<CommentClass> mCommentList;
     private String mIdTask;
     private String mParam2;
     private final String TAG = "TAG CommentsFragment";
-    public FunDapter adapter;
+//    public FunDapter adapter;
+//    private ArrayList<UserClass> mUserDetails; //other adapter made
+//    private boolean wait=false;
     public CommentAdapter mAdapter;
     public Button sendBtn;
     public EditText CommentText;
-    private boolean wait=false;
-//    public View myfview;
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -103,7 +104,7 @@ public class CommentsFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.cc_fragment_comments_list, container, false);
         CommentText = (EditText)view.findViewById(R.id.comment_textET);
-//        myfview = container;//.getChildAt(Integer.parseInt(mIdTask));//2 dano da e na 2-ra poziciq 4e neznam inak
+//        myfview = container;//.getChildAt(Integer.parseInt(mIdTask));
         sendBtn= (Button) view.findViewById(R.id.commentBtn);
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,8 +122,6 @@ public class CommentsFragment extends Fragment {
                         }else
                             mAdapter.add(newObj);
                         mAdapter.notifyDataSetChanged();
-//                        adapter.add(newObj);
-//                        adapter.notifyDataSetChanged();
                         CommentText.setText("");
                     }
                 } catch (Exception e) {                    e.printStackTrace();                }

@@ -3,13 +3,22 @@ package com.piter.piterdiplomna3.adapters;
 import android.content.Context;
 import android.content.Intent;
 ;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.piter.piterdiplomna3.activities.ChatActivity;
+
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
+
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.piter.piterdiplomna3.ObjectClasses.UserClass;
 import com.piter.piterdiplomna3.R;
+import com.piter.piterdiplomna3.helper.SharedPreferencesManage;
+import com.piter.piterdiplomna3.helper.URLs;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -17,12 +26,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Request;
+import okhttp3.Response;
+
 
 public class ChatUserAdapter extends RecyclerView.Adapter<ChatUserAdapter.myViewHolder>{
 
         private Context context;
-        public ArrayList<UserClass> usersList;//should be private?
+        public ArrayList<UserClass> usersList;
         String TAG="TAG ChatUserAdapter";
+        private boolean wait = false;
+        private String lastMsgTime="";
 
          public Context getContext() {
         return context;
@@ -75,20 +91,29 @@ public class ChatUserAdapter extends RecyclerView.Adapter<ChatUserAdapter.myView
 
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        final UserClass selectedTask = usersList.get(position);
+        final UserClass selectedUser = usersList.get(position);
 
-        Log.d(TAG, "onBindViewHolder:Users "+selectedTask.getId());
+        Log.d(TAG, "onBindViewHolder:Users "+selectedUser.getId());
 //        holder.mChatUsernameTV.setText(selectedTask.getFname()+" "+selectedTask.getLname());
-        holder.mChatUsernameTV.setText(selectedTask.getFname()+" "+selectedTask.getLname());
-        holder.mChatLastMsgTV.setText("last msg");
+        holder.mChatUsernameTV.setText(selectedUser.getFname()+" "+selectedUser.getLname());
+        try {
+            Log.d(TAG, "onBindViewHolder: URL="+URLs.URL_FETCH_LASTMESSAGE+"?id="+ SharedPreferencesManage.getInstance().getUserId() +"&&id2="+selectedUser.getId());
+            AsyncGetLastMsg(URLs.URL_FETCH_LASTMESSAGE+"?id="+ SharedPreferencesManage.getInstance().getUserId() +"&&id2="+selectedUser.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        wait= true;
+        while(wait==true){}
+
+        holder.mChatLastMsgTV.setText(lastMsgTime);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: klikna se ="+selectedTask.getId()+"i samo position ="+position);
+                Log.d(TAG, "onClick: klikna se ="+selectedUser.getId()+"i samo position ="+position);
                 Intent intent = new Intent(context,ChatActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("id",selectedTask.getId()+"");
+                intent.putExtra("id",selectedUser.getId()+"");
                 context.startActivity(intent);
             }
         });
@@ -101,6 +126,34 @@ public class ChatUserAdapter extends RecyclerView.Adapter<ChatUserAdapter.myView
                 return usersList.size();
             return 0;
         }
+    //
+    //function AsyncGetLastMsg uses Get last message between two users
+    //
+    public void AsyncGetLastMsg(String url) throws Exception{
+//        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        SharedPreferencesManage.client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i("TAG", "onFailure:async task  ");
+                e.printStackTrace();
+            }
 
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String responseString = response.body().string();
+                response.body().close();
+                //za da se izpulni vinagi ot glavnata ni6ka
+                            lastMsgTime = responseString;
+                            wait=false;
+                        }
+
+
+
+        });
     }
+
+}
 

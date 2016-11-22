@@ -22,7 +22,8 @@ public class URLs {
     public static final String URL_FETCH_COMMENTS = ROOT_URL + "comments";
     public static final String URL_SEND_COMMENT = ROOT_URL + "addComment";
 
-    public static final String URL_FETCH_MESSAGES = ROOT_URL + "messages";
+    public static final String URL_FETCH_MESSAGES = ROOT_URL + "messages";//lastmsg
+    public static final String URL_FETCH_LASTMESSAGE = ROOT_URL + "lastmsg";//
     public static final String URL_SEND_MESSAGE = ROOT_URL + "sendMsg";//registerCompany
 
 }

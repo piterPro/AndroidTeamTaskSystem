@@ -1,9 +1,8 @@
-package com.piter.piterdiplomna3;
+package com.piter.piterdiplomna3.helper;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.ListView;
 
 /**
@@ -25,9 +24,7 @@ public class MyListView extends ListView {
     {
         if (getCount() != oldCount)
         {
-//            Log.d("TAG", "onDraw: getCount="+getCount()+"!= oldCount ="+oldCount);
             if(getChildCount()>0) {
-//                Log.d("TAG", "onDraw: getCount= "+getCount());
                 int height = getChildAt(0).getHeight() + 1;
                 oldCount = getCount();
                 params = getLayoutParams();
@@ -35,17 +32,12 @@ public class MyListView extends ListView {
                 setLayoutParams(params);
             }
             else{
-//                Log.d("TAG", "onDraw: getChildCount= "+getChildCount());
                 oldCount = getCount();
                 params = getLayoutParams();
                 params.height = 1;
                 setLayoutParams(params);
             }
         }
-//        else {
-//            Log.d("TAG  ", "onDraw: Ne vliza nikude");
-//            oldCount = getCount();
-//        }
 
         super.onDraw(canvas);
     }

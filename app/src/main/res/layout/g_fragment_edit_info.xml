@@ -22,13 +22,13 @@
                 android:id="@+id/joinCompanyET"
                 android:hint="Enter Company" />
 
-            <com.piter.piterdiplomna3.MyListView
+            <com.piter.piterdiplomna3.helper.MyListView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/suggestCompanyLV"
                 android:visibility="gone">
 
-            </com.piter.piterdiplomna3.MyListView>
+            </com.piter.piterdiplomna3.helper.MyListView>
 
             <EditText
                 android:layout_width="match_parent"
@@ -38,13 +38,13 @@
                 android:id="@+id/joinPositionET"
                 android:hint="Enter position" />
 
-            <com.piter.piterdiplomna3.MyListView
+            <com.piter.piterdiplomna3.helper.MyListView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/suggestPositionLV"
                 android:visibility="gone">
 
-            </com.piter.piterdiplomna3.MyListView>
+            </com.piter.piterdiplomna3.helper.MyListView>
         </LinearLayout>
     </ScrollView>
 </FrameLayout>
