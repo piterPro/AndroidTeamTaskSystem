@@ -1,5 +1,6 @@
 package com.piter.piterdiplomna3.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.CardView;
@@ -8,8 +9,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,14 +22,25 @@ import com.piter.piterdiplomna3.R;
 import com.piter.piterdiplomna3.activities.MainActivity;
 import com.piter.piterdiplomna3.fragments.CommentsFragment;
 import com.piter.piterdiplomna3.fragments.MainFragment;
+import com.piter.piterdiplomna3.helper.Constants;
+import com.piter.piterdiplomna3.helper.SharedPreferencesManage;
+import com.piter.piterdiplomna3.helper.URLs;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myViewHolder> implements CommentsFragment.OnFragmentInteractionListener {
     private Context context;
     private ArrayList<TaskClass> taskList;
     String TAG="TAG MainTasksAdapter";
-//    public View CurrentElementView;
 
     @Override
     public void onFragmentInteraction(Uri uri) {
@@ -40,6 +55,7 @@ public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myVi
         public TextView descriptionHintTV;
         public Button msendBtn;
         public CommentsFragment mfragment;
+        public Spinner spinnerStatus;
 
         public myViewHolder(View itemView) {
 
@@ -50,10 +66,29 @@ public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myVi
             descriptionTV= (TextView) itemView.findViewById(R.id.descriptionTV);
             descriptionHintTV= (TextView) itemView.findViewById(R.id.DescriptionHintTV);
             msendBtn = (Button) itemView.findViewById(R.id.commentBtn);
+            spinnerStatus = (Spinner) itemView.findViewById(R.id.statusChangeSpinner);
+            List<String> listStatus = new ArrayList<String>(Arrays.asList(new String[]{"Pending", "Done"}));//to be change to use listStatus from strings file
 
+            ArrayAdapter<String> dataAdapterStatus = new ArrayAdapter<>(((Activity)itemView.getContext()),
+                    android.R.layout.simple_spinner_item, listStatus);
+            dataAdapterStatus.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerStatus.setAdapter(dataAdapterStatus);
+
+            statusTV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    Log.d("TAG mainTaskAdapter", "onClick: q klikna me ");
+                    if(spinnerStatus.getVisibility()==View.GONE) {
+                        spinnerStatus.setVisibility(View.VISIBLE);
+                        task_card_view.performClick();
+//                        titleTV.performClick();
+                    }else
+                        spinnerStatus.setVisibility(View.GONE);
+                }
+            });
+//            }
         }
     }
-
     // Provide a suitable constructor (depends on the kind of dataset)
     public MainTasksAdapter(Context cont, ArrayList<TaskClass> myDataset, MainFragment fragment) {
         context = cont;
@@ -89,11 +124,24 @@ public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myVi
 //                View child = View.inflate(context, R.layout.g_suggest, null);
 
                 if (holder.descriptionTV.getVisibility() == View.GONE) {
-                    holder.descriptionTV.setVisibility(View.VISIBLE);//DescriptionHintTV
-                    holder.descriptionHintTV.setVisibility(View.VISIBLE);//DescriptionHintTV
+                    holder.descriptionTV.setVisibility(View.VISIBLE);
+                    holder.descriptionHintTV.setVisibility(View.VISIBLE);
 
                     holder.mfragment = CommentsFragment.newInstance(""+selectedTasks.getId(),"0");
-                    Log.d(TAG, "holder.itemView.onClick: holder.getItemId()="+selectedTasks.getId());
+//                    Log.d(TAG, "holder.itemView.onClick: holder.getItemId()="+selectedTasks.getId());
+                    holder.spinnerStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            try {
+//                                Log.d(TAG, "onItemClick: klikna spinnera");
+                                Log.d(TAG, "onItemClick: URL="+URLs.URL_UPDATE_STATUS+"?id="+selectedTasks.getId()+"&status="+holder.spinnerStatus.getSelectedItem().toString());
+                                AsyncUpdateStatus(URLs.URL_UPDATE_STATUS+"?id="+selectedTasks.getId()+"&status="+holder.spinnerStatus.getSelectedItem().toString(),context);
+                            } catch (Exception e) {                                e.printStackTrace();                            }
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {                        }
+                    });
                     if(holder.mfragment.ready=="false"){
                         //whait!
                             Toast.makeText(context, "Loading...", Toast.LENGTH_SHORT).show();
@@ -135,5 +183,41 @@ public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myVi
         if(taskList != null)
             return taskList.size();
         return 0;
+    }
+    public void AsyncUpdateStatus(String url,final Context context) throws Exception{
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        // Get a handler that can be used to post to the main thread
+        SharedPreferencesManage.client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                ((Activity)context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.w(TAG, "run: Can't connect to the server" );
+                        Toast.makeText(context, "Can't connect to the server", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                e.printStackTrace();
+                return;
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                if (!response.isSuccessful()) {
+                    throw new IOException("Unexpected code " + response);
+                }
+                ((Activity)context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.w(TAG, "status Changed" );
+                        Toast.makeText(context, "status Changed", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                });
+            }
+        });
     }
 }

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -22,9 +23,14 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.piter.piterdiplomna3.ObjectClasses.SuggestCompanyClass;
 import com.piter.piterdiplomna3.ObjectClasses.SuggestPositionClass;
+import com.piter.piterdiplomna3.ObjectClasses.UserClass;
 import com.piter.piterdiplomna3.R;
+import com.piter.piterdiplomna3.helper.Constants;
 import com.piter.piterdiplomna3.helper.SharedPreferencesManage;
 import com.piter.piterdiplomna3.helper.URLs;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -34,6 +40,7 @@ import java.util.List;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -63,6 +70,7 @@ public class EditInfoFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     public ListView suggestLV;
     public ListView suggestPositionLV;
+    public Button RequestChange;
 
     private OnFragmentInteractionListener mListener;
 
@@ -103,6 +111,7 @@ public class EditInfoFragment extends Fragment {
         view = inflater.inflate(R.layout.g_fragment_edit_info, container, false);
         company_add = (EditText) view.findViewById(R.id.joinCompanyET);
         position_add = (EditText) view.findViewById(R.id.joinPositionET);
+        RequestChange = (Button) view.findViewById(R.id.requestCompanyPositionBTN);
         company_add.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override public void afterTextChanged(Editable s) {}
@@ -127,7 +136,40 @@ public class EditInfoFragment extends Fragment {
                 } catch (Exception e) {                    e.printStackTrace();                }
             }
         });
+        RequestChange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    JSONObject json = new JSONObject();
+                    try {
+                        if(company_add.getText().length()>0) {
+                            json.put("object_name", company_add.getText());
+                            json.put("user_id", SharedPreferencesManage.getInstance().getUserId());
+                            json.put("type", "1");
 
+                            Log.d(TAG, "onClick: URL="+URLs.URL_SEND_REQUEST);
+                            AsyncRequestChanges(URLs.URL_SEND_REQUEST,json.toString());
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    JSONObject json2 = new JSONObject();
+                    try {
+                        if(position_add.getText().length()>0) {
+                            json2.put("object_name", position_add.getText());
+                            json2.put("user_id", SharedPreferencesManage.getInstance().getUserId());
+                            json2.put("type", "2");
+
+                            Log.d(TAG, "onClick: URL="+URLs.URL_SEND_REQUEST);
+                            AsyncRequestChanges(URLs.URL_SEND_REQUEST,json2.toString());
+                        }
+                        getActivity().onBackPressed();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } catch (Exception e) {                    e.printStackTrace();                }
+            }
+        });
         return view;
     }
 
@@ -264,5 +306,34 @@ public class EditInfoFragment extends Fragment {
             suggestPositionLV.setAdapter(mAdapter2);
             suggestPositionLV.setVisibility(View.VISIBLE);
         }
+    }
+
+    //
+    //function AsyncRequestChanges
+    //
+    public void AsyncRequestChanges(String url,String json) throws Exception{
+        Request request = new Request.Builder()
+                .url(url)
+                .post(RequestBody.create(Constants.JSON, json.toString()))
+                .build();
+        SharedPreferencesManage.client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i("TAG", "onFailure:async task  ");
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                response.body().close();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getActivity(), "Request added, now wait for the admin to approve it", Toast.LENGTH_LONG).show();
+                        Log.i(TAG, "onResponse request added");
+                    }
+                });
+            }
+        });
     }
 }

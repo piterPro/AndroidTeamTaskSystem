@@ -1,10 +1,8 @@
 package com.piter.piterdiplomna3.fragments;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
@@ -26,7 +24,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.piter.piterdiplomna3.ObjectClasses.UserClass;
 import com.piter.piterdiplomna3.R;
-import com.piter.piterdiplomna3.activities.MainActivity;
 import com.piter.piterdiplomna3.helper.Constants;
 import com.piter.piterdiplomna3.helper.SharedPreferencesManage;
 import com.piter.piterdiplomna3.helper.URLs;
@@ -42,7 +39,6 @@ import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
@@ -50,12 +46,12 @@ import okhttp3.Response;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link Task_UserListFragment.OnFragmentInteractionListener} interface
+ * {@link TaskUserList.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link Task_UserListFragment#newInstance} factory showFragment to
+ * Use the {@link TaskUserList#newInstance} factory showFragment to
  * create an instance of this fragment.
  */
-public class Task_UserListFragment extends DialogFragment implements CompoundButton.OnCheckedChangeListener{
+public class TaskUserList extends DialogFragment implements CompoundButton.OnCheckedChangeListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -72,7 +68,7 @@ public class Task_UserListFragment extends DialogFragment implements CompoundBut
 
     private OnFragmentInteractionListener mListener;
 
-    public Task_UserListFragment() {
+    public TaskUserList() {
         // Required empty public constructor
     }
 
@@ -82,11 +78,11 @@ public class Task_UserListFragment extends DialogFragment implements CompoundBut
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Task_UserListFragment.
+     * @return A new instance of fragment TaskUserList.
      */
     // TODO: Rename and change types and number of parameters
-    public static Task_UserListFragment newInstance(String param1, String param2) {
-        Task_UserListFragment fragment = new Task_UserListFragment();
+    public static TaskUserList newInstance(String param1, String param2) {
+        TaskUserList fragment = new TaskUserList();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -233,7 +229,7 @@ public class Task_UserListFragment extends DialogFragment implements CompoundBut
         });
 
 
-        adapter = new FunDapter(Task_UserListFragment.this.getActivity(), yourList,R.layout.e_user_entry_layout ,dictionary);
+        adapter = new FunDapter(TaskUserList.this.getActivity(), yourList,R.layout.e_user_entry_layout ,dictionary);
         final ListView tasksLV = (ListView) view.findViewById(R.id.userListLV);
         tasksLV.setItemsCanFocus(true);
 
@@ -279,7 +275,6 @@ public class Task_UserListFragment extends DialogFragment implements CompoundBut
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

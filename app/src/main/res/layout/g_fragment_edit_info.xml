@@ -20,7 +20,8 @@
                 android:inputType="textPersonName"
                 android:ems="10"
                 android:id="@+id/joinCompanyET"
-                android:hint="Enter Company" />
+                android:hint="Enter Company"
+                android:layout_marginTop="150dp" />
 
             <com.piter.piterdiplomna3.helper.MyListView
                 android:layout_width="wrap_content"
@@ -45,6 +46,21 @@
                 android:visibility="gone">
 
             </com.piter.piterdiplomna3.helper.MyListView>
+
         </LinearLayout>
     </ScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:text="Request change"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/requestCompanyPositionBTN"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="40dp" />
+    </RelativeLayout>
 </FrameLayout>

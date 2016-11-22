@@ -16,14 +16,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.piter.piterdiplomna3.ObjectClasses.TaskClass;
 import com.piter.piterdiplomna3.R;
 import com.piter.piterdiplomna3.activities.MainActivity;
-import com.piter.piterdiplomna3.gcm.GCMRegistrationIntentService;
 import com.piter.piterdiplomna3.helper.Constants;
 import com.piter.piterdiplomna3.helper.SharedPreferencesManage;
 import com.piter.piterdiplomna3.helper.URLs;
@@ -36,8 +34,6 @@ import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
@@ -153,10 +149,10 @@ public class TaskAddFragment extends Fragment {// implements CalendarDatePickerF
 //                addEditDialog.setContentView(R.layout.d_fragment_user_list);
 //                addEditDialog.setCanceledOnTouchOutside(false);
 //                addEditDialog.show();
-//                Task_UserListFragment fragment = new Task_UserListFragment().newInstance("TaskAddFragment", "");
+//                TaskUserList fragment = new TaskUserList().newInstance("TaskAddFragment", "");
 //                android.support.v4.app.FragmentTransaction fragmentTransaction =
 //                        getActivity().getSupportFragmentManager().beginTransaction();
-                Task_UserListFragment fragment = Task_UserListFragment.newInstance("TaskAddFragment", "");
+                TaskUserList fragment = TaskUserList.newInstance("TaskAddFragment", "");
                 fragment.show(getFragmentManager(),"user_list_task");
 //                fragmentTransaction.replace(R.id.fragment_container, fragment);
 //                fragmentTransaction.commit();
