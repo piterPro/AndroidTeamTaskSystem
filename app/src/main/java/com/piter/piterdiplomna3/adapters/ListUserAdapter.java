@@ -3,14 +3,10 @@ package com.piter.piterdiplomna3.adapters;
 import android.content.Context;
 import android.content.Intent;
 ;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.piter.piterdiplomna3.activities.ChatActivity;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
 
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -32,11 +28,11 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 
-public class ChatUserAdapter extends RecyclerView.Adapter<ChatUserAdapter.myViewHolder>{
+public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.myViewHolder>{
 
         private Context context;
         public ArrayList<UserClass> usersList;
-        String TAG="TAG ChatUserAdapter";
+        String TAG="TAG ListUserAdapter";
         private boolean wait = false;
         private String lastMsgTime="";
 
@@ -50,26 +46,26 @@ public class ChatUserAdapter extends RecyclerView.Adapter<ChatUserAdapter.myView
         public static class myViewHolder extends RecyclerView.ViewHolder {
 //             each data item is just a string in this case
             CardView task_card_view;
-            public TextView mChatUsernameTV;
-            public TextView mChatLastMsgTV;
+            public TextView mUsernameTV;
+            public TextView mLastMsgTV;
 
             public myViewHolder(View itemView) {
 
                 super(itemView);
                 task_card_view = (CardView) itemView.findViewById(R.id.chat_user_card_view);
-                mChatUsernameTV = (TextView) itemView.findViewById(R.id.chatUserNameTV);
-                mChatLastMsgTV = (TextView) itemView.findViewById(R.id.chatLastMsgTV);
+                mUsernameTV = (TextView) itemView.findViewById(R.id.chatUserNameTV);
+                mLastMsgTV = (TextView) itemView.findViewById(R.id.chatLastMsgTV);
             }
 
         }
 
         // Provide a suitable constructor (depends on the kind of dataset)
 
-        public ChatUserAdapter(Context cont, ArrayList<UserClass> myDataset) {
+        public ListUserAdapter(Context cont, ArrayList<UserClass> myDataset) {
             context=cont;
             usersList = myDataset;
         }
-        public ChatUserAdapter(Context cont) {
+        public ListUserAdapter(Context cont) {
             context=cont;
         }
     public void InsertData(ArrayList<UserClass> myDataset){usersList = myDataset;}
@@ -94,8 +90,8 @@ public class ChatUserAdapter extends RecyclerView.Adapter<ChatUserAdapter.myView
         final UserClass selectedUser = usersList.get(position);
 
         Log.d(TAG, "onBindViewHolder:Users "+selectedUser.getId());
-//        holder.mChatUsernameTV.setText(selectedTask.getFname()+" "+selectedTask.getLname());
-        holder.mChatUsernameTV.setText(selectedUser.getFname()+" "+selectedUser.getLname());
+//        holder.mUsernameTV.setText(selectedTask.getFname()+" "+selectedTask.getLname());
+        holder.mUsernameTV.setText(selectedUser.getFname()+" "+selectedUser.getLname());
         try {
             Log.d(TAG, "onBindViewHolder: URL="+URLs.URL_FETCH_LASTMESSAGE+"?id="+ SharedPreferencesManage.getInstance().getUserId() +"&&id2="+selectedUser.getId());
             AsyncGetLastMsg(URLs.URL_FETCH_LASTMESSAGE+"?id="+ SharedPreferencesManage.getInstance().getUserId() +"&&id2="+selectedUser.getId());
@@ -105,7 +101,7 @@ public class ChatUserAdapter extends RecyclerView.Adapter<ChatUserAdapter.myView
         wait= true;
         while(wait==true){}
 
-        holder.mChatLastMsgTV.setText(lastMsgTime);
+        holder.mLastMsgTV.setText(lastMsgTime);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,7 +126,6 @@ public class ChatUserAdapter extends RecyclerView.Adapter<ChatUserAdapter.myView
     //function AsyncGetLastMsg uses Get last message between two users
     //
     public void AsyncGetLastMsg(String url) throws Exception{
-//        OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -149,9 +144,6 @@ public class ChatUserAdapter extends RecyclerView.Adapter<ChatUserAdapter.myView
                             lastMsgTime = responseString;
                             wait=false;
                         }
-
-
-
         });
     }
 

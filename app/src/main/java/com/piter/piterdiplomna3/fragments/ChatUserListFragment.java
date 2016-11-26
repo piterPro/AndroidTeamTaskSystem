@@ -15,8 +15,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.piter.piterdiplomna3.ObjectClasses.UserClass;
 import com.piter.piterdiplomna3.R;
-import com.piter.piterdiplomna3.activities.MainActivity;
-import com.piter.piterdiplomna3.adapters.ChatUserAdapter;
+import com.piter.piterdiplomna3.adapters.ListUserAdapter;
 import com.piter.piterdiplomna3.helper.SharedPreferencesManage;
 import com.piter.piterdiplomna3.helper.URLs;
 
@@ -27,7 +26,6 @@ import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
@@ -64,7 +62,7 @@ public class ChatUserListFragment extends Fragment {
 
     public void Initialize(View view) {
         try {
-            AsyncGetAndPrint(URLs.URL_FETCH_USERS);
+            AsyncGetAndPrint(URLs.URL_FETCH_USERS+"?id=all");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -126,7 +124,7 @@ public class ChatUserListFragment extends Fragment {
         // in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
         // specify an adapter (see also next example)
-        mAdapter = new ChatUserAdapter(getContext(),yourList);
+        mAdapter = new ListUserAdapter(getContext(),yourList);
 
         // use a linear layout manager
         getActivity().runOnUiThread(new Runnable() {

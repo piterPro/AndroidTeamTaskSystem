@@ -68,7 +68,7 @@ public class ChatArrayAdapterRV extends RecyclerView.Adapter<ChatArrayAdapterRV.
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         ChatMessageClass selectedMsg = chatMsgList.get(position);
-        Log.d("TAG ChatArrayAdapterRV", "onBindViewHolder: position= "+position+": message= "+selectedMsg.getMessage()+"time= "+selectedMsg.getCreate_date_time());
+        Log.d("TAG ChatArrayAdapterRV", "onBindViewHolder: position= "+position+": message= "+selectedMsg.getMessage()+" time= "+selectedMsg.getCreate_date_time());
         //LayoutParams for the gravity on message
         LinearLayout.LayoutParams paramsMsg = new LinearLayout.
                 LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -85,7 +85,7 @@ public class ChatArrayAdapterRV extends RecyclerView.Adapter<ChatArrayAdapterRV.
             holder.itemView.setBackgroundResource( R.drawable.chatbubbleaa);
             paramsMsg.gravity = Gravity.RIGHT;
 //            holder.itemView.setLayoutDirection(LAYOUT_DIRECTION_RTL);
-            paramsMsg.setMarginStart(400);
+            paramsMsg.setMarginStart(350);
 //            paramsMsg.setLayoutDirection(LAYOUT_DIRECTION_RTL);
 //            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 //                holder.itemView.setForegroundGravity(side ? Gravity.RIGHT : Gravity.LEFT);
@@ -93,12 +93,12 @@ public class ChatArrayAdapterRV extends RecyclerView.Adapter<ChatArrayAdapterRV.
         }else{
             holder.itemView.setBackgroundResource( R.drawable.chatbubblebb);
             paramsMsg.gravity = Gravity.LEFT;
-            paramsMsg.setMarginEnd(400);
+            paramsMsg.setMarginEnd(350);
 //            paramsMsg.setLayoutDirection(LAYOUT_DIRECTION_LTR);
             holder.itemView.setLayoutDirection(LAYOUT_DIRECTION_LTR);
         }
         holder.mSingleMsg.setText(selectedMsg.getMessage());
-        holder.timeSent.setText(selectedMsg.getCreate_date_time());
+        holder.timeSent.setText(selectedMsg.getCreate_date_time());//.substring(        0,selectedMsg.getCreate_date_time().length()-2)
         holder.itemView.setLayoutParams(paramsMsg);//
     }
 

@@ -10,6 +10,7 @@ public class URLs {
     public static final String URL_TRY_LOGIN = ROOT_URL + "login";
     public static final String URL_REGISTER_USER = ROOT_URL + "registerUser";
     public static final String URL_STORE_TOKEN = ROOT_URL + "storegcmtoken";
+    public static final String URL_DELETE_TOKEN = ROOT_URL + "deleteToken";
 
     public static final String URL_REGISTER_COMPANY = ROOT_URL + "registerCompany";
     public static final String URL_FETCH_COMPANY = ROOT_URL + "company";

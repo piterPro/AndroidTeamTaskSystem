@@ -119,7 +119,7 @@ public class CommentAdapter extends ArrayAdapter<CommentClass>{
                 String responseString;
                 responseString = response.body().string();
                 response.body().close();
-                Log.d("TAG", "onResponse: getUserDetails"+responseString);
+                Log.d(TAG, "onResponse: getUserDetails="+responseString);
 
                 Type listType = new TypeToken<List<UserClass>>() {
                 }.getType();

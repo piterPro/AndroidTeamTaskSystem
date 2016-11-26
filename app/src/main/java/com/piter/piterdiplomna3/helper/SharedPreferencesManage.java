@@ -5,7 +5,19 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.piter.piterdiplomna3.ObjectClasses.CommentClass;
+
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 
 /**
@@ -59,12 +71,14 @@ public class SharedPreferencesManage extends Application {
 
     //This showFragment will store the user data on shared preferences
     //It will be called on login
-    public void loginUser(int id, String fname, String lname) {
+    public void loginUser(int id, String fname, String lname, String company, String position) {
         SharedPreferences.Editor editor = getSharedPreferences().edit();
         editor.putInt(Constants.USER_ID, id);
 //        editor.putString(Constants.USER_ORGANIZATION, Organization);
         editor.putString(Constants.USER_FNAME, fname);
         editor.putString(Constants.USER_LNAME, lname);
+        editor.putString(Constants.USER_COMPANY, company);
+        editor.putString(Constants.USER_POSITION, position);
         editor.putBoolean(Constants.IS_LOGGED_IN, true);
         editor.apply();
         Log.d(TAG, "loginUser: login successfull id"+id);
@@ -101,5 +115,23 @@ public class SharedPreferencesManage extends Application {
     public String getUserName() {
         return getSharedPreferences().getString(Constants.USER_FNAME,"No")+" "+getSharedPreferences().getString(Constants.USER_LNAME,"Name");
     }
+    //Method to just set in motion events that will take place only on DB side
+    public void updateURL(final String url) throws Exception{
+            Request request = new Request.Builder()
+                    .url(url)
+                    .build();
+            SharedPreferencesManage.client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    Log.i("TAG", "onFailure:async task url="+url);
+                    e.printStackTrace();
+                }
 
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    response.body().close();
+                    Log.d(TAG, "onResponse: successfull");
+                }
+            });
+        }
 }

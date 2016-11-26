@@ -11,7 +11,8 @@ public class Constants {
     public static final String USER_ID = "userid";
     public static final String USER_FNAME = "fname";
     public static final String USER_LNAME = "lname";
-    public static final String USER_ORGANIZATION= "organization";
+    public static final String USER_COMPANY= "company";
+    public static final String USER_POSITION= "position";
     public static final String IS_LOGGED_IN= "is_logged_in";
 
     public static final String PUSH_NOTIFICATION = "pushnotification";

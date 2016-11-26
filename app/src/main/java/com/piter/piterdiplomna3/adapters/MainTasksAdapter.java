@@ -139,10 +139,7 @@ public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myVi
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {                        }
                 });
-                if(holder.mfragment.ready=="false"){
-                    //whait!
-                    Toast.makeText(context, "Loading...", Toast.LENGTH_SHORT).show();
-                }
+
 
                 if (holder.descriptionTV.getVisibility() == View.GONE) {
                     holder.descriptionTV.setVisibility(View.VISIBLE);
@@ -152,6 +149,10 @@ public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myVi
 //                    Log.d(TAG, "holder.itemView.onClick: holder.getItemId()="+selectedTasks.getId());
 //                    final String currentSpinnerSatus = holder.spinnerStatus.getSelectedItem().toString();
 
+                    if(holder.mfragment.ready=="false"){
+                        //whait!
+                        Toast.makeText(context, "Loading...", Toast.LENGTH_SHORT).show();
+                    }
 
                     item.addView(child);
                     int cdi = child.getId();

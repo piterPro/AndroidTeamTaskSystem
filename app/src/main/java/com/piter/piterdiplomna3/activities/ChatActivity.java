@@ -289,7 +289,6 @@ public class ChatActivity extends AppCompatActivity {
     //function AsyncGetMsgs uses Get url and write that to main fragment
     //
     public void AsyncGetMsgs(String url) throws Exception {
-//        OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(url)
                 .build();

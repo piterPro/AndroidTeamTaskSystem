@@ -49,7 +49,6 @@ import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
@@ -536,7 +535,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 Type listType = new TypeToken<List<UserClass>>() {
                 }.getType();
                 USER = new Gson().fromJson(responseString, listType);
-                SharedPreferencesManage.getInstance().loginUser(USER.get(0).getId(),USER.get(0).getFname(),USER.get(0).getLname());
+                SharedPreferencesManage.getInstance().loginUser(USER.get(0).getId(),USER.get(0).getFname(),USER.get(0).getLname(), USER.get(0).getCompany_name(), USER.get(0).getPosition_name() );
             }
         });
     }
@@ -589,7 +588,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 Log.d(TAG, "doInBackground: Can't connect to server");
                 if(response_string!=null)
                     response_string = "Can't connect to server";
-//                e.printStackTrace();//da se mahnat vsi4ki takiva predi puskaneto v upotreba
+//                e.printStackTrace();//TODO:da se mahnat vsi4ki takiva predi puskaneto v upotreba
             }
             return false;
         }

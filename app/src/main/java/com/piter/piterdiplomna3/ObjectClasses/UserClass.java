@@ -8,19 +8,19 @@ public class UserClass {
     private int id;
     private String fname;
     private String lname;
-    private int position_id;
-    private int organization_id;
+    private String company_name;
+    private String position_name;
     private boolean isChecked = false;
 
     public UserClass() {
     }
 
-    public UserClass(String fname, int id, String lname, int organization_id, int position_id) {
+    public UserClass(String fname, int id, String lname, String company_name, String position_name) {
         this.fname = fname;
         this.id = id;
         this.lname = lname;
-        this.organization_id = organization_id;
-        this.position_id = position_id;
+        this.company_name = company_name;
+        this.position_name = position_name;
     }
 
     public String getFname() {
@@ -47,20 +47,20 @@ public class UserClass {
         this.lname = lname;
     }
 
-    public int getOrganization_id() {
-        return organization_id;
+    public String getCompany_name() {
+        return company_name;
     }
 
-    public void setOrganization_id(int organization_id) {
-        this.organization_id = organization_id;
+    public void setCompany_name(String company_name) {
+        this.company_name = company_name;
     }
 
-    public int getPosition_id() {
-        return position_id;
+    public String getPosition_name() {
+        return position_name;
     }
 
-    public void setPosition_id(int position_id) {
-        this.position_id = position_id;
+    public void setPosition_name(String position_name) {
+        this.position_name = position_name;
     }
 
     public boolean isChecked() {

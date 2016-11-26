@@ -193,8 +193,13 @@ public class MainActivity extends AppCompatActivity
         }else
         if (id == R.id.logout_menu) {
             SharedPreferencesManage.getInstance().logout();
+            try {
+                SharedPreferencesManage.getInstance().updateURL(URLs.URL_DELETE_TOKEN+"?id="+user_id);
+            } catch (Exception e) {
+                Log.d(TAG, "onOptionsItemSelected: URL_DELETE_TOKEN fail");        e.printStackTrace();            }
             if(!SharedPreferencesManage.getInstance().isLoggedIn()){
                 continueUserLog();//exit this class and start other activity
+                
             }
             return true;
         }else
