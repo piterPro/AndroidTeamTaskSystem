@@ -203,9 +203,9 @@ public class TaskAddFragment extends Fragment {// implements CalendarDatePickerF
 //        }
         Calendar cl = Calendar.getInstance();
         cl.setTimeInMillis(MainActivity.BeginDate);
-        String date1 = "" + cl.get(Calendar.YEAR) + "-" + cl.get(Calendar.MONTH) + "-" + cl.get(Calendar.DAY_OF_MONTH) + " " + "00:00:00";//cl.get(Calendar.HOUR_OF_DAY)"-"+cl.get(Calendar.MINUTE)+"-"+cl.get(Calendar.SECOND);
+        String date1 = "" + cl.get(Calendar.YEAR) + "-" + (cl.get(Calendar.MONTH) +1)+ "-" + cl.get(Calendar.DAY_OF_MONTH) + " " + "00:00:00";//cl.get(Calendar.HOUR_OF_DAY)"-"+cl.get(Calendar.MINUTE)+"-"+cl.get(Calendar.SECOND);
         cl.setTimeInMillis(MainActivity.EndDate);
-        String date2 = "" + cl.get(Calendar.YEAR) + "-" + cl.get(Calendar.MONTH) + "-" + cl.get(Calendar.DAY_OF_MONTH) + " " + "23:59:59";//cl.get(Calendar.HOUR_OF_DAY)+"-"+cl.get(Calendar.MINUTE)+"-"+cl.get(Calendar.SECOND);
+        String date2 = "" + cl.get(Calendar.YEAR) + "-" + (cl.get(Calendar.MONTH) +1)+ "-" + cl.get(Calendar.DAY_OF_MONTH) + " " + "23:59:59";//cl.get(Calendar.HOUR_OF_DAY)+"-"+cl.get(Calendar.MINUTE)+"-"+cl.get(Calendar.SECOND);
         TaskClass newTask;
         if(!jsonData.isEmpty()) {
             //here to call new insert into db and pass the list_id or send the hole data like string

@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.c_activity_main);
         if(!SharedPreferencesManage.getInstance().isLoggedIn()){
             continueUserLog();//exit this class and start other activity
+            return;
         }
         user_id = SharedPreferencesManage.getInstance().getUserId();
         Log.d(TAG, "onCreate: user id ="+user_id);

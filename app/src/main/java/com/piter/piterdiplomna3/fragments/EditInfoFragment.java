@@ -1,5 +1,6 @@
 package com.piter.piterdiplomna3.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,9 +12,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amigold.fundapter.BindDictionary;
@@ -23,12 +27,14 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.piter.piterdiplomna3.ObjectClasses.SuggestCompanyClass;
 import com.piter.piterdiplomna3.ObjectClasses.SuggestPositionClass;
+import com.piter.piterdiplomna3.ObjectClasses.TaskClass;
 import com.piter.piterdiplomna3.ObjectClasses.UserClass;
 import com.piter.piterdiplomna3.R;
 import com.piter.piterdiplomna3.helper.Constants;
 import com.piter.piterdiplomna3.helper.SharedPreferencesManage;
 import com.piter.piterdiplomna3.helper.URLs;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -63,11 +69,13 @@ public class EditInfoFragment extends Fragment {
     private EditText company_add;
     private EditText position_add;
     ArrayList<SuggestCompanyClass> suggest_list = new ArrayList();
-    ArrayList<SuggestCompanyClass> suggest_position_list = new ArrayList();
-    private RecyclerView mRecyclerView;
+    ArrayList<SuggestPositionClass> suggest_position_list = new ArrayList();
+//    private RecyclerView mRecyclerView;
+    private TextView currentWorkTV;
+    private TextView currentPositionTV;
     private FunDapter mAdapter;
     private FunDapter mAdapter2;
-    private RecyclerView.LayoutManager mLayoutManager;
+//    private RecyclerView.LayoutManager mLayoutManager;
     public ListView suggestLV;
     public ListView suggestPositionLV;
     public Button RequestChange;
@@ -112,6 +120,8 @@ public class EditInfoFragment extends Fragment {
         company_add = (EditText) view.findViewById(R.id.joinCompanyET);
         position_add = (EditText) view.findViewById(R.id.joinPositionET);
         RequestChange = (Button) view.findViewById(R.id.requestCompanyPositionBTN);
+        currentWorkTV = (TextView) view.findViewById(R.id.currentWorkPlaceTV);
+        currentPositionTV = (TextView) view.findViewById(R.id.currentPositionTV);
         company_add.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override public void afterTextChanged(Editable s) {}
@@ -163,15 +173,19 @@ public class EditInfoFragment extends Fragment {
                             Log.d(TAG, "onClick: URL="+URLs.URL_SEND_REQUEST);
                             AsyncRequestChanges(URLs.URL_SEND_REQUEST,json2.toString());
                         }
-                        getActivity().onBackPressed();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 } catch (Exception e) {                    e.printStackTrace();                }
             }
         });
+        try {
+            AsyncCurrentStatus(URLs.URL_FETCH_STATUS,getContext());
+        } catch (Exception e) {            e.printStackTrace();        }
         return view;
     }
+
+
 
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -285,7 +299,15 @@ public class EditInfoFragment extends Fragment {
 
             suggestLV = (ListView) view.findViewById(R.id.suggestCompanyLV);
             suggestLV.setAdapter(mAdapter);
-            suggestLV.setVisibility(View.VISIBLE);
+            suggestLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    String text = suggest_list.get(position).getName();
+                    Log.d(TAG, "onItemClick: "+text.toString());
+                    company_add.setText(text.toString());
+                }
+            });
+//            suggestLV.setVisibility(View.VISIBLE);
         }
         else
         {
@@ -293,6 +315,7 @@ public class EditInfoFragment extends Fragment {
             dictionary.addStringField(R.id.suggestCompanyTV, new StringExtractor<SuggestPositionClass>() {
                 @Override
                 public String getStringValue(SuggestPositionClass item, int position) {
+
                     return item.getName();
                 }
             });
@@ -304,7 +327,19 @@ public class EditInfoFragment extends Fragment {
 
             suggestPositionLV = (ListView) view.findViewById(R.id.suggestPositionLV);
             suggestPositionLV.setAdapter(mAdapter2);
-            suggestPositionLV.setVisibility(View.VISIBLE);
+            suggestPositionLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                    LinearLayout row = (LinearLayout)((LinearLayout)view).getChildAt(0);
+//                    TextView column = (TextView)row.getChildAt(position);
+                    String text = suggest_position_list.get(position).getName();
+                    Log.d(TAG, "onItemClick: "+text.toString());
+                    position_add.setText(text.toString());
+//                    suggestPositionLV.
+//                    Log.d(TAG, "onItemClick: "+suggestPositionLV.get.getItemAtPosition(position).getName().toString());//+" "+suggestPositionLV.getSelectedItem(position).toString()
+                }
+            });
+//            suggestPositionLV.setVisibility(View.VISIBLE);
         }
     }
 
@@ -336,4 +371,74 @@ public class EditInfoFragment extends Fragment {
             }
         });
     }
+
+    public void AsyncCurrentStatus(String url,final Context context) throws Exception{
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        // Get a handler that can be used to post to the main thread
+        SharedPreferencesManage.client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                ((Activity)context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.w(TAG, "run: Can't connect to the server" );
+                        Toast.makeText(context, "Can't connect to the server", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                e.printStackTrace();
+                return;
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                if (!response.isSuccessful()) {
+                    throw new IOException("Unexpected code " + response);
+                }
+                final String responseString = response.body().toString();
+                ((Activity)context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.w(TAG, "status Changed" );
+                        Toast.makeText(context, "status request", Toast.LENGTH_SHORT).show();
+//                        Log.d(TAG, "onResponse:FETCH_TASKS= "+responseString);
+//                        response.body().close();
+//                        Type listType = new TypeToken<List<TaskClass>>() {
+//                        }.getType();
+//                        try {
+//                            JSONArray = responseString;
+//                            yourList = new Gson().fromJson(responseString, listType);
+//                        }catch(Exception e) {
+//                            if (responseString.contains("!DOCTYPE html")) {
+//                                getActivity().runOnUiThread(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        Log.w(TAG, "run: Error from the server" );
+//                                        Toast.makeText(getContext(), "Error from the server", Toast.LENGTH_SHORT).show();
+//                                    }
+//                                });
+//                                return;
+//                            }else{Log.d(TAG, "onResponse: ne sudurja DOCTYPE");}
+//                        }
+//                        //za da se izpulni vinagi ot glavnata ni6ka
+//                        getActivity().runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                try {
+//                                    AddRecyclerView(yourList, yourList.size());
+//                                } catch (IOException e) {
+//                                    Log.i(TAG, "run: yourList se precaka");
+//                                    e.printStackTrace();
+//                                }
+//                            }
+//                        });
+//                        return;
+                    }
+                });
+            }
+        });
+    }
+
 }

@@ -36,8 +36,8 @@ public class MainFragment extends Fragment{
     String TAG="TAG MainFragment";
     View view;
     ArrayList<TaskClass> yourList;
-    ArrayList<UserClass> UserClass;
-    ArrayList<ChatMessageClass> ChatList = new ArrayList();
+//    ArrayList<UserClass> UserClass;
+//    ArrayList<ChatMessageClass> ChatList = new ArrayList();
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;

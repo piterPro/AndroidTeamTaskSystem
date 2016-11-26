@@ -122,6 +122,27 @@ public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myVi
                 RelativeLayout item = (RelativeLayout)holder.itemView.findViewById(R.id.comment_fragment_container);
                 View child = View.inflate(context, R.layout.cc_fragment_comments_list, null);
 //                View child = View.inflate(context, R.layout.g_suggest, null);
+                holder.spinnerStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                            if(currentSpinnerSatus.matches(holder.spinnerStatus.getSelectedItem().toString()))
+//                                return;
+                        try {
+//                                Log.d(TAG, "onItemClick: klikna spinnera");
+                            Log.d(TAG, "onItemClick: URL="+URLs.URL_UPDATE_STATUS+"?id="+selectedTasks.getId()+"&status="+holder.spinnerStatus.getSelectedItem().toString());
+                            AsyncUpdateStatus(URLs.URL_UPDATE_STATUS+"?id="+selectedTasks.getId()+"&status="+holder.spinnerStatus.getSelectedItem().toString(),context);
+//                                currentSpinnerSatus = holder.spinnerStatus.getSelectedItem().toString();
+                        } catch (Exception e) {                                e.printStackTrace();                            }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {                        }
+                });
+                if(holder.mfragment.ready=="false"){
+                    //whait!
+                    Toast.makeText(context, "Loading...", Toast.LENGTH_SHORT).show();
+                }
 
                 if (holder.descriptionTV.getVisibility() == View.GONE) {
                     holder.descriptionTV.setVisibility(View.VISIBLE);
@@ -129,23 +150,7 @@ public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myVi
 
                     holder.mfragment = CommentsFragment.newInstance(""+selectedTasks.getId(),"0");
 //                    Log.d(TAG, "holder.itemView.onClick: holder.getItemId()="+selectedTasks.getId());
-                    holder.spinnerStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            try {
-//                                Log.d(TAG, "onItemClick: klikna spinnera");
-                                Log.d(TAG, "onItemClick: URL="+URLs.URL_UPDATE_STATUS+"?id="+selectedTasks.getId()+"&status="+holder.spinnerStatus.getSelectedItem().toString());
-                                AsyncUpdateStatus(URLs.URL_UPDATE_STATUS+"?id="+selectedTasks.getId()+"&status="+holder.spinnerStatus.getSelectedItem().toString(),context);
-                            } catch (Exception e) {                                e.printStackTrace();                            }
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {                        }
-                    });
-                    if(holder.mfragment.ready=="false"){
-                        //whait!
-                            Toast.makeText(context, "Loading...", Toast.LENGTH_SHORT).show();
-                    }
+//                    final String currentSpinnerSatus = holder.spinnerStatus.getSelectedItem().toString();
 
 
                     item.addView(child);
