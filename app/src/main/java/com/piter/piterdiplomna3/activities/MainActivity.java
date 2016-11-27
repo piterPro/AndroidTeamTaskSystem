@@ -17,7 +17,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.piter.piterdiplomna3.fragments.CommentsFragment;
 import com.piter.piterdiplomna3.fragments.EditInfoFragment;
 import com.piter.piterdiplomna3.fragments.TaskAddFragment;
@@ -25,12 +28,18 @@ import com.piter.piterdiplomna3.fragments.CalendarFragment;
 import com.piter.piterdiplomna3.fragments.ChatUserListFragment;
 import com.piter.piterdiplomna3.fragments.MainFragment;
 import com.piter.piterdiplomna3.R;
+import com.piter.piterdiplomna3.gcm.GCMRegistrationIntentService;
 import com.piter.piterdiplomna3.helper.Constants;
 import com.piter.piterdiplomna3.helper.NotificationHandler;
 import com.piter.piterdiplomna3.helper.SharedPreferencesManage;
 import com.piter.piterdiplomna3.helper.URLs;
 
 import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -58,6 +67,13 @@ public class MainActivity extends AppCompatActivity
             continueUserLog();//exit this class and start other activity
             return;
         }
+        Intent intent1;
+        if(SharedPreferencesManage.getInstance().getToken().isEmpty()) {
+            intent1 = new Intent(this, GCMRegistrationIntentService.class);
+            startService(intent1);
+            Log.d(TAG, "user to be registered start service");
+        }else
+            Log.d(TAG, "already registered user with token: "+SharedPreferencesManage.getInstance().getToken());
         user_id = SharedPreferencesManage.getInstance().getUserId();
         Log.d(TAG, "onCreate: user id ="+user_id);
 
@@ -90,6 +106,8 @@ public class MainActivity extends AppCompatActivity
         catch (Exception e) {            e.printStackTrace();        }
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        checkGplayServices();
 
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -272,6 +290,49 @@ public class MainActivity extends AppCompatActivity
         super.onDestroy();
 //        unregisterReceiver(mBroadcastReceiver);
 //        unregisterReceiver(mBroadcastStopReceiver);
+    }
+    public void checkGplayServices(){
+        //if the google play service is not in the device app won't work
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());
+
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+                Toast.makeText(getApplicationContext(), "Google Play Service is not install/enabled in this device!", Toast.LENGTH_LONG).show();
+                GooglePlayServicesUtil.showErrorNotification(resultCode, getApplicationContext());
+
+            } else {
+                Toast.makeText(getApplicationContext(), "This device does not support for Google Play Service!", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Intent intent1;
+            if(SharedPreferencesManage.getInstance().getToken().isEmpty()) {
+                intent1 = new Intent(this, GCMRegistrationIntentService.class);
+                startService(intent1);
+                Log.d(TAG, "user to be registered start service");
+            }else
+                Log.d(TAG, "already registered user with token: "+SharedPreferencesManage.getInstance().getToken());
+
+        }
+    }
+
+    public void updateURL(final String url) throws Exception{
+        Log.d(TAG, "updateURL: "+url);
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        SharedPreferencesManage.client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i("TAG", "onFailure:async task url="+url);
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                response.body().close();
+                Log.d(TAG, "onResponse: successfull");
+            }
+        });
     }
 }
 /////

@@ -17,9 +17,13 @@ import com.piter.piterdiplomna3.helper.NotificationHandler;
 
 public class GCMPushReceiverService extends GcmListenerService {
     final String  TAG="TAG GCMPushService";
+    
+    //recives the GCM message and gets individual values and notifies 
     @Override
     public void onMessageReceived(String from, Bundle dataOG) {
+        Log.d(TAG, "onMessageReceived: from="+from);
         Bundle data = dataOG.getBundle("notification");
+        //from here to change for another push notification
         String message = data.getString("message");
         String create_date_time = data.getString("create_date_time");
         String user_send_id = data.getString("user_send_id");
@@ -32,7 +36,9 @@ public class GCMPushReceiverService extends GcmListenerService {
         sendNotification( user_send_id, user_to_id, message, create_date_time, title);
     }
 
+    //
     private void sendNotification(String user_send_id, String user_to_id, String message, String create_date_time, String title) {
+        Log.d(TAG, "sendNotification: with all individual values");
         //Creating a broadcast intent
         Intent pushNotification = new Intent(getApplicationContext(),ChatActivity.class);
         pushNotification.setAction(Constants.PUSH_NOTIFICATION);
@@ -54,7 +60,6 @@ public class GCMPushReceiverService extends GcmListenerService {
         if (!NotificationHandler.isAppIsInBackground(getApplicationContext())) {
             //Sending a broadcast to the chatroom to add the new message
             Log.d(TAG, "sendNotification: AppIs not in Background ");
-//            notificationHandler.showNotificationMessage(title, message, pushNotification);
             LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
         } else {
             //If app is in foreground displaying push notification

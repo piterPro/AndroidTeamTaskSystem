@@ -77,6 +77,7 @@ public class ChatActivity extends AppCompatActivity {
     ChatMessageClass msg;
     ArrayList<UserClass> receiverUser;
 
+
     //    private boolean side = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -184,28 +185,6 @@ public class ChatActivity extends AppCompatActivity {
             }
         };
 
-
-        //if the google play service is not in the device app won't work
-        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());
-
-        if (resultCode != ConnectionResult.SUCCESS) {
-            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
-                Toast.makeText(getApplicationContext(), "Google Play Service is not install/enabled in this device!", Toast.LENGTH_LONG).show();
-                GooglePlayServicesUtil.showErrorNotification(resultCode, getApplicationContext());
-
-            } else {
-                Toast.makeText(getApplicationContext(), "This device does not support for Google Play Service!", Toast.LENGTH_LONG).show();
-            }
-        } else {
-            Intent intent1;
-            if(SharedPreferencesManage.getInstance().getToken().isEmpty()) {
-                intent1 = new Intent(this, GCMRegistrationIntentService.class);
-                startService(intent1);
-                Log.d(TAG, "user to be registered start service");
-            }else
-                Log.d(TAG, "already registered user with token: "+SharedPreferencesManage.getInstance().getToken());
-
-        }
     }
 
 
@@ -375,6 +354,7 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
         });
+        if(receiver_id!=SharedPreferencesManage.getInstance().getUserId())
             messages.add(msg);
         chatText.setText("");
         try {

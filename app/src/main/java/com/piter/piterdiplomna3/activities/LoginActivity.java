@@ -602,16 +602,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
-                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("id",user_id+"");
-                startActivity(intent);
                 try {
                     logUserAndSetDetails(URLs.URL_FETCH_USERS+"?id="+user_id);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("id",user_id+"");
+                startActivity(intent);
+
 //                LoginActivity.this.finish();//zatvarq activity-to
                 Toast.makeText(getBaseContext(),"YAY login successful \nEmail ="+ mUsername +" Pass="+mPassword,Toast.LENGTH_LONG).show();
             } else {

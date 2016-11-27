@@ -117,6 +117,7 @@ public class SharedPreferencesManage extends Application {
     }
     //Method to just set in motion events that will take place only on DB side
     public void updateURL(final String url) throws Exception{
+        Log.d(TAG, "updateURL: "+url);
             Request request = new Request.Builder()
                     .url(url)
                     .build();

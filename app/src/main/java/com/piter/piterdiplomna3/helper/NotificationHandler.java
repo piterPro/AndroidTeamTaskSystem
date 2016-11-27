@@ -30,8 +30,9 @@ public class NotificationHandler {
         this.mContext = mContext;
     }
 
-    //This showFragment would display the notification
+    //This showNotificationMessage would display the notification
     public void showNotificationMessage(final String title, final String message, Intent intent) {
+        Log.d(TAG, "showNotificationMessage: would display the notification");
         NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext);
         builder.setSmallIcon(R.mipmap.ic_launcher);
 
