@@ -62,7 +62,7 @@ public class ChatUserListFragment extends Fragment {
 
     public void Initialize(View view) {
         try {
-            AsyncGetAndPrint(URLs.URL_FETCH_USERS+"?id=all");
+            AsyncGetAndPrint(URLs.URL_FETCH_USERS+"?id=all&key="+SharedPreferencesManage.getInstance().getUserId());
         } catch (Exception e) {
             e.printStackTrace();
         }

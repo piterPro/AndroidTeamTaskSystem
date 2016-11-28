@@ -37,6 +37,8 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static com.piter.piterdiplomna3.R.id.statusTV;
+
 public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myViewHolder> implements CommentsFragment.OnFragmentInteractionListener {
     private Context context;
     private ArrayList<TaskClass> taskList;
@@ -129,10 +131,14 @@ public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myVi
 //                            if(currentSpinnerSatus.matches(holder.spinnerStatus.getSelectedItem().toString()))
 //                                return;
                         try {
+                            String newStatus = holder.spinnerStatus.getSelectedItem().toString();
 //                                Log.d(TAG, "onItemClick: klikna spinnera");
-                            Log.d(TAG, "onItemClick: URL="+URLs.URL_UPDATE_STATUS+"?id="+selectedTasks.getId()+"&status="+holder.spinnerStatus.getSelectedItem().toString());
-                            AsyncUpdateStatus(URLs.URL_UPDATE_STATUS+"?id="+selectedTasks.getId()+"&status="+holder.spinnerStatus.getSelectedItem().toString(),context);
+                                Log.d(TAG, "onItemClick: URL=" + URLs.URL_UPDATE_STATUS + "?id=" + selectedTasks.getId() + "&status=" + newStatus+"&time=");
+                            AsyncUpdateStatus(URLs.URL_UPDATE_STATUS + "?id=" + selectedTasks.getId() + "&status=" + newStatus, context);
 //                                currentSpinnerSatus = holder.spinnerStatus.getSelectedItem().toString();
+                            selectedTasks.setStatus(newStatus);
+                            holder.statusTV.setText(newStatus);
+
                         } catch (Exception e) {                                e.printStackTrace();                            }
                     }
 

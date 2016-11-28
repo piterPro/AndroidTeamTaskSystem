@@ -11,6 +11,7 @@ public class UserClass {
     private String company_name;
     private String position_name;
     private boolean isChecked = false;
+    private String lastMsgTime="";
 
     public UserClass() {
     }
@@ -69,5 +70,9 @@ public class UserClass {
 
     public void setChecked(boolean checked) {
         isChecked = checked;
+    }
+
+    public String GetlastMsgTime() {
+        return lastMsgTime;
     }
 }

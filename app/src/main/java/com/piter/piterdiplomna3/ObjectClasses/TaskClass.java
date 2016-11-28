@@ -116,14 +116,6 @@ public class TaskClass {
         this.status = status;
     }
 
-//    public int getTime_period() {
-//        return time_period;
-//    }
-
-//    public void setTime_period(int time_period) {
-//        this.time_period = time_period;
-//    }
-
     public String getTitle() {
         return title;
     }

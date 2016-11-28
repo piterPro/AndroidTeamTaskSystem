@@ -68,7 +68,7 @@ public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.myView
         public ListUserAdapter(Context cont) {
             context=cont;
         }
-    public void InsertData(ArrayList<UserClass> myDataset){usersList = myDataset;}
+        public void InsertData(ArrayList<UserClass> myDataset){usersList = myDataset;}
 
         // Create new views (invoked by the layout manager)
         @Override
