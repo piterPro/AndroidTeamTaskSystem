@@ -74,22 +74,23 @@ public class CommentAdapter extends ArrayAdapter<CommentClass>{
             dataTV= (TextView) convertView.findViewById(R.id.CommentDateTV);
             textTV= (TextView) convertView.findViewById(R.id.CommentTextTV);
 
-            try {
-                getUserDetails(URLs.URL_FETCH_USERS + "?id=" + holder.getUser_id());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            wait=true;
-            while(wait==true){//wait
-                         }
-
-            Log.d(TAG, "getStringValue: izlezna ot try bloka getUserDetails");
+//            try {
+//                getUserDetails(URLs.URL_FETCH_USERS + "?id=" + holder.getUser_id());
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            wait=true;
+//            while(wait==true){//wait
+//                         }
+//
+//            Log.d(TAG, "getStringValue: izlezna ot try bloka getUserDetails");
         }
 
         ((Activity) getContext()).runOnUiThread(new Runnable() {//yess it works! (thunder)
             @Override
             public void run() {
-                nameOfPersonTV.setText(""+mUserDetails.get(0).getFname()+" "+mUserDetails.get(0).getLname());
+//                nameOfPersonTV.setText(""+mUserDetails.get(0).getFname()+" "+mUserDetails.get(0).getLname());
+                nameOfPersonTV.setText(holder.getFname()+ " " + holder.getLname());
                 textTV.setText(holder.getText());
                 dataTV.setText(holder.getCreate_date_time());
             }

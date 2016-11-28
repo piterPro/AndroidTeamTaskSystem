@@ -19,25 +19,23 @@ import android.widget.Toast;
 
 import com.piter.piterdiplomna3.ObjectClasses.TaskClass;
 import com.piter.piterdiplomna3.R;
+import com.piter.piterdiplomna3.activities.ChatActivity;
 import com.piter.piterdiplomna3.activities.MainActivity;
 import com.piter.piterdiplomna3.fragments.CommentsFragment;
 import com.piter.piterdiplomna3.fragments.MainFragment;
-import com.piter.piterdiplomna3.helper.Constants;
 import com.piter.piterdiplomna3.helper.SharedPreferencesManage;
 import com.piter.piterdiplomna3.helper.URLs;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
-
-import static com.piter.piterdiplomna3.R.id.statusTV;
 
 public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myViewHolder> implements CommentsFragment.OnFragmentInteractionListener {
     private Context context;
@@ -55,7 +53,7 @@ public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myVi
         public TextView statusTV;
         public TextView descriptionTV;
         public TextView descriptionHintTV;
-        public Button msendBtn;
+        public Button mSendBtn;
         public CommentsFragment mfragment;
         public Spinner spinnerStatus;
 
@@ -67,9 +65,9 @@ public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myVi
             statusTV= (TextView) itemView.findViewById(R.id.statusTV);
             descriptionTV= (TextView) itemView.findViewById(R.id.descriptionTV);
             descriptionHintTV= (TextView) itemView.findViewById(R.id.DescriptionHintTV);
-            msendBtn = (Button) itemView.findViewById(R.id.commentBtn);
+            mSendBtn = (Button) itemView.findViewById(R.id.commentBtn);
             spinnerStatus = (Spinner) itemView.findViewById(R.id.statusChangeSpinner);
-            List<String> listStatus = new ArrayList<String>(Arrays.asList(new String[]{"Pending", "Done"}));//to be change to use listStatus from strings file
+            List<String> listStatus = new ArrayList<String>(Arrays.asList(new String[]{"Pending", "Done"}));//TODO: change to use the current status as first element or at least use listStatus from strings file
 
             ArrayAdapter<String> dataAdapterStatus = new ArrayAdapter<>(((Activity)itemView.getContext()),
                     android.R.layout.simple_spinner_item, listStatus);
@@ -133,9 +131,8 @@ public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myVi
                         try {
                             String newStatus = holder.spinnerStatus.getSelectedItem().toString();
 //                                Log.d(TAG, "onItemClick: klikna spinnera");
-                                Log.d(TAG, "onItemClick: URL=" + URLs.URL_UPDATE_STATUS + "?id=" + selectedTasks.getId() + "&status=" + newStatus+"&time=");
+                            Log.d(TAG, "onItemClick: URL=" + URLs.URL_UPDATE_STATUS + "?id=" + selectedTasks.getId() + "&status=" + newStatus+"&time=");
                             AsyncUpdateStatus(URLs.URL_UPDATE_STATUS + "?id=" + selectedTasks.getId() + "&status=" + newStatus, context);
-//                                currentSpinnerSatus = holder.spinnerStatus.getSelectedItem().toString();
                             selectedTasks.setStatus(newStatus);
                             holder.statusTV.setText(newStatus);
 
@@ -181,11 +178,16 @@ public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myVi
                 
             }
         });
-//            holder.mIdTV.setText(selectedTasks.getId()+"");
-            holder.titleTV.setText(selectedTasks.getTitle());
-            holder.descriptionTV.setText(selectedTasks.getDescription());
-            holder.statusTV.setText(selectedTasks.getStatus());
+//        holder.mIdTV.setText(selectedTasks.getId()+"");
+        holder.titleTV.setText(selectedTasks.getTitle());
+        holder.descriptionTV.setText(selectedTasks.getDescription());
+        holder.statusTV.setText(selectedTasks.getStatus());
 
+        //TODO: set alarm here for the selected task
+        Log.d(TAG, "onBindViewHolder: zadade se alarma");
+        selectedTasks.setContext(context);
+        Calendar cl = Calendar.getInstance();
+        selectedTasks.setAlarm((System.currentTimeMillis()+5000),"title","description");
     }
 
 

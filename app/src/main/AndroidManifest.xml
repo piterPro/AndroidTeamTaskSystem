@@ -38,7 +38,16 @@
         </activity>
         <activity android:name=".activities.LoginActivity"></activity>
         <activity android:name=".activities.ChatActivity"></activity>
-
+        <!--for alarms -->
+        <receiver
+            android:name=".helper.MyAlarmReciever"
+            android:enabled="true"
+            android:exported="false" >
+        </receiver>
+        <service
+            android:name="helper.MyNewIntentService"
+            android:exported="false" >
+        </service>
 
         <!--GCM from here on-->
         <!--             GCM Receiver -->

@@ -1,5 +1,7 @@
 package com.piter.piterdiplomna3.activities;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -30,11 +32,14 @@ import com.piter.piterdiplomna3.fragments.MainFragment;
 import com.piter.piterdiplomna3.R;
 import com.piter.piterdiplomna3.gcm.GCMRegistrationIntentService;
 import com.piter.piterdiplomna3.helper.Constants;
+import com.piter.piterdiplomna3.helper.MyAlarmReciever;
 import com.piter.piterdiplomna3.helper.NotificationHandler;
 import com.piter.piterdiplomna3.helper.SharedPreferencesManage;
 import com.piter.piterdiplomna3.helper.URLs;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -128,6 +133,11 @@ public class MainActivity extends AppCompatActivity
                     Intent intent2 = new Intent(getApplicationContext(), ChatActivity.class);
                     intent2.putExtra("id", intent.getStringExtra("user_send_id"));
                     notificationHandler.showNotificationMessage(title, message, intent2);
+                }
+                else
+                {
+
+                    Log.d(TAG, "onReceive: doide alarmata !!!");
                 }
             }
         };
@@ -252,7 +262,30 @@ public class MainActivity extends AppCompatActivity
             activityPosition++;
             CalendarFragment fragment=new CalendarFragment();
             fragmentTransaction.replace(R.id.fragment_container,fragment);
-        } else if (id == R.id.nav_chat) {
+        } else if (id == R.id.nav_manage) {
+//            AlarmManager[] alarmManager=new AlarmManager[24];
+//            intentArray = new ArrayList<PendingIntent>();
+//            for(f=0;f<arr2.length;f++){
+//            Intent intent = new Intent(MainActivity.this, MainActivity.class);
+//            PendingIntent pi=PendingIntent.getBroadcast(MainActivity.this, 0,intent, 0);
+//
+//            alarmManager[0] = (AlarmManager) getSystemService(ALARM_SERVICE);
+//            Calendar cl = Calendar.getInstance();
+//            alarmManager[0].set(AlarmManager.RTC_WAKEUP,cl.getTimeInMillis()+50000 ,pi);
+            Intent notifyIntent = new Intent(this, MyAlarmReciever.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast
+                    (getBaseContext(), 9562090, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            AlarmManager alarmManager = (AlarmManager) getBaseContext().getSystemService(Context.ALARM_SERVICE);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,  (System.currentTimeMillis()+50000),
+                    1000 * 60 * 60 * 24, pendingIntent);
+
+            Toast.makeText(this, "Alarm added to time="+(System.currentTimeMillis()+50000), Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "onNavigationItemSelected: time"+(System.currentTimeMillis()+50000));
+
+//                intentArray.add(pi);
+
+//            }
+        }else if (id == R.id.nav_chat) {
             ChatUserListFragment fragment = new ChatUserListFragment();
             activityPosition++;
             fragmentTransaction.replace(R.id.fragment_container,fragment);

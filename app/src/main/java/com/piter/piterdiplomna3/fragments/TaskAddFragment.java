@@ -209,11 +209,11 @@ public class TaskAddFragment extends Fragment {// implements CalendarDatePickerF
         TaskClass newTask;
         if(!jsonData.isEmpty()) {
             //here to call new insert into db and pass the list_id or send the hole data like string
-            newTask = new TaskClass(title_of_task.getText().toString(), description_of_task.getText().toString(), SpinnerStatus.getSelectedItem().toString(), date1, date2, SharedPreferencesManage.getInstance().getUserId() + "", jsonData, "true");//
-            Log.d(TAG, "addTask: This task was added to a lot of ppl;");
+            newTask = new TaskClass(getContext(),title_of_task.getText().toString(), description_of_task.getText().toString(), SpinnerStatus.getSelectedItem().toString(), date1, date2, SharedPreferencesManage.getInstance().getUserId() + "", jsonData, "true");//
+            Log.d(TAG, "addTask: This task was added to a lot of ppl");
         }
         else {
-            newTask = new TaskClass(title_of_task.getText().toString(), description_of_task.getText().toString(), SpinnerStatus.getSelectedItem().toString(), date1, date2, SharedPreferencesManage.getInstance().getUserId() + "", SharedPreferencesManage.getInstance().getUserId() + "", "false");//
+            newTask = new TaskClass(getContext(),title_of_task.getText().toString(), description_of_task.getText().toString(), SpinnerStatus.getSelectedItem().toString(), date1, date2, SharedPreferencesManage.getInstance().getUserId() + "", SharedPreferencesManage.getInstance().getUserId() + "", "false");//
             Toast.makeText(getActivity(), "This task was added to yourself", Toast.LENGTH_SHORT).show();
             Log.d(TAG, "addTask: This task was added to yourself");
         }

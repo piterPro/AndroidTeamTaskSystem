@@ -115,7 +115,8 @@ public class CommentsFragment extends Fragment {
                         Log.d(TAG, "onCreateView: onClick:if there is a comment post it ");
                         postComment(URLs.URL_SEND_COMMENT, CommentText.getText().toString().trim(), getTimeStamp(), Integer.parseInt(mIdTask), SharedPreferencesManage.getInstance().getUserId());
 
-                        CommentClass newObj = new CommentClass(getTimeStamp(),Integer.parseInt(mIdTask),CommentText.getText().toString().trim(),SharedPreferencesManage.getInstance().getUserId());
+                        String arr[]= SharedPreferencesManage.getInstance().getUserName().split(" ");
+                        CommentClass newObj = new CommentClass(getTimeStamp(),Integer.parseInt(mIdTask),CommentText.getText().toString().trim(),SharedPreferencesManage.getInstance().getUserId(),arr[0],arr[1]);
                         if (mCommentList.isEmpty()) {
                             mCommentList.add(newObj);
                             AddAdapterForComments(getView(), mCommentList);

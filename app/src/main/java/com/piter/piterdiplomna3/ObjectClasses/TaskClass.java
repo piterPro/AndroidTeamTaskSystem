@@ -1,7 +1,16 @@
 package com.piter.piterdiplomna3.ObjectClasses;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+
+import com.piter.piterdiplomna3.activities.MainActivity;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.Context.ALARM_SERVICE;
 
 public class TaskClass {
         private int id;
@@ -14,6 +23,7 @@ public class TaskClass {
         private int user_made_by_id;
         private String user_made_for_id;
         private String team;
+    private Context context;
 
     public TaskClass() {
     }
@@ -43,8 +53,6 @@ public class TaskClass {
         this.user_made_for_id = user_made_for_id;
         this.team = team;
     }
-
-
     public TaskClass(int id, int parent_id, String status, int time_period, String title, int user_made_by_id, String user_made_for_id, String description) {
 
         this.id = id;
@@ -56,8 +64,7 @@ public class TaskClass {
         this.user_made_for_id = user_made_for_id;
         this.description = description;
     }
-
-    public TaskClass(String title, String description, String status, String begin_date, String end_date, String user_made_by_id, String user_made_for_id, String team) {
+    public TaskClass(Context context, String title, String description, String status, String begin_date, String end_date, String user_made_by_id, String user_made_for_id, String team) {
         this.begin_date = begin_date;
         this.description = description;
         this.end_date = end_date;
@@ -66,6 +73,21 @@ public class TaskClass {
         this.team = team;
         this.user_made_by_id = Integer.parseInt(user_made_by_id);
         this.user_made_for_id = user_made_for_id;
+        this.context=context;
+    }
+
+    public void setAlarm(long when, String title, String descreption) {
+        AlarmManager alarmManager = (AlarmManager) context
+                .getSystemService(ALARM_SERVICE);
+
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.setAction("alarm");
+        intent.putExtra("title", title +"="+ getTitle());
+        intent.putExtra("descreption", descreption+"="+getDescription());
+
+        PendingIntent pendIntent = PendingIntent.getService(context,
+                this.getId(), intent, 0);
+        alarmManager.set(AlarmManager.RTC, when, pendIntent);
     }
 
     public String getBegin_date() {
@@ -138,6 +160,9 @@ public class TaskClass {
 
     public void setUser_made_for_id(String user_made_for_id) {
         this.user_made_for_id = user_made_for_id;
+    }
+    public void setContext(Context c){
+        this.context=c;
     }
 }
 
