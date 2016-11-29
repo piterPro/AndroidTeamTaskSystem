@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
@@ -15,8 +14,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 //import com.android.volley.AuthFailureError;
 //import com.android.volley.DefaultRetryPolicy;
@@ -31,14 +28,12 @@ import com.google.gson.reflect.TypeToken;
 import com.piter.piterdiplomna3.ObjectClasses.ChatMessageClass;
 import com.piter.piterdiplomna3.ObjectClasses.UserClass;
 import com.piter.piterdiplomna3.R;
-import com.piter.piterdiplomna3.adapters.ChatArrayAdapterRV;
+import com.piter.piterdiplomna3.adapters.ChatMessageAdapterRV;
 import com.piter.piterdiplomna3.gcm.GCMRegistrationIntentService;
 import com.piter.piterdiplomna3.helper.NotificationHandler;
 import com.piter.piterdiplomna3.helper.SharedPreferencesManage;
 import com.piter.piterdiplomna3.helper.Constants;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.piter.piterdiplomna3.helper.URLs;
 
 import java.io.IOException;
@@ -51,15 +46,13 @@ import java.text.SimpleDateFormat;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 //import okhttp3.Response;
 
 //import static com.piter.piterdiplomna3.activities.MainActivity.urlIP;
-import static com.piter.piterdiplomna3.activities.MainActivity.user_id;
+
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -76,6 +69,7 @@ public class ChatActivity extends AppCompatActivity {
     private Button send;
     ChatMessageClass msg;
     ArrayList<UserClass> receiverUser;
+    public static Context con;
 
 
     //    private boolean side = false;
@@ -103,6 +97,7 @@ public class ChatActivity extends AppCompatActivity {
 //        mLayoutManager = new LinearLayoutManager(this);
 //        mRecyclerView.setLayoutManager(mLayoutManager);
 
+        con=getBaseContext();
         //seting the onClick listeners
         chatText.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -313,7 +308,7 @@ public class ChatActivity extends AppCompatActivity {
             public void run() {
                 mRecyclerView.setLayoutManager(mLayoutManager);
                 // specify an adapter (see also next example)
-                mAdapter = new ChatArrayAdapterRV(c, yourList);
+                mAdapter = new ChatMessageAdapterRV(c, yourList);
                 mRecyclerView.setAdapter(mAdapter);
             }
         });

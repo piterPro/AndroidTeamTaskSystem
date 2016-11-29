@@ -46,12 +46,12 @@ import okhttp3.Response;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link TaskUserList.OnFragmentInteractionListener} interface
+ * {@link UserListFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link TaskUserList#newInstance} factory showFragment to
+ * Use the {@link UserListFragment#newInstance} factory showFragment to
  * create an instance of this fragment.
  */
-public class TaskUserList extends DialogFragment implements CompoundButton.OnCheckedChangeListener{
+public class UserListFragment extends DialogFragment implements CompoundButton.OnCheckedChangeListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -68,7 +68,7 @@ public class TaskUserList extends DialogFragment implements CompoundButton.OnChe
 
     private OnFragmentInteractionListener mListener;
 
-    public TaskUserList() {
+    public UserListFragment() {
         // Required empty public constructor
     }
 
@@ -78,11 +78,11 @@ public class TaskUserList extends DialogFragment implements CompoundButton.OnChe
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment TaskUserList.
+     * @return A new instance of fragment UserListFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static TaskUserList newInstance(String param1, String param2) {
-        TaskUserList fragment = new TaskUserList();
+    public static UserListFragment newInstance(String param1, String param2) {
+        UserListFragment fragment = new UserListFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -229,7 +229,7 @@ public class TaskUserList extends DialogFragment implements CompoundButton.OnChe
         });
 
 
-        adapter = new FunDapter(TaskUserList.this.getActivity(), yourList,R.layout.e_user_entry_layout ,dictionary);
+        adapter = new FunDapter(UserListFragment.this.getActivity(), yourList,R.layout.e_user_entry_layout ,dictionary);
         final ListView tasksLV = (ListView) view.findViewById(R.id.userListLV);
         tasksLV.setItemsCanFocus(true);
 

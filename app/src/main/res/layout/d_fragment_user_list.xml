@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.piter.piterdiplomna3.fragments.TaskUserList">
+    tools:context="com.piter.piterdiplomna3.fragments.UserListFragment">
 
     <!-- TODO: Update blank mainFragment layout -->
 

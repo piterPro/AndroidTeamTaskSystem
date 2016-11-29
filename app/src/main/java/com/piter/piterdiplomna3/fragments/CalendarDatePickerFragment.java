@@ -2,12 +2,14 @@ package com.piter.piterdiplomna3.fragments;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
+import com.piter.piterdiplomna3.R;
 import com.piter.piterdiplomna3.activities.MainActivity;
 
 import java.util.Calendar;
@@ -44,6 +46,8 @@ public class CalendarDatePickerFragment extends DialogFragment implements DatePi
             String date1 = "" + cl.get(Calendar.DAY_OF_MONTH) + ":" + cl.get(Calendar.MONTH) + ":" + cl.get(Calendar.YEAR);
             Toast.makeText(getContext(),"added BeginDate="+date1,Toast.LENGTH_LONG).show();
             MainActivity.WhichDate = 0;
+//            Intent a = new Intent(MainActivity.con, TimePickerFrg.class);//it is not a activity
+//            startActivity(a);
             return;
         }else
         if(MainActivity.WhichDate==2){
@@ -52,6 +56,9 @@ public class CalendarDatePickerFragment extends DialogFragment implements DatePi
             String date2 = "" + cl.get(Calendar.DAY_OF_MONTH) + ":" + cl.get(Calendar.MONTH) + ":" + cl.get(Calendar.YEAR);
             Toast.makeText(getContext(),"added EndDate="+date2,Toast.LENGTH_LONG).show();
             MainActivity.WhichDate = 0;
+
+
+
             return;
         }
 

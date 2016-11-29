@@ -4,13 +4,14 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.piter.piterdiplomna3.activities.ChatActivity;
 import com.piter.piterdiplomna3.activities.MainActivity;
+import com.piter.piterdiplomna3.helper.MyAlarmReceiver;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static android.content.Context.ALARM_SERVICE;
+import java.util.Calendar;
 
 public class TaskClass {
         private int id;
@@ -23,7 +24,7 @@ public class TaskClass {
         private int user_made_by_id;
         private String user_made_for_id;
         private String team;
-    private Context context;
+//        private Context context;//CANT SERIALIZE THAT YOU ANIMAL!
 
     public TaskClass() {
     }
@@ -64,7 +65,7 @@ public class TaskClass {
         this.user_made_for_id = user_made_for_id;
         this.description = description;
     }
-    public TaskClass(Context context, String title, String description, String status, String begin_date, String end_date, String user_made_by_id, String user_made_for_id, String team) {
+    public TaskClass(String title, String description, String status, String begin_date, String end_date, String user_made_by_id, String user_made_for_id, String team) {
         this.begin_date = begin_date;
         this.description = description;
         this.end_date = end_date;
@@ -73,21 +74,60 @@ public class TaskClass {
         this.team = team;
         this.user_made_by_id = Integer.parseInt(user_made_by_id);
         this.user_made_for_id = user_made_for_id;
-        this.context=context;
     }
 
-    public void setAlarm(long when, String title, String descreption) {
-        AlarmManager alarmManager = (AlarmManager) context
-                .getSystemService(ALARM_SERVICE);
+    public void setAlarm() {
+//        AlarmManager alarmManager = (AlarmManager) context
+//                .getSystemService(ALARM_SERVICE);
+//
+//        Intent intent = new Intent(context, MainActivity.class);
+//        intent.setAction("alarm");
+//
+//        PendingIntent pendIntent = PendingIntent.getService(context,
+//                this.getId(), intent, 0);
+//        alarmManager.set(AlarmManager.RTC, when, pendIntent);
 
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.setAction("alarm");
-        intent.putExtra("title", title +"="+ getTitle());
-        intent.putExtra("descreption", descreption+"="+getDescription());
+        Calendar cl = Calendar.getInstance();
+        Calendar clNow = Calendar.getInstance();
 
-        PendingIntent pendIntent = PendingIntent.getService(context,
-                this.getId(), intent, 0);
-        alarmManager.set(AlarmManager.RTC, when, pendIntent);
+        String DateTimeArray[] = end_date.split(" ");
+        String DateArray[] = DateTimeArray[0].split("-");
+        String TimeArray[] = DateTimeArray[1].split(":");
+        cl.set(
+                Integer.parseInt(DateArray[0]),//year
+                Integer.parseInt(DateArray[1]),//month
+                (Integer.parseInt(DateArray[2])-1),//day
+                (Integer.parseInt(TimeArray[0])),//hours
+                Integer.parseInt(TimeArray[1]), //minutes
+                Integer.parseInt(TimeArray[2]));//seconds
+        if(status.equals("Done"))
+            return;
+        if(clNow.compareTo(cl)!=-1){
+            Log.d("TAG taskClass", "date past =cl: "+cl.getTime().toString());
+            return;
+        }
+        Context contex = null;
+        if(MainActivity.con!=null)
+            contex=  MainActivity.con;
+        else
+            if(ChatActivity.con!=null)
+                contex= ChatActivity.con;
+
+        Intent notifyIntent = new Intent(contex, MyAlarmReceiver.class);
+
+        notifyIntent.putExtra("title","1day left :"+getTitle());
+        notifyIntent.putExtra("description",getDescription());
+        PendingIntent pendingIntent = PendingIntent.getBroadcast
+                (contex, getId(), notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) contex.getSystemService(Context.ALARM_SERVICE);
+            alarmManager.set(AlarmManager.RTC_WAKEUP,  (System.currentTimeMillis() + 1000*5), pendingIntent);
+//        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,  (System.currentTimeMillis() + 1000*5),
+//                1000 * 30 , pendingIntent);
+
+        Toast.makeText(contex, "Alarm added", Toast.LENGTH_SHORT).show();
+        Log.d("TAG task class", "Alarm added time"+(System.currentTimeMillis()));
+//        if(alarmManager!=null)
+//            alarmManager.cancel(pendingIntent);
     }
 
     public String getBegin_date() {
@@ -160,9 +200,6 @@ public class TaskClass {
 
     public void setUser_made_for_id(String user_made_for_id) {
         this.user_made_for_id = user_made_for_id;
-    }
-    public void setContext(Context c){
-        this.context=c;
     }
 }
 

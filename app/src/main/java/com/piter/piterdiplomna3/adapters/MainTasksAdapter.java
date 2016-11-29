@@ -19,7 +19,6 @@ import android.widget.Toast;
 
 import com.piter.piterdiplomna3.ObjectClasses.TaskClass;
 import com.piter.piterdiplomna3.R;
-import com.piter.piterdiplomna3.activities.ChatActivity;
 import com.piter.piterdiplomna3.activities.MainActivity;
 import com.piter.piterdiplomna3.fragments.CommentsFragment;
 import com.piter.piterdiplomna3.fragments.MainFragment;
@@ -29,7 +28,6 @@ import com.piter.piterdiplomna3.helper.URLs;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
 import okhttp3.Call;
@@ -185,9 +183,9 @@ public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myVi
 
         //TODO: set alarm here for the selected task
         Log.d(TAG, "onBindViewHolder: zadade se alarma");
-        selectedTasks.setContext(context);
-        Calendar cl = Calendar.getInstance();
-        selectedTasks.setAlarm((System.currentTimeMillis()+5000),"title","description");
+        selectedTasks.setAlarm();
+
+//
     }
 
 

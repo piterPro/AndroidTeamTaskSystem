@@ -87,11 +87,11 @@ public class TaskAddFragment extends Fragment {// implements CalendarDatePickerF
                 if (intent.getAction().equals(Constants.USER_TASK_LIST)) {
                     //Getting message data
                     jsonData = intent.getStringExtra("user_list");
-                    Log.d(TAG, "onReceive:data from user task list = "+jsonData);
+                    Log.d(TAG, "onReceive: data from user task list = "+jsonData);
 
                 }
                 else{
-                    Log.d(TAG, "onReceive:polu4i se call-a ama ne e ot tam jsonData= "+jsonData);
+                    Log.d(TAG, "onReceive: polu4i se call-a ama ne e ot tam jsonData= "+jsonData);
                 }
             }
         };
@@ -149,10 +149,10 @@ public class TaskAddFragment extends Fragment {// implements CalendarDatePickerF
 //                addEditDialog.setContentView(R.layout.d_fragment_user_list);
 //                addEditDialog.setCanceledOnTouchOutside(false);
 //                addEditDialog.show();
-//                TaskUserList fragment = new TaskUserList().newInstance("TaskAddFragment", "");
+//                UserListFragment fragment = new UserListFragment().newInstance("TaskAddFragment", "");
 //                android.support.v4.app.FragmentTransaction fragmentTransaction =
 //                        getActivity().getSupportFragmentManager().beginTransaction();
-                TaskUserList fragment = TaskUserList.newInstance("TaskAddFragment", "");
+                UserListFragment fragment = UserListFragment.newInstance("TaskAddFragment", "");
                 fragment.show(getFragmentManager(),"user_list_task");
 //                fragmentTransaction.replace(R.id.fragment_container, fragment);
 //                fragmentTransaction.commit();
@@ -174,9 +174,9 @@ public class TaskAddFragment extends Fragment {// implements CalendarDatePickerF
             public void onClick(View v) {
                 Calendar cl = Calendar.getInstance();
                 cl.setTimeInMillis(MainActivity.BeginDate);
-                String date1 = "" + cl.get(Calendar.YEAR) + "-" + cl.get(Calendar.MONTH) + 1 + "-" + cl.get(Calendar.DAY_OF_MONTH) + " " + cl.get(Calendar.HOUR_OF_DAY) + "-" + cl.get(Calendar.MINUTE) + "-" + cl.get(Calendar.SECOND);
+                String date1 = "" + cl.get(Calendar.YEAR) + "-" +( cl.get(Calendar.MONTH) + 1 )+ "-" + cl.get(Calendar.DAY_OF_MONTH) + " " + cl.get(Calendar.HOUR_OF_DAY) + "-" + cl.get(Calendar.MINUTE) + "-" + cl.get(Calendar.SECOND);
                 cl.setTimeInMillis(MainActivity.EndDate);
-                String date2 = "" + cl.get(Calendar.YEAR) + "-" + cl.get(Calendar.MONTH) + 1 + "-" + cl.get(Calendar.DAY_OF_MONTH) + " " + cl.get(Calendar.HOUR_OF_DAY) + "-" + cl.get(Calendar.MINUTE) + "-" + cl.get(Calendar.SECOND);
+                String date2 = "" + cl.get(Calendar.YEAR) + "-" +( cl.get(Calendar.MONTH) + 1) + "-" + cl.get(Calendar.DAY_OF_MONTH) + " " + cl.get(Calendar.HOUR_OF_DAY) + "-" + cl.get(Calendar.MINUTE) + "-" + cl.get(Calendar.SECOND);
                 Toast.makeText(getActivity(),
                         "OnClickListener : " +
                                 "\nTitle : " + title_of_task.getText().toString() +
@@ -209,16 +209,18 @@ public class TaskAddFragment extends Fragment {// implements CalendarDatePickerF
         TaskClass newTask;
         if(!jsonData.isEmpty()) {
             //here to call new insert into db and pass the list_id or send the hole data like string
-            newTask = new TaskClass(getContext(),title_of_task.getText().toString(), description_of_task.getText().toString(), SpinnerStatus.getSelectedItem().toString(), date1, date2, SharedPreferencesManage.getInstance().getUserId() + "", jsonData, "true");//
+            newTask = new TaskClass(title_of_task.getText().toString(), description_of_task.getText().toString(), SpinnerStatus.getSelectedItem().toString(), date1, date2, SharedPreferencesManage.getInstance().getUserId() + "", jsonData, "true");//
             Log.d(TAG, "addTask: This task was added to a lot of ppl");
         }
         else {
-            newTask = new TaskClass(getContext(),title_of_task.getText().toString(), description_of_task.getText().toString(), SpinnerStatus.getSelectedItem().toString(), date1, date2, SharedPreferencesManage.getInstance().getUserId() + "", SharedPreferencesManage.getInstance().getUserId() + "", "false");//
+            newTask = new TaskClass(title_of_task.getText().toString(), description_of_task.getText().toString(), SpinnerStatus.getSelectedItem().toString(), date1, date2, SharedPreferencesManage.getInstance().getUserId() + "", SharedPreferencesManage.getInstance().getUserId() + "", "false");//
             Toast.makeText(getActivity(), "This task was added to yourself", Toast.LENGTH_SHORT).show();
             Log.d(TAG, "addTask: This task was added to yourself");
         }
 
+
         Gson gson = new Gson();
+        Log.d(TAG, "addTask: Beginign of Gson parcing error right after");
         String json = gson.toJson(newTask);
         Log.d(TAG, "addTask:json "+json);
 //        final OkHttpClient client = new OkHttpClient();

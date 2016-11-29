@@ -18,9 +18,8 @@ import com.piter.piterdiplomna3.activities.MainActivity;
 import java.util.ArrayList;
 
 import static android.view.View.LAYOUT_DIRECTION_LTR;
-import static android.view.View.LAYOUT_DIRECTION_RTL;
 
-public class ChatArrayAdapterRV extends RecyclerView.Adapter<ChatArrayAdapterRV.myViewHolder> {
+public class ChatMessageAdapterRV extends RecyclerView.Adapter<ChatMessageAdapterRV.myViewHolder> {
     private Context context;
     private ArrayList<ChatMessageClass> chatMsgList;
 
@@ -44,21 +43,21 @@ public class ChatArrayAdapterRV extends RecyclerView.Adapter<ChatArrayAdapterRV.
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public ChatArrayAdapterRV(Context cont, ArrayList<ChatMessageClass> myDataset) {
+    public ChatMessageAdapterRV(Context cont, ArrayList<ChatMessageClass> myDataset) {
         context = cont;
         chatMsgList = myDataset;
-        Log.d("TAG ChatArrayAdapterRV","izvika se tupiq konstruktor za chat-a");
+        Log.d("TAG ChatMessageAdapterRV","izvika se tupiq konstruktor za chat-a");
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public ChatArrayAdapterRV.myViewHolder onCreateViewHolder(ViewGroup parent,
-                                                              int viewType) {
+    public ChatMessageAdapterRV.myViewHolder onCreateViewHolder(ViewGroup parent,
+                                                                int viewType) {
         // create a new view
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.d_chat_cardview_bubble_layout, parent, false);
         // set the view's size, margins, paddings and layout parameters
-        ChatArrayAdapterRV.myViewHolder vh = new ChatArrayAdapterRV.myViewHolder(view);
+        ChatMessageAdapterRV.myViewHolder vh = new ChatMessageAdapterRV.myViewHolder(view);
         return vh;
     }
 
@@ -68,7 +67,7 @@ public class ChatArrayAdapterRV extends RecyclerView.Adapter<ChatArrayAdapterRV.
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         ChatMessageClass selectedMsg = chatMsgList.get(position);
-        Log.d("TAG ChatArrayAdapterRV", "onBindViewHolder: position= "+position+": message= "+selectedMsg.getMessage()+" time= "+selectedMsg.getCreate_date_time());
+        Log.d("TAG ChatMessageAdapterRV", "onBindViewHolder: position= "+position+": message= "+selectedMsg.getMessage()+" time= "+selectedMsg.getCreate_date_time());
         //LayoutParams for the gravity on message
         LinearLayout.LayoutParams paramsMsg = new LinearLayout.
                 LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
