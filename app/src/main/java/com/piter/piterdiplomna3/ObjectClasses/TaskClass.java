@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.piter.piterdiplomna3.activities.ChatActivity;
 import com.piter.piterdiplomna3.activities.MainActivity;
+import com.piter.piterdiplomna3.helper.Helper;
 import com.piter.piterdiplomna3.helper.MyAlarmReceiver;
 
 import java.util.Calendar;
@@ -87,19 +88,14 @@ public class TaskClass {
 //                this.getId(), intent, 0);
 //        alarmManager.set(AlarmManager.RTC, when, pendIntent);
 
-        Calendar cl = Calendar.getInstance();
         Calendar clNow = Calendar.getInstance();
+        Log.d("TAG taskClass", "setAlarm: current time ="+clNow.getTime().toString());
 
-        String DateTimeArray[] = end_date.split(" ");
-        String DateArray[] = DateTimeArray[0].split("-");
-        String TimeArray[] = DateTimeArray[1].split(":");
-        cl.set(
-                Integer.parseInt(DateArray[0]),//year
-                Integer.parseInt(DateArray[1]),//month
-                (Integer.parseInt(DateArray[2])-1),//day
-                (Integer.parseInt(TimeArray[0])),//hours
-                Integer.parseInt(TimeArray[1]), //minutes
-                Integer.parseInt(TimeArray[2]));//seconds
+        Helper obj=new Helper();
+        Calendar cl = obj.convertFromString(end_date);
+        cl.add(Calendar.DAY_OF_YEAR,-1);
+        Log.d("TAG taskClass", "setAlarm: new time ="+cl.getTime().toString());
+
         if(status.equals("Done"))
             return;
         if(clNow.compareTo(cl)!=-1){

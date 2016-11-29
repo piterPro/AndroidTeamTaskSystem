@@ -6,28 +6,19 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.SharedPreferencesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.amigold.fundapter.BindDictionary;
-import com.amigold.fundapter.FunDapter;
-import com.amigold.fundapter.extractors.StringExtractor;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.piter.piterdiplomna3.ObjectClasses.CommentClass;
-import com.piter.piterdiplomna3.ObjectClasses.UserClass;
 import com.piter.piterdiplomna3.R;
 import com.piter.piterdiplomna3.adapters.CommentAdapter;
 import com.piter.piterdiplomna3.helper.Constants;
@@ -43,13 +34,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
@@ -115,8 +102,7 @@ public class CommentsFragment extends Fragment {
                         Log.d(TAG, "onCreateView: onClick:if there is a comment post it ");
                         postComment(URLs.URL_SEND_COMMENT, CommentText.getText().toString().trim(), getTimeStamp(), Integer.parseInt(mIdTask), SharedPreferencesManage.getInstance().getUserId());
 
-                        String arr[]= SharedPreferencesManage.getInstance().getUserName().split(" ");
-                        CommentClass newObj = new CommentClass(getTimeStamp(),Integer.parseInt(mIdTask),CommentText.getText().toString().trim(),SharedPreferencesManage.getInstance().getUserId(),arr[0],arr[1]);
+                        CommentClass newObj = new CommentClass(getTimeStamp(),Integer.parseInt(mIdTask),CommentText.getText().toString().trim(),SharedPreferencesManage.getInstance().getUserId(),SharedPreferencesManage.getInstance().getUserFirsName(),SharedPreferencesManage.getInstance().getUserLastName());
                         if (mCommentList.isEmpty()) {
                             mCommentList.add(newObj);
                             AddAdapterForComments(getView(), mCommentList);

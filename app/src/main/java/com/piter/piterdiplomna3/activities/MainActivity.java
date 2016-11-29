@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.piter.piterdiplomna3.MyPreferencesActivity;
 import com.piter.piterdiplomna3.fragments.CommentsFragment;
 import com.piter.piterdiplomna3.fragments.EditInfoFragment;
 import com.piter.piterdiplomna3.fragments.TaskAddFragment;
@@ -130,11 +131,6 @@ public class MainActivity extends AppCompatActivity
                     intent2.putExtra("id", intent.getStringExtra("user_send_id"));
                     notificationHandler.showNotificationMessage(title, message, intent2);
                 }
-                else
-                {
-
-                    Log.d(TAG, "onReceive: doide alarmata !!!");
-                }
             }
         };
     }//end of onCreate
@@ -177,7 +173,7 @@ public class MainActivity extends AppCompatActivity
     //function drawerUserDetails that populates the user name
     //
     public void drawerUserDetails() throws IOException {
-        final String O=SharedPreferencesManage.getInstance().getUserName();
+        final String O=SharedPreferencesManage.getInstance().getFullUserName();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View v = navigationView.getHeaderView(0);
         final TextView drawerUserName = (TextView ) v.findViewById(R.id.drawerUserNameTV);
@@ -213,6 +209,9 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            activityPosition++;
+            Intent i = new Intent(this, MyPreferencesActivity.class);
+            startActivity(i);
             return true;
         }else
         if (id == R.id.logout_menu) {

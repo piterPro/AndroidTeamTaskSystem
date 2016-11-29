@@ -2,14 +2,13 @@ package com.piter.piterdiplomna3.fragments;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
-import com.piter.piterdiplomna3.R;
 import com.piter.piterdiplomna3.activities.MainActivity;
 
 import java.util.Calendar;
@@ -19,7 +18,7 @@ import java.util.Calendar;
  * Created by Piter on 21/06/2016.
  */
 
-public class CalendarDatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener{
+public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener{
 
     @NonNull
     @Override
@@ -42,25 +41,31 @@ public class CalendarDatePickerFragment extends DialogFragment implements DatePi
 
         if(MainActivity.WhichDate==1) {
             MainActivity.BeginDate=cl.getTimeInMillis();
+            Log.d("TAG DatePicker", "onDateSet: ");
             cl.setTimeInMillis(MainActivity.BeginDate);
             String date1 = "" + cl.get(Calendar.DAY_OF_MONTH) + ":" + cl.get(Calendar.MONTH) + ":" + cl.get(Calendar.YEAR);
             Toast.makeText(getContext(),"added BeginDate="+date1,Toast.LENGTH_LONG).show();
             MainActivity.WhichDate = 0;
-//            Intent a = new Intent(MainActivity.con, TimePickerFrg.class);//it is not a activity
+//            Intent a = new Intent(MainActivity.con, TimePickerFragment.class);//it is not a activity
 //            startActivity(a);
-            return;
+
+            DialogFragment newFragment = new TimePickerFragment();
+            MainActivity.WhichDate = 1;//to know witch date are we setting begin or end date
+            newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
+
         }else
-        if(MainActivity.WhichDate==2){
-            MainActivity.EndDate = cl.getTimeInMillis();
-            cl.setTimeInMillis(MainActivity.EndDate);
-            String date2 = "" + cl.get(Calendar.DAY_OF_MONTH) + ":" + cl.get(Calendar.MONTH) + ":" + cl.get(Calendar.YEAR);
-            Toast.makeText(getContext(),"added EndDate="+date2,Toast.LENGTH_LONG).show();
-            MainActivity.WhichDate = 0;
+            if(MainActivity.WhichDate==2){
+                MainActivity.EndDate = cl.getTimeInMillis();
+                cl.setTimeInMillis(MainActivity.EndDate);
+                String date2 = "" + cl.get(Calendar.DAY_OF_MONTH) + ":" + cl.get(Calendar.MONTH) + ":" + cl.get(Calendar.YEAR);
+                Toast.makeText(getContext(),"added EndDate="+date2,Toast.LENGTH_LONG).show();
+                MainActivity.WhichDate = 0;
 
-
-
-            return;
-        }
+                DialogFragment newFragment = new TimePickerFragment();
+                MainActivity.WhichDate = 2;//to know witch date are we setting begin or end date
+                newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
+    //            return;
+            }
 
     }
 }

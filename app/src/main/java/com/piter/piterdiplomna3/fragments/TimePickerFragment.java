@@ -14,7 +14,7 @@ import java.util.Calendar;
  * Created by Piter on 29/11/2016.
  */
 
-public class TimePickerFrg extends DialogFragment
+public class TimePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {
 
 

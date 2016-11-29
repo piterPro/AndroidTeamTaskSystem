@@ -42,7 +42,7 @@ import okhttp3.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TaskAddFragment extends Fragment {// implements CalendarDatePickerFragment.OnDataPass{
+public class TaskAddFragment extends Fragment {// implements DatePickerFragment.OnDataPass{
     private Spinner SpinnerStatus;
     private EditText title_of_task;
     private EditText description_of_task;
@@ -127,7 +127,7 @@ public class TaskAddFragment extends Fragment {// implements CalendarDatePickerF
         Button btnCheck = (Button) view.findViewById(R.id.viewBtn);
         BeginDateBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                DialogFragment newFragment = new CalendarDatePickerFragment();
+                DialogFragment newFragment = new DatePickerFragment();
                 MainActivity.WhichDate = 1;//to know witch date are we setting begin or end date
                 newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
 
@@ -136,7 +136,7 @@ public class TaskAddFragment extends Fragment {// implements CalendarDatePickerF
 
         EndDateBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                DialogFragment newFragment = new CalendarDatePickerFragment();
+                DialogFragment newFragment = new DatePickerFragment();
                 MainActivity.WhichDate = 2;
                 newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
 //                MainActivity.WhichDate=0;

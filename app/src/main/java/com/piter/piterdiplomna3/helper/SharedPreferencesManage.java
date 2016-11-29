@@ -112,8 +112,16 @@ public class SharedPreferencesManage extends Application {
     }
 
     //This showFragment will return the username of logged in user
-    public String getUserName() {
+    public String getFullUserName() {
         return getSharedPreferences().getString(Constants.USER_FNAME,"No")+" "+getSharedPreferences().getString(Constants.USER_LNAME,"Name");
+    }
+    //This showFragment will return the username of logged in user
+    public String getUserFirsName() {
+        return getSharedPreferences().getString(Constants.USER_FNAME,"No");
+    }
+    //This showFragment will return the username of logged in user
+    public String getUserLastName() {
+        return getSharedPreferences().getString(Constants.USER_LNAME,"Name");
     }
     //Method to just set in motion events that will take place only on DB side
     public void updateURL(final String url) throws Exception{

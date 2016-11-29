@@ -9,17 +9,17 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <!-- Contacts permissions are needed for providing email completions -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <!--For Google Cloud Messaging-->
+    <!-- For Google Cloud Messaging -->
     <uses-permission android:name="android.permission.GET_TASKS" />
+
     <permission
         android:name="com.piter.piterdiplomna3.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
+
     <uses-permission android:name="com.piter.piterdiplomna3.permission.C2D_MESSAGE" />
 
-    <!--<uses-permission android:name="com.android.alarm.permission.SET_ALARM"/><uses-permission android:name=".permission.C2D_MESSAGE" />-->
-    <!--<uses-permission android:name="com.google.android.c2dm.permission.SEND" />-->
-
-
+    <!-- <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/><uses-permission android:name=".permission.C2D_MESSAGE" /> -->
+    <!-- <uses-permission android:name="com.google.android.c2dm.permission.SEND" /> -->
     <application
         android:name=".helper.SharedPreferencesManage"
         android:allowBackup="true"
@@ -32,26 +32,27 @@
             android:name=".activities.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
-        <activity android:name=".activities.LoginActivity"></activity>
-        <activity android:name=".activities.ChatActivity"></activity>
-        <!--for alarms -->
+        <activity android:name=".activities.LoginActivity" />
+        <activity android:name=".activities.ChatActivity" />
+        <activity android:name=".MyPreferencesActivity" />
+        <!-- for alarms -->
         <receiver
             android:name=".helper.MyAlarmReceiver"
             android:enabled="true"
-            android:exported="false" >
-        </receiver>
+            android:exported="false"></receiver>
+
         <service
             android:name=".helper.MyNewIntentService"
-            android:exported="false" >
-        </service>
+            android:exported="false"></service>
 
-        <!--GCM from here on-->
-        <!--             GCM Receiver -->
+        <!-- GCM from here on -->
+        <!-- GCM Receiver -->
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
@@ -59,11 +60,12 @@
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
                 <category android:name="com.piter.piterdiplomna3" />
             </intent-filter>
         </receiver>
 
-        <!--             GCM Receiver Service -->
+        <!-- GCM Receiver Service -->
         <service
             android:name=".gcm.GCMPushReceiverService"
             android:exported="false">
@@ -72,7 +74,7 @@
             </intent-filter>
         </service>
 
-        <!--             GCM Registration Intent Service-->
+        <!-- GCM Registration Intent Service -->
         <service
             android:name=".gcm.GCMRegistrationIntentService"
             android:exported="false">
@@ -81,6 +83,9 @@
             </intent-filter>
         </service>
 
+        <activity
+            android:name=".activities.SettingsActivity"
+            android:label="@string/title_activity_settings"></activity>
     </application>
 
 </manifest>

@@ -51,7 +51,7 @@
             android:layout_below="@+id/titleTV"
             android:layout_alignParentEnd="true"
             android:paddingStart="50dp"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_width="270dp" />
 
         <TextView
@@ -61,10 +61,12 @@
             android:layout_toStartOf="@+id/descriptionTV"
             android:layout_below="@+id/titleTV"
             android:id="@+id/DescriptionHintTV"
-            android:textSize="15sp"
+            android:textSize="18sp"
             android:textAlignment="viewStart"
             android:textColor="@color/common_google_signin_btn_text_light_focused"
-            android:visibility="gone" />
+            android:visibility="visible"
+
+            android:layout_alignParentLeft="true"/>
 
     </RelativeLayout>
 

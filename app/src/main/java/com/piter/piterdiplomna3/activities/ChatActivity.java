@@ -208,7 +208,7 @@ public class ChatActivity extends AppCompatActivity {
         if (message.equalsIgnoreCase(""))
             return false;
         int userId = SharedPreferencesManage.getInstance().getUserId();
-        String name = SharedPreferencesManage.getInstance().getUserName();
+        String name = SharedPreferencesManage.getInstance().getFullUserName();
         String sentAt = getTimeStamp();
 
         ChatMessageClass m = new ChatMessageClass(userId, receiver_id, message, sentAt);
