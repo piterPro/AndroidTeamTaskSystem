@@ -36,15 +36,18 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
         //DO SOMETHING with the data
+        if (!view.isShown()) {
+            return;
+        }
         Calendar cl=Calendar.getInstance();
-        cl.set(year,monthOfYear+1,dayOfMonth);
+        cl.set(year,monthOfYear,dayOfMonth);
 
         if(MainActivity.WhichDate==1) {
             MainActivity.BeginDate=cl.getTimeInMillis();
-            Log.d("TAG DatePicker", "onDateSet: ");
             cl.setTimeInMillis(MainActivity.BeginDate);
-            String date1 = "" + cl.get(Calendar.DAY_OF_MONTH) + ":" + cl.get(Calendar.MONTH) + ":" + cl.get(Calendar.YEAR);
+            String date1 = "" + cl.get(Calendar.DAY_OF_MONTH) + ":" + (cl.get(Calendar.MONTH)+1) + ":" + cl.get(Calendar.YEAR);
             Toast.makeText(getContext(),"added BeginDate="+date1,Toast.LENGTH_LONG).show();
+            Log.d("TAG DatePicker", "onDateSet1: "+date1);
             MainActivity.WhichDate = 0;
 //            Intent a = new Intent(MainActivity.con, TimePickerFragment.class);//it is not a activity
 //            startActivity(a);
@@ -59,6 +62,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
                 cl.setTimeInMillis(MainActivity.EndDate);
                 String date2 = "" + cl.get(Calendar.DAY_OF_MONTH) + ":" + cl.get(Calendar.MONTH) + ":" + cl.get(Calendar.YEAR);
                 Toast.makeText(getContext(),"added EndDate="+date2,Toast.LENGTH_LONG).show();
+                Log.d("TAG DatePicker", "onDateSet2: "+date2);
                 MainActivity.WhichDate = 0;
 
                 DialogFragment newFragment = new TimePickerFragment();

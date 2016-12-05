@@ -8,6 +8,8 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.TimePicker;
 
+import com.piter.piterdiplomna3.activities.MainActivity;
+
 import java.util.Calendar;
 
 /**
@@ -31,7 +33,36 @@ public class TimePickerFragment extends DialogFragment
     }
 
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        if (!view.isShown()) {
+            return;
+        }
         // Do something with the time chosen by the user
+        if(MainActivity.WhichDate==1) {
+            Calendar cl=Calendar.getInstance();
+            cl.setTimeInMillis(MainActivity.BeginDate);
+            cl.clear(Calendar.HOUR_OF_DAY);
+            cl.clear(Calendar.MINUTE);
+            cl.clear(Calendar.SECOND);
+            cl.clear(Calendar.HOUR);//clear the hour too f calendar
+            cl.add(Calendar.HOUR_OF_DAY,hourOfDay);
+            cl.add(Calendar.MINUTE,minute);
+            MainActivity.BeginDate=cl.getTimeInMillis();
+            Log.d("TAG", "onTimeSet: BeginDate set="+cl.getTime());
+
+        }
+        else
+        if(MainActivity.WhichDate==2) {
+            Calendar cl=Calendar.getInstance();
+            cl.setTimeInMillis(MainActivity.EndDate);
+            cl.clear(Calendar.HOUR_OF_DAY);
+            cl.clear(Calendar.MINUTE);
+            cl.clear(Calendar.SECOND);
+            cl.add(Calendar.HOUR_OF_DAY,hourOfDay);
+            cl.add(Calendar.MINUTE,minute);
+            MainActivity.EndDate=cl.getTimeInMillis();
+            Log.d("TAG", "onTimeSet: EndDate set="+cl.getTime());
+        }
+
         Log.d("TAG TimePicker", "onTimeSet: hourOfDay="+hourOfDay+" minute"+minute);
     }
 }

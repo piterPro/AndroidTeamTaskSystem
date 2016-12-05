@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.piter.piterdiplomna3.ObjectClasses.UserClass;
 import com.piter.piterdiplomna3.R;
+import com.piter.piterdiplomna3.helper.Helper;
 import com.piter.piterdiplomna3.helper.SharedPreferencesManage;
 import com.piter.piterdiplomna3.helper.URLs;
 
@@ -140,10 +141,16 @@ public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.myView
             public void onResponse(Call call, Response response) throws IOException {
                 String responseString = response.body().string();
                 response.body().close();
-                //za da se izpulni vinagi ot glavnata ni6ka
-                            lastMsgTime = responseString;
-                            wait=false;
-                        }
+                Log.d(TAG, "onResponse: responseString time="+responseString);
+
+                Helper halp=new Helper();
+
+                if(responseString!=null && responseString.length()>2)
+                    lastMsgTime = halp.returnCorrectFormatDate(halp.convertFromString(responseString));
+                else
+                    lastMsgTime="";
+                wait=false;
+                }
         });
     }
 

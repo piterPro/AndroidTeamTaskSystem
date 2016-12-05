@@ -23,6 +23,7 @@ import com.piter.piterdiplomna3.ObjectClasses.TaskClass;
 import com.piter.piterdiplomna3.R;
 import com.piter.piterdiplomna3.activities.MainActivity;
 import com.piter.piterdiplomna3.helper.Constants;
+import com.piter.piterdiplomna3.helper.Helper;
 import com.piter.piterdiplomna3.helper.SharedPreferencesManage;
 import com.piter.piterdiplomna3.helper.URLs;
 
@@ -145,17 +146,8 @@ public class TaskAddFragment extends Fragment {// implements DatePickerFragment.
         selectUserBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                addEditDialog = new Dialog(getActivity());
-//                addEditDialog.setContentView(R.layout.d_fragment_user_list);
-//                addEditDialog.setCanceledOnTouchOutside(false);
-//                addEditDialog.show();
-//                UserListFragment fragment = new UserListFragment().newInstance("TaskAddFragment", "");
-//                android.support.v4.app.FragmentTransaction fragmentTransaction =
-//                        getActivity().getSupportFragmentManager().beginTransaction();
                 UserListFragment fragment = UserListFragment.newInstance("TaskAddFragment", "");
                 fragment.show(getFragmentManager(),"user_list_task");
-//                fragmentTransaction.replace(R.id.fragment_container, fragment);
-//                fragmentTransaction.commit();
             }
         });
         title_of_task = (EditText) view.findViewById(R.id.titleET);
@@ -173,17 +165,21 @@ public class TaskAddFragment extends Fragment {// implements DatePickerFragment.
 
             public void onClick(View v) {
                 Calendar cl = Calendar.getInstance();
+                Helper halp = new Helper();
                 cl.setTimeInMillis(MainActivity.BeginDate);
-                String date1 = "" + cl.get(Calendar.YEAR) + "-" +( cl.get(Calendar.MONTH) + 1 )+ "-" + cl.get(Calendar.DAY_OF_MONTH) + " " + cl.get(Calendar.HOUR_OF_DAY) + "-" + cl.get(Calendar.MINUTE) + "-" + cl.get(Calendar.SECOND);
+                Log.d(TAG, "onClick: BeginDate="+MainActivity.BeginDate+" whaaaaat????????????");
+                String date1 = "" + cl.get(Calendar.YEAR) + "-" +( cl.get(Calendar.MONTH) + 1 )+ "-" + cl.get(Calendar.DAY_OF_MONTH) + " " + cl.get(Calendar.HOUR_OF_DAY) + ":" + cl.get(Calendar.MINUTE) + ":" + cl.get(Calendar.SECOND);
                 cl.setTimeInMillis(MainActivity.EndDate);
-                String date2 = "" + cl.get(Calendar.YEAR) + "-" +( cl.get(Calendar.MONTH) + 1) + "-" + cl.get(Calendar.DAY_OF_MONTH) + " " + cl.get(Calendar.HOUR_OF_DAY) + "-" + cl.get(Calendar.MINUTE) + "-" + cl.get(Calendar.SECOND);
+                String date2 = "" + cl.get(Calendar.YEAR) + "-" +( cl.get(Calendar.MONTH) + 1) + "-" + cl.get(Calendar.DAY_OF_MONTH) + " " + cl.get(Calendar.HOUR_OF_DAY) + ":" + cl.get(Calendar.MINUTE) + ":" + cl.get(Calendar.SECOND);
                 Toast.makeText(getActivity(),
                         "OnClickListener : " +
                                 "\nTitle : " + title_of_task.getText().toString() +
                                 "\nDescrip : " + description_of_task.getText() +
                                 "\nSpinnerStatus : " + SpinnerStatus.getSelectedItem().toString() +
                                 "\nSpinnerTID : " + date1 +
-                                "\nSpinnerTID : " + date2,
+                                "\nSpinnerTID : " + date2 +
+                                "\n formatiranata BeginDate:"+ halp.returnCorrectFormatDate(MainActivity.BeginDate) +
+                                "\n formatiranata EndDate:"+ halp.returnCorrectFormatDate(MainActivity.EndDate),
                         Toast.LENGTH_LONG).show();
             }
 

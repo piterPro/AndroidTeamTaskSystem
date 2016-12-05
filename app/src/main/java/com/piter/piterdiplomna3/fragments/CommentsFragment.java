@@ -22,6 +22,7 @@ import com.piter.piterdiplomna3.ObjectClasses.CommentClass;
 import com.piter.piterdiplomna3.R;
 import com.piter.piterdiplomna3.adapters.CommentAdapter;
 import com.piter.piterdiplomna3.helper.Constants;
+import com.piter.piterdiplomna3.helper.Helper;
 import com.piter.piterdiplomna3.helper.SharedPreferencesManage;
 import com.piter.piterdiplomna3.helper.URLs;
 
@@ -97,12 +98,13 @@ public class CommentsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onCreateView:  klikna se butona");
+                Helper halp = new Helper();
                 try {
                     if(CommentText.length()>0){
                         Log.d(TAG, "onCreateView: onClick:if there is a comment post it ");
                         postComment(URLs.URL_SEND_COMMENT, CommentText.getText().toString().trim(), getTimeStamp(), Integer.parseInt(mIdTask), SharedPreferencesManage.getInstance().getUserId());
 
-                        CommentClass newObj = new CommentClass(getTimeStamp(),Integer.parseInt(mIdTask),CommentText.getText().toString().trim(),SharedPreferencesManage.getInstance().getUserId(),SharedPreferencesManage.getInstance().getUserFirsName(),SharedPreferencesManage.getInstance().getUserLastName());
+                        CommentClass newObj = new CommentClass(halp.convertFromMilisec(System.currentTimeMillis()),Integer.parseInt(mIdTask),CommentText.getText().toString().trim(),SharedPreferencesManage.getInstance().getUserId(),SharedPreferencesManage.getInstance().getUserFirsName(),SharedPreferencesManage.getInstance().getUserLastName());
                         if (mCommentList.isEmpty()) {
                             mCommentList.add(newObj);
                             AddAdapterForComments(getView(), mCommentList);

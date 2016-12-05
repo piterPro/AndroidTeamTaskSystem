@@ -17,6 +17,7 @@ import com.piter.piterdiplomna3.ObjectClasses.UserClass;
 import com.piter.piterdiplomna3.R;
 import com.piter.piterdiplomna3.activities.MainActivity;
 import com.piter.piterdiplomna3.fragments.CommentsFragment;
+import com.piter.piterdiplomna3.helper.Helper;
 import com.piter.piterdiplomna3.helper.SharedPreferencesManage;
 import com.piter.piterdiplomna3.helper.URLs;
 
@@ -70,7 +71,7 @@ public class CommentAdapter extends ArrayAdapter<CommentClass>{
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.cc_comment_fragment, parent, false);
         }
         if (convertView != null) {
-                nameOfPersonTV = (TextView) convertView.findViewById(R.id.CommentPersonNameTV);
+            nameOfPersonTV = (TextView) convertView.findViewById(R.id.CommentPersonNameTV);
             dataTV= (TextView) convertView.findViewById(R.id.CommentDateTV);
             textTV= (TextView) convertView.findViewById(R.id.CommentTextTV);
 
@@ -84,7 +85,10 @@ public class CommentAdapter extends ArrayAdapter<CommentClass>{
 //                         }
 //
 //            Log.d(TAG, "getStringValue: izlezna ot try bloka getUserDetails");
+
         }
+        Helper halp = new Helper();
+        final String formatedTime=halp.returnCorrectFormatDate(halp.convertFromString(holder.getCreate_date_time()));
 
         ((Activity) getContext()).runOnUiThread(new Runnable() {//yess it works! (thunder)
             @Override
@@ -92,7 +96,7 @@ public class CommentAdapter extends ArrayAdapter<CommentClass>{
 //                nameOfPersonTV.setText(""+mUserDetails.get(0).getFname()+" "+mUserDetails.get(0).getLname());
                 nameOfPersonTV.setText(holder.getFname()+ " " + holder.getLname());
                 textTV.setText(holder.getText());
-                dataTV.setText(holder.getCreate_date_time());
+                dataTV.setText(formatedTime);
             }
         });
 

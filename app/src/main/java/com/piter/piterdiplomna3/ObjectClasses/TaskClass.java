@@ -89,17 +89,17 @@ public class TaskClass {
 //        alarmManager.set(AlarmManager.RTC, when, pendIntent);
 
         Calendar clNow = Calendar.getInstance();
-        Log.d("TAG taskClass", "setAlarm: current time ="+clNow.getTime().toString());
+//        Log.d("TAG taskClass", "setAlarm: current time ="+clNow.getTime().toString());
 
         Helper obj=new Helper();
         Calendar cl = obj.convertFromString(end_date);
         cl.add(Calendar.DAY_OF_YEAR,-1);
-        Log.d("TAG taskClass", "setAlarm: new time ="+cl.getTime().toString());
+        Log.d("TAG taskClass", "--setAlarm: new time ="+cl.getTime().toString());
 
         if(status.equals("Done"))
             return;
         if(clNow.compareTo(cl)!=-1){
-            Log.d("TAG taskClass", "date past =cl: "+cl.getTime().toString());
+            Log.d("TAG taskClass", "---date past =cl: "+cl.getTime().toString());
             return;
         }
         Context contex = null;
@@ -121,7 +121,7 @@ public class TaskClass {
 //                1000 * 30 , pendingIntent);
 
         Toast.makeText(contex, "Alarm added", Toast.LENGTH_SHORT).show();
-        Log.d("TAG task class", "Alarm added time"+(System.currentTimeMillis()));
+        Log.d("TAG task class", "--Alarm added time"+(System.currentTimeMillis()));
 //        if(alarmManager!=null)
 //            alarmManager.cancel(pendingIntent);
     }
