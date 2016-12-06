@@ -22,7 +22,7 @@ import com.piter.piterdiplomna3.ObjectClasses.CommentClass;
 import com.piter.piterdiplomna3.R;
 import com.piter.piterdiplomna3.adapters.CommentAdapter;
 import com.piter.piterdiplomna3.helper.Constants;
-import com.piter.piterdiplomna3.helper.Helper;
+import com.piter.piterdiplomna3.helper.MyDateHelper;
 import com.piter.piterdiplomna3.helper.SharedPreferencesManage;
 import com.piter.piterdiplomna3.helper.URLs;
 
@@ -98,7 +98,7 @@ public class CommentsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onCreateView:  klikna se butona");
-                Helper halp = new Helper();
+                MyDateHelper halp = new MyDateHelper();
                 try {
                     if(CommentText.length()>0){
                         Log.d(TAG, "onCreateView: onClick:if there is a comment post it ");

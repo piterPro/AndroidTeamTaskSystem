@@ -79,6 +79,7 @@ public class SharedPreferencesManage extends Application {
         editor.putString(Constants.USER_LNAME, lname);
         editor.putString(Constants.USER_COMPANY, company);
         editor.putString(Constants.USER_POSITION, position);
+//        editor.putString(Constants.USER_TASK_LIST, "");
         editor.putBoolean(Constants.IS_LOGGED_IN, true);
         editor.apply();
         Log.d(TAG, "loginUser: login successfull id"+id);
@@ -98,6 +99,9 @@ public class SharedPreferencesManage extends Application {
     }
     //This showFragment will return the user id of logged in user
     public String getToken() {
+        return getSharedPreferences().getString(Constants.USER_TOKEN, "");
+    }
+    public String getTaskListAlarm() {
         return getSharedPreferences().getString(Constants.USER_TOKEN, "");
     }
 

@@ -179,9 +179,9 @@ public class EditInfoFragment extends Fragment {
                 } catch (Exception e) {                    e.printStackTrace();                }
             }
         });
-        try {
-            AsyncCurrentStatus(URLs.URL_FETCH_STATUS,getContext());
-        } catch (Exception e) {            e.printStackTrace();        }
+//        try {
+//            AsyncCurrentStatus(URLs.URL_FETCH_STATUS,getContext());
+//        } catch (Exception e) {            e.printStackTrace();        }
         return view;
     }
 
@@ -372,6 +372,8 @@ public class EditInfoFragment extends Fragment {
         });
     }
 
+
+    //What is this for? i don't need it
     public void AsyncCurrentStatus(String url,final Context context) throws Exception{
         Request request = new Request.Builder()
                 .url(url)

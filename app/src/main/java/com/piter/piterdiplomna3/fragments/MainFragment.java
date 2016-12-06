@@ -1,5 +1,6 @@
 package com.piter.piterdiplomna3.fragments;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,6 +12,9 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -25,6 +29,7 @@ import com.piter.piterdiplomna3.helper.URLs;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import okhttp3.*;
 
@@ -42,6 +47,7 @@ public class MainFragment extends Fragment{
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     public static MainFragment mainFragment;
+    private Spinner MainMenuSpinner;
 
     public MainFragment() {
         // Required empty public constructor
@@ -53,12 +59,51 @@ public class MainFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.c_fragment_main, container, false);
-        try {
-            AsyncGetTasksAndPrint(URLs.URL_FETCH_TASKS+"?id="+ MainActivity.user_id,"AddRecyclerView");
-        } catch (Exception e) {            e.printStackTrace();        }
+        MainMenuSpinner = (Spinner) view.findViewById(R.id.MainMenuspinner);
+
+        List<String> listStatus = new ArrayList<String>(Arrays.asList(new String[]{"All", "Daily task", "I created tasks"}));//TODO: change to use the current status as first element or at least use listStatus from strings file
+
+        ArrayAdapter<String> dataAdapterStatus = new ArrayAdapter<>(((Activity)view.getContext()),
+                android.R.layout.simple_spinner_item, listStatus);
+        dataAdapterStatus.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        MainMenuSpinner.setAdapter(dataAdapterStatus);
+        SpinnerMenuMake();
+
+//        try {
+//            AsyncGetTasksAndPrint(URLs.URL_FETCH_TASKS+"?id="+ MainActivity.user_id,"AddRecyclerView");
+//        } catch (Exception e) {            e.printStackTrace();        }
         return view;
     }
 
+
+    public void SpinnerMenuMake(){
+        MainMenuSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                            if(currentSpinnerSatus.matches(holder.spinnerStatus.getSelectedItem().toString()))
+//                                return;
+                try {
+                    String newStatus = MainMenuSpinner.getSelectedItem().toString();
+//                                Log.d(TAG, "onItemClick: klikna spinnera");
+                    try {
+                        switch (newStatus){
+                            case "Daily task": AsyncGetTasksAndPrint(URLs.URL_FETCH_TASKS+"?id="+ MainActivity.user_id+"&key=0","AddRecyclerView");
+//                            case "All": AsyncGetTasksAndPrint(URLs.URL_FETCH_TASKS+"?id="+ MainActivity.user_id+"&key=1","AddRecyclerView"); break;
+                            case "I created tasks": AsyncGetTasksAndPrint(URLs.URL_FETCH_TASKS+"?id="+ MainActivity.user_id+"&key=2","AddRecyclerView");break;
+                            default: AsyncGetTasksAndPrint(URLs.URL_FETCH_TASKS+"?id="+ MainActivity.user_id+"&key=1","AddRecyclerView"); break;
+
+                        }
+
+                    } catch (Exception e) {            e.printStackTrace();        }
+
+                } catch (Exception e) {                                e.printStackTrace();                            }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {                        }
+        });
+    }
 
     //
     //function AsyncGetNameOfReceiver uses Get url and write that to main fragment

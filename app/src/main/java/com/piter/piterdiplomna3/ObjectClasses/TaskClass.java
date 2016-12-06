@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import com.piter.piterdiplomna3.activities.ChatActivity;
 import com.piter.piterdiplomna3.activities.MainActivity;
-import com.piter.piterdiplomna3.helper.Helper;
+import com.piter.piterdiplomna3.helper.MyDateHelper;
 import com.piter.piterdiplomna3.helper.MyAlarmReceiver;
 
 import java.util.Calendar;
@@ -91,7 +91,7 @@ public class TaskClass {
         Calendar clNow = Calendar.getInstance();
 //        Log.d("TAG taskClass", "setAlarm: current time ="+clNow.getTime().toString());
 
-        Helper obj=new Helper();
+        MyDateHelper obj=new MyDateHelper();
         Calendar cl = obj.convertFromString(end_date);
         cl.add(Calendar.DAY_OF_YEAR,-1);
         Log.d("TAG taskClass", "--setAlarm: new time ="+cl.getTime().toString());

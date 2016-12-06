@@ -23,7 +23,7 @@ import com.piter.piterdiplomna3.ObjectClasses.TaskClass;
 import com.piter.piterdiplomna3.R;
 import com.piter.piterdiplomna3.activities.MainActivity;
 import com.piter.piterdiplomna3.helper.Constants;
-import com.piter.piterdiplomna3.helper.Helper;
+import com.piter.piterdiplomna3.helper.MyDateHelper;
 import com.piter.piterdiplomna3.helper.SharedPreferencesManage;
 import com.piter.piterdiplomna3.helper.URLs;
 
@@ -165,7 +165,7 @@ public class TaskAddFragment extends Fragment {// implements DatePickerFragment.
 
             public void onClick(View v) {
                 Calendar cl = Calendar.getInstance();
-                Helper halp = new Helper();
+                MyDateHelper halp = new MyDateHelper();
                 cl.setTimeInMillis(MainActivity.BeginDate);
                 Log.d(TAG, "onClick: BeginDate="+MainActivity.BeginDate+" whaaaaat????????????");
                 String date1 = "" + cl.get(Calendar.YEAR) + "-" +( cl.get(Calendar.MONTH) + 1 )+ "-" + cl.get(Calendar.DAY_OF_MONTH) + " " + cl.get(Calendar.HOUR_OF_DAY) + ":" + cl.get(Calendar.MINUTE) + ":" + cl.get(Calendar.SECOND);

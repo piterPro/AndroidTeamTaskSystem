@@ -15,11 +15,8 @@ import com.google.gson.reflect.TypeToken;
 import com.piter.piterdiplomna3.ObjectClasses.CommentClass;
 import com.piter.piterdiplomna3.ObjectClasses.UserClass;
 import com.piter.piterdiplomna3.R;
-import com.piter.piterdiplomna3.activities.MainActivity;
-import com.piter.piterdiplomna3.fragments.CommentsFragment;
-import com.piter.piterdiplomna3.helper.Helper;
+import com.piter.piterdiplomna3.helper.MyDateHelper;
 import com.piter.piterdiplomna3.helper.SharedPreferencesManage;
-import com.piter.piterdiplomna3.helper.URLs;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -87,7 +84,7 @@ public class CommentAdapter extends ArrayAdapter<CommentClass>{
 //            Log.d(TAG, "getStringValue: izlezna ot try bloka getUserDetails");
 
         }
-        Helper halp = new Helper();
+        MyDateHelper halp = new MyDateHelper();
         final String formatedTime=halp.returnCorrectFormatDate(halp.convertFromString(holder.getCreate_date_time()));
 
         ((Activity) getContext()).runOnUiThread(new Runnable() {//yess it works! (thunder)

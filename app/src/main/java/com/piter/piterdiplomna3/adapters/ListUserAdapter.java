@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.piter.piterdiplomna3.ObjectClasses.UserClass;
 import com.piter.piterdiplomna3.R;
-import com.piter.piterdiplomna3.helper.Helper;
+import com.piter.piterdiplomna3.helper.MyDateHelper;
 import com.piter.piterdiplomna3.helper.SharedPreferencesManage;
 import com.piter.piterdiplomna3.helper.URLs;
 
@@ -143,7 +143,7 @@ public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.myView
                 response.body().close();
                 Log.d(TAG, "onResponse: responseString time="+responseString);
 
-                Helper halp=new Helper();
+                MyDateHelper halp=new MyDateHelper();
 
                 if(responseString!=null && responseString.length()>2)
                     lastMsgTime = halp.returnCorrectFormatDate(halp.convertFromString(responseString));

@@ -181,7 +181,8 @@ public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myVi
         holder.descriptionTV.setText(selectedTasks.getDescription());
         holder.statusTV.setText(selectedTasks.getStatus());
 
-        //TODO: set alarm here for the selected task
+        //TODO: check if alarm needs to be set and set alarm here for the selected task
+//        SharedPreferencesManage.getInstance().getToken()
         Log.d(TAG, "onBindViewHolder: zadade se alarma");
         selectedTasks.setAlarm();
 
