@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -47,6 +48,7 @@ public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myVi
 
     public static class myViewHolder extends RecyclerView.ViewHolder {
         CardView task_card_view;
+        View myView;
         public TextView titleTV;
         public TextView statusTV;
         public TextView descriptionTV;
@@ -54,19 +56,24 @@ public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myVi
         public Button mSendBtn;
         public CommentsFragment mfragment;
         public Spinner spinnerStatus;
+        public TextView beginDateTV;
+        public TextView endDateTV;
+        public ImageButton editBtn;
 
         public myViewHolder(View itemView) {
 
             super(itemView);
             task_card_view = (CardView) itemView.findViewById(R.id.task_card_view);
-            titleTV= (TextView) itemView.findViewById(R.id.titleTV);
-            statusTV= (TextView) itemView.findViewById(R.id.statusTV);
-            descriptionTV= (TextView) itemView.findViewById(R.id.descriptionTV);
-            descriptionHintTV= (TextView) itemView.findViewById(R.id.DescriptionHintTV);
+            titleTV = (TextView) itemView.findViewById(R.id.titleTV);
+            statusTV = (TextView) itemView.findViewById(R.id.statusTV);
+            descriptionTV = (TextView) itemView.findViewById(R.id.descriptionTV);
+            descriptionHintTV = (TextView) itemView.findViewById(R.id.DescriptionHintTV);
             mSendBtn = (Button) itemView.findViewById(R.id.commentBtn);
+            beginDateTV = (TextView) itemView.findViewById(R.id.BeginDateTV);
+            endDateTV = (TextView) itemView.findViewById(R.id.EndDateTV);
+            editBtn = (ImageButton) itemView.findViewById(R.id.EditTaskBtn);
             spinnerStatus = (Spinner) itemView.findViewById(R.id.statusChangeSpinner);
             List<String> listStatus = new ArrayList<String>(Arrays.asList(new String[]{"Pending", "Done"}));//TODO: change to use the current status as first element or at least use listStatus from strings file
-
             ArrayAdapter<String> dataAdapterStatus = new ArrayAdapter<>(((Activity)itemView.getContext()),
                     android.R.layout.simple_spinner_item, listStatus);
             dataAdapterStatus.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -77,9 +84,9 @@ public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myVi
                 public void onClick(View v) {
 //                    Log.d("TAG mainTaskAdapter", "onClick: q klikna me ");
                     if(spinnerStatus.getVisibility()==View.GONE) {
+//                        statusTV.setVisibility(View.GONE);
                         spinnerStatus.setVisibility(View.VISIBLE);
                         task_card_view.performClick();
-//                        titleTV.performClick();
                     }else
                         spinnerStatus.setVisibility(View.GONE);
                 }
@@ -113,6 +120,9 @@ public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myVi
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         final TaskClass selectedTasks = taskList.get(position);
+        final String currentSpinnerSatus = holder.spinnerStatus.getSelectedItem().toString();
+//        Log.d(TAG, "onClick: final currentSpinnerSatus"+currentSpinnerSatus);
+
         holder.itemView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -124,15 +134,19 @@ public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myVi
 
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                            if(currentSpinnerSatus.matches(holder.spinnerStatus.getSelectedItem().toString()))
+//                            if(currentSpinnerSatus.matches(holder.statusTV.getText().toString())) {
+//                                Log.d(TAG, "onItemSelected: ne pra6ta zaqvka za6toto nqma promeni");
 //                                return;
+//                            }
                         try {
+                            holder.statusTV.setVisibility(View.VISIBLE);
                             String newStatus = holder.spinnerStatus.getSelectedItem().toString();
 //                                Log.d(TAG, "onItemClick: klikna spinnera");
                             Log.d(TAG, "onItemClick: URL=" + URLs.URL_UPDATE_STATUS + "?id=" + selectedTasks.getId() + "&status=" + newStatus+"&time=");
                             AsyncUpdateStatus(URLs.URL_UPDATE_STATUS + "?id=" + selectedTasks.getId() + "&status=" + newStatus, context);
                             selectedTasks.setStatus(newStatus);
                             holder.statusTV.setText(newStatus);
+//                            holder.spinnerStatus.setVisibility(View.GONE);
 
                         } catch (Exception e) {                                e.printStackTrace();                            }
                     }
@@ -145,7 +159,10 @@ public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myVi
                 if (holder.descriptionTV.getVisibility() == View.GONE) {
                     holder.descriptionTV.setVisibility(View.VISIBLE);
                     holder.descriptionHintTV.setVisibility(View.VISIBLE);
-
+                    holder.beginDateTV.setVisibility(View.VISIBLE);
+                    holder.endDateTV.setVisibility(View.VISIBLE);
+                    holder.editBtn.setVisibility(View.VISIBLE);
+                    
                     holder.mfragment = CommentsFragment.newInstance(""+selectedTasks.getId(),"0");
 //                    Log.d(TAG, "holder.itemView.onClick: holder.getItemId()="+selectedTasks.getId());
 //                    final String currentSpinnerSatus = holder.spinnerStatus.getSelectedItem().toString();
@@ -166,6 +183,10 @@ public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myVi
                 } else {
                     holder.descriptionTV.setVisibility(View.GONE);
                     holder.descriptionHintTV.setVisibility(View.GONE);
+                    holder.beginDateTV.setVisibility(View.GONE);
+                    holder.endDateTV.setVisibility(View.GONE);
+                    holder.editBtn.setVisibility(View.GONE);
+                    
                     item.removeAllViews();
                     MainActivity.fragment
                             .getChildFragmentManager()
@@ -176,15 +197,22 @@ public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myVi
                 
             }
         });
-//        holder.mIdTV.setText(selectedTasks.getId()+"");
+        holder.editBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick editBtn: ");
+            }
+        });
         holder.titleTV.setText(selectedTasks.getTitle());
         holder.descriptionTV.setText(selectedTasks.getDescription());
         holder.statusTV.setText(selectedTasks.getStatus());
+        holder.beginDateTV.setText(selectedTasks.getBegin_date());
+        holder.endDateTV.setText(selectedTasks.getEnd_date());
 
         //TODO: check if alarm needs to be set and set alarm here for the selected task
 //        SharedPreferencesManage.getInstance().getToken()
-        Log.d(TAG, "onBindViewHolder: zadade se alarma");
-        selectedTasks.setAlarm();
+//        Log.d(TAG, "onBindViewHolder: zadade se alarma");
+//        selectedTasks.setAlarm();//
 
 //
     }

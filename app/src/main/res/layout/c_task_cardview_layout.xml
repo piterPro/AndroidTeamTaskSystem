@@ -35,13 +35,30 @@
             android:layout_width="340dp"
             android:layout_alignParentTop="true"
             android:layout_toStartOf="@+id/statusTV"
-            android:paddingStart="30dp" />
+            android:paddingStart="35dp" />
+
+        <TextView
+            android:text="End Date"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/BeginDateTV"
+            android:layout_below="@+id/descriptionTV"
+            android:id="@+id/EndDateTV"
+            android:visibility="gone" />
+
+        <TextView
+            android:text="Begin Date"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/descriptionTV"
+            android:id="@+id/BeginDateTV"
+            android:layout_width="150dp"
+            android:visibility="gone" />
 
         <Spinner
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/statusTV"
-            android:layout_alignParentRight="true"
+            android:layout_toLeftOf="@+id/statusTV"
             android:id="@+id/statusChangeSpinner"
             android:visibility="gone" />
 
@@ -68,6 +85,16 @@
             android:visibility="gone"
 
             android:layout_alignParentLeft="true"/>
+
+        <ImageButton
+            android:layout_height="50dp"
+            card_view:srcCompat="@android:drawable/ic_menu_edit"
+            android:id="@+id/EditTaskBtn"
+            android:layout_below="@+id/statusTV"
+            android:layout_alignParentEnd="true"
+            android:layout_width="50dp"
+            android:layout_marginRight="10dp"
+            android:visibility="gone" />
 
     </RelativeLayout>
 

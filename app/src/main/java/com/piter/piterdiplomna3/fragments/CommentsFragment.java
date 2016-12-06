@@ -149,7 +149,7 @@ public class CommentsFragment extends Fragment {
                 String responseString;
                 responseString = response.body().string();
                 response.body().close();
-                Log.d(TAG, "onResponse: getComments"+responseString);
+                Log.d(TAG, "onResponse: getComments="+responseString);
 
                 Type listType = new TypeToken<List<CommentClass>>() {
                 }.getType();
