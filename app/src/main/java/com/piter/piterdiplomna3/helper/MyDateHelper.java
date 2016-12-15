@@ -48,6 +48,19 @@ public class MyDateHelper {
         retutnString=cl.get(Calendar.YEAR)+"-"+(cl.get(Calendar.MONTH)+1)+"-"+cl.get(Calendar.DAY_OF_MONTH)+" "+cl.get(Calendar.HOUR_OF_DAY)+":"+cl.get(Calendar.MINUTE)+":"+cl.get(Calendar.SECOND);
         return retutnString;
     }
+    //convert milisecs to real date
+    public String getDateFromCalendar(Calendar cl) {
+        String retutnString=null;
+        retutnString=cl.get(Calendar.YEAR)+"-"+(cl.get(Calendar.MONTH)+1)+"-"+cl.get(Calendar.DAY_OF_MONTH);//+" "+cl.get(Calendar.HOUR_OF_DAY)+":"+cl.get(Calendar.MINUTE)+":"+cl.get(Calendar.SECOND
+        return retutnString;
+    }
+
+    //convert milisecs to real date
+    public String getTimeFromCalendar(Calendar cl) {
+        String retutnString=null;
+        retutnString=cl.get(Calendar.HOUR_OF_DAY)+":"+cl.get(Calendar.MINUTE)+":"+cl.get(Calendar.SECOND);
+        return retutnString;
+    }
     //TODO: compared to today return string Date with correct format
     //hour if today, day name if this week else full date to REAL date
     public String returnCorrectFormatDate(Calendar cl){

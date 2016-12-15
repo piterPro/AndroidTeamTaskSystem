@@ -76,6 +76,17 @@ public class TaskClass {
         this.user_made_by_id = Integer.parseInt(user_made_by_id);
         this.user_made_for_id = user_made_for_id;
     }
+    public TaskClass(int id,String title, String description, String status, String begin_date, String end_date, String user_made_by_id, String user_made_for_id, String team) {
+        this.id = id;
+        this.begin_date = begin_date;
+        this.description = description;
+        this.end_date = end_date;
+        this.status = status;
+        this.title = title;
+        this.team = team;
+        this.user_made_by_id = Integer.parseInt(user_made_by_id);
+        this.user_made_for_id = user_made_for_id;
+    }
 
     public void setAlarm() {
 //        AlarmManager alarmManager = (AlarmManager) context
@@ -196,6 +207,14 @@ public class TaskClass {
 
     public void setUser_made_for_id(String user_made_for_id) {
         this.user_made_for_id = user_made_for_id;
+    }
+
+    public String getTeam() {
+        return team;
+    }
+
+    public void setTeam(String team) {
+        this.team = team;
     }
 }
 

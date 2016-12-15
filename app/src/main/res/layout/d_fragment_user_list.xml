@@ -4,13 +4,12 @@
     android:layout_height="match_parent"
     tools:context="com.piter.piterdiplomna3.fragments.UserListFragment">
 
-    <!-- TODO: Update blank mainFragment layout -->
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/userListLV"
-        android:layout_above="@+id/doneAddinUserBtn"/>
+        android:layout_above="@+id/doneAddinUserBtn" />
 
     <Button
         android:text="@string/userListDoneBtn"

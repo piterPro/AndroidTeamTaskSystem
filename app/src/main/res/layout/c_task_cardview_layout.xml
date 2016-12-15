@@ -67,14 +67,14 @@
             android:id="@+id/descriptionTV"
             android:text="Description"
             android:layout_below="@+id/titleTV"
-            android:layout_alignParentEnd="true"
+            android:layout_toLeftOf="@+id/EditTaskBtn"
             android:paddingStart="50dp"
             android:visibility="gone"
-            android:layout_width="270dp" />
+            android:inputType="textMultiLine"
+            android:layout_width="220dp" />
 
         <TextView
             android:text="Description:"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toStartOf="@+id/descriptionTV"
             android:layout_below="@+id/titleTV"
@@ -84,7 +84,8 @@
             android:textColor="@color/common_google_signin_btn_text_light_focused"
             android:visibility="gone"
 
-            android:layout_alignParentLeft="true"/>
+            android:layout_alignParentLeft="true"
+            android:layout_width="20dp" />
 
         <ImageButton
             android:layout_height="50dp"

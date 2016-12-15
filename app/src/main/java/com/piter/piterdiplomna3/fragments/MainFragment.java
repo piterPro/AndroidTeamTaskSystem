@@ -99,7 +99,6 @@ public class MainFragment extends Fragment{
 
                 } catch (Exception e) {                                e.printStackTrace();                            }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {                        }
         });
@@ -112,6 +111,7 @@ public class MainFragment extends Fragment{
         Request request = new Request.Builder()
                 .url(url)
                 .build();
+        Log.d(TAG, "AsyncGetTasksAndPrint: URL="+url);
         SharedPreferencesManage.client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -206,9 +206,9 @@ public class MainFragment extends Fragment{
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new MainTasksAdapter(getContext(), yourList, mainFragment);
+        mAdapter = new MainTasksAdapter(getContext(), yourList, mainFragment,getFragmentManager());
         mRecyclerView.setAdapter(mAdapter);
-
         Log.d("TAG", "AddRecyclerView: adapter added!");
     }
+
 }

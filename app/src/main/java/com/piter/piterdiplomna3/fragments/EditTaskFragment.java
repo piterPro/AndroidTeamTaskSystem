@@ -1,13 +1,12 @@
 package com.piter.piterdiplomna3.fragments;
 
-
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +22,7 @@ import com.google.gson.Gson;
 import com.piter.piterdiplomna3.ObjectClasses.TaskClass;
 import com.piter.piterdiplomna3.R;
 import com.piter.piterdiplomna3.activities.MainActivity;
+import com.piter.piterdiplomna3.adapters.MainTasksAdapter;
 import com.piter.piterdiplomna3.helper.Constants;
 import com.piter.piterdiplomna3.helper.MyDateHelper;
 import com.piter.piterdiplomna3.helper.SharedPreferencesManage;
@@ -40,51 +40,77 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-
 /**
- * A simple {@link Fragment} subclass.
+ * Created by Piter on 07/12/2016.
  */
-public class TaskAddFragment extends Fragment {// implements DatePickerFragment.OnDataPass{
+
+public class EditTaskFragment extends DialogFragment{
     private Spinner SpinnerStatus;
     private EditText title_of_task;
     private EditText description_of_task;
     private Button AddBtn;
     private Button BeginDateBtn;
+    private boolean BeginDateBtnFlag=false;
     private Button EndDateBtn;
+    private boolean EndDateBtnFlag=false;
     private Button selectUserBtn;
-    Dialog addEditDialog;
-    final String TAG = "TAG TaskAddFragment";
+    private boolean selectUserBtnFlag=false;
+    final String TAG = "TAG EditTaskFragment";
     public static String jsonData="";
+//    private String task_id;
+//    private String title;
+    static private int positionOfList;
+//    private static final String param1 = "param1";
+//    private static final String param2 = "param2";
+//    private static final String param3 = "param3";
+    public static TaskClass taskToEdit;
     private TextView BeginDateDateTV,BeginDateTimeTV,EndDateDateTV,EndDateTimeTV;
 
     //Broadcast receiver to receive broadcasts
     private BroadcastReceiver mRegistrationBroadcastReceiver;
-//    final String urlAddTask = MainActivity.urlIP + "/com.piter.jersey.first/api/v2/manage/updateTask";
 
-//    public static final MediaType JSON
-//            = MediaType.parse("application/json; charset=utf-8");
-
-
-    public TaskAddFragment() {
-        // Required empty public constructor
+    View view;
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        return super.onCreateDialog(savedInstanceState);
     }
 
+    public static EditTaskFragment newInstance(TaskClass task,int position) {
+        EditTaskFragment fragment = new EditTaskFragment();
+        Bundle args = new Bundle();
+//        args.putString(param1, task_id1);
+//        args.putString(param2, title2);
+//        args.putString(param3, descr3);
+        positionOfList=position;
+        EditTaskFragment.taskToEdit=task;
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+//            task_id = getArguments().getString(param1);
+//            title = getArguments().getString(param2);
+//            descr = getArguments().getString(param3);
+        }
+    }
+    public EditTaskFragment() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.e_fragment_add_task, container, false);
-        //
+        view = inflater.inflate(R.layout.e_fragment_add_task, container, false);
         addSpinnerItems(view);
         addListenerOnButtons(view);
         InisializeTimeTV(view);
-        //
-//        if (MainActivity.WhichDate == 1 || MainActivity.WhichDate == 2) {
-//            long l = Long.parseLong(getArguments().getString("message"));
-//            onDataPassNew(l);
-//        }
-        //Creating broadcast receiver
+        try {
+//            AsyncGetAndPrint(URLs.URL_FETCH_USERS,"");
+        } catch (Exception e) {            e.printStackTrace();        }
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -101,16 +127,6 @@ public class TaskAddFragment extends Fragment {// implements DatePickerFragment.
         };
         return view;
     }
-
-    public void AddBeginDate(long time) {
-        MainActivity.BeginDate = time;
-    }
-
-    public void AddEndDate(long time) {
-        MainActivity.EndDate = time;
-    }
-
-    // add items into spinner dynamically
     public void addSpinnerItems(View view) {
         SpinnerStatus = (Spinner) view.findViewById(R.id.statusSpnr);
         List<String> listStatus = new ArrayList<String>(Arrays.asList(new String[]{"Pending", "Done"}));//to be change to use listStatus from strings file
@@ -131,6 +147,7 @@ public class TaskAddFragment extends Fragment {// implements DatePickerFragment.
         Button btnCheck = (Button) view.findViewById(R.id.viewBtn);
         BeginDateBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                BeginDateBtnFlag=true;
                 DialogFragment newFragment = new DatePickerFragment();
                 MainActivity.WhichDate = 1;//to know witch date are we setting begin or end date
                 newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
@@ -140,6 +157,7 @@ public class TaskAddFragment extends Fragment {// implements DatePickerFragment.
 
         EndDateBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                EndDateBtnFlag=true;
                 DialogFragment newFragment = new DatePickerFragment();
                 MainActivity.WhichDate = 2;
                 newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
@@ -149,17 +167,20 @@ public class TaskAddFragment extends Fragment {// implements DatePickerFragment.
         selectUserBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                selectUserBtnFlag=true;
                 UserListFragment fragment = UserListFragment.newInstance("TaskAddFragment", "");
                 fragment.show(getFragmentManager(),"user_list_task");
             }
         });
         title_of_task = (EditText) view.findViewById(R.id.titleET);
+        title_of_task.setText(taskToEdit.getTitle().toString());
         description_of_task = (EditText) view.findViewById(R.id.decsriptionET);
+        description_of_task.setText(taskToEdit.getDescription().toString());
         AddBtn.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        addTask();
+                        updateTask();
                     }
                 }
         );
@@ -195,10 +216,10 @@ public class TaskAddFragment extends Fragment {// implements DatePickerFragment.
         EndDateTimeTV=(TextView) view.findViewById(R.id.EndDateTimeTv);
         MyDateHelper halp= new MyDateHelper();
 
-        Calendar calendar = halp.convertFromString(halp.convertFromMilisec(MainActivity.BeginDate));
+        Calendar calendar = halp.convertFromString(taskToEdit.getBegin_date());
         BeginDateDateTV.setText(halp.getDateFromCalendar(calendar));
         BeginDateTimeTV.setText(halp.getTimeFromCalendar(calendar));
-        calendar = halp.convertFromString(halp.convertFromMilisec(+MainActivity.EndDate));
+        calendar = halp.convertFromString(taskToEdit.getEnd_date());
         EndDateDateTV.setText(halp.getDateFromCalendar(calendar));
         EndDateTimeTV.setText(halp.getTimeFromCalendar(calendar));
 
@@ -208,7 +229,7 @@ public class TaskAddFragment extends Fragment {// implements DatePickerFragment.
         jsonData = j;
 
     }
-    public void addTask() {
+    public void updateTask() {
 //        View focusView = null;
 //        if (!TextUtils.isEmpty(title_of_task.getText())) {
 //            title_of_task.setError(getString(R.string.error_title_not_found));
@@ -220,30 +241,57 @@ public class TaskAddFragment extends Fragment {// implements DatePickerFragment.
         String date1 = "" + cl.get(Calendar.YEAR) + "-" + (cl.get(Calendar.MONTH) +1)+ "-" + cl.get(Calendar.DAY_OF_MONTH) + " " + "00:00:00";//cl.get(Calendar.HOUR_OF_DAY)"-"+cl.get(Calendar.MINUTE)+"-"+cl.get(Calendar.SECOND);
         cl.setTimeInMillis(MainActivity.EndDate);
         String date2 = "" + cl.get(Calendar.YEAR) + "-" + (cl.get(Calendar.MONTH) +1)+ "-" + cl.get(Calendar.DAY_OF_MONTH) + " " + "23:59:59";//cl.get(Calendar.HOUR_OF_DAY)+"-"+cl.get(Calendar.MINUTE)+"-"+cl.get(Calendar.SECOND);
-        TaskClass newTask;
-        if(!jsonData.isEmpty()) {
-            //here to call new insert into db and pass the list_id or send the hole data like string
-            newTask = new TaskClass(title_of_task.getText().toString(), description_of_task.getText().toString(), SpinnerStatus.getSelectedItem().toString(), date1, date2, SharedPreferencesManage.getInstance().getUserId() + "", jsonData, "true");//
-            Log.d(TAG, "updateTask: This task was added to a lot of ppl");
+        //change the current task with needed modification
+        if(!title_of_task.getText().toString().equals(taskToEdit.getTitle())) {
+            Log.d(TAG, "updateTask: title_of_task is dirty");
+            taskToEdit.setTitle(title_of_task.getText().toString());
         }
-        else {
-            newTask = new TaskClass(title_of_task.getText().toString(), description_of_task.getText().toString(), SpinnerStatus.getSelectedItem().toString(), date1, date2, SharedPreferencesManage.getInstance().getUserId() + "", SharedPreferencesManage.getInstance().getUserId() + "", "false");//
-            Toast.makeText(getActivity(), "This task was added to yourself", Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "updateTask: This task was added to yourself");
+        if(!description_of_task.getText().toString().equals(taskToEdit.getDescription())) {
+            Log.d(TAG, "updateTask: description_of_task is dirty");
+            taskToEdit.setDescription(description_of_task.getText().toString());
         }
+
+        if(selectUserBtnFlag){
+            Log.d(TAG, "updateTask: butona za list userite is dirty");
+            if(!jsonData.isEmpty()) {
+
+                Log.d(TAG, "updateTask to a lot of ppl json="+jsonData);
+//            taskToEdit.setUser_made_for_id(jsonData);
+            }
+            selectUserBtnFlag=false;
+        }
+        if(BeginDateBtnFlag){
+            Log.d(TAG, "updateTask: BeginDateBtnFlag is dirty");
+//            MyDateHelper dateHelp = new MyDateHelper();
+            taskToEdit.setBegin_date(date1);//dateHelp.convertFromMilisec(MainActivity.BeginDate));
+            BeginDateBtnFlag=false;
+        }
+        if(EndDateBtnFlag){
+            Log.d(TAG, "updateTask: EndDateBtnFlag is dirty");
+//            MyDateHelper dateHelp = new MyDateHelper();
+            taskToEdit.setEnd_date(date2);//dateHelp.convertFromMilisec(MainActivity.EndDate));
+            EndDateBtnFlag=false;
+        }
+
+//        TaskClass newTask;
+
+//        else {
+//            newTask = new TaskClass(Integer.parseInt(task_id),title_of_task.getText().toString(), description_of_task.getText().toString(), SpinnerStatus.getSelectedItem().toString(), date1, date2, SharedPreferencesManage.getInstance().getUserId() + "", SharedPreferencesManage.getInstance().getUserId() + "", "false");//
+//            Toast.makeText(getActivity(), "Task updated", Toast.LENGTH_SHORT).show();
+//            Log.d(TAG, "updateTask to yourself");
+//        }
 
 
         Gson gson = new Gson();
-        Log.d(TAG, "updateTask: Beginign of Gson parcing error right after");
-        String json = gson.toJson(newTask);
+//        Log.d(TAG, "updateTask: Beginning of Gson parcing error right after");
+        String json = gson.toJson(taskToEdit);//newTask
         Log.d(TAG, "updateTask:json "+json);
 //        final OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
-                .url(URLs.URL_ADD_TASK)
+                .url(URLs.URL_UPDATE_TASK)
                 .post(RequestBody.create(Constants.JSON, json))
                 .build();
-        Log.d(TAG, "addTask: URL="+URLs.URL_ADD_TASK);
 
         // Get a handler that can be used to post to the main thread
         SharedPreferencesManage.client.newCall(request).enqueue(new Callback() {
@@ -265,17 +313,25 @@ public class TaskAddFragment extends Fragment {// implements DatePickerFragment.
                 if (!response.isSuccessful()) {
                     throw new IOException("Unexpected code " + response);
                 }
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.w(TAG, "row added" );
-                        Toast.makeText(getContext(), "Task added", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                });
+//                getDialog().cancel();
+//                getActivity().runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+                Log.w(TAG, "Task updated" );
+                MainTasksAdapter.flagToWait=false;
+//                        getDialog().cancel();
+//                        Toast.makeText(getContext(), "Task updated", Toast.LENGTH_SHORT).show();
+//                        return;
+//                    }
+//                });
             }
         });
-        title_of_task.setText("");
-        description_of_task.setText("");
+//        title_of_task.setText("");
+//        description_of_task.setText("");
+//        Intent sendIntent = new Intent(MainFragment.class);
+//        sendIntent.
+
+//        getParentFragment().getTargetFragment().no
+        getDialog().cancel();
     }
 }

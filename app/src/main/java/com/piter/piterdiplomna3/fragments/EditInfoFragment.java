@@ -56,6 +56,7 @@ import okhttp3.Response;
  * to handle interaction events.
  * Use the {@link EditInfoFragment#newInstance} factory method to
  * create an instance of this fragment.
+ * Change position and Company from a suggested list
  */
 public class EditInfoFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

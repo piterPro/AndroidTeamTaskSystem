@@ -103,4 +103,41 @@
         android:layout_alignTop="@+id/beginDateBtn"
         android:layout_alignStart="@+id/viewBtn"
         android:id="@+id/userSelectBtn" />
+
+    <TextView
+        android:text="Data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/beginDateBtn"
+        android:layout_toLeftOf="@+id/beginDateBtn"
+        android:id="@+id/BeginDateDateTV"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:text="Time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/BeginDateTimeTV"
+        android:layout_below="@+id/BeginDateDateTV"
+        android:layout_toLeftOf="@+id/beginDateBtn"/>
+
+
+
+    <TextView
+        android:text="Data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/EndDateDateTv"
+        android:layout_alignTop="@+id/endBtn"
+        android:layout_toLeftOf="@+id/endBtn"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:text="Time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/BeginDateTimeTV"
+        android:id="@+id/EndDateTimeTv"
+        android:layout_below="@+id/EndDateDateTv"
+        android:layout_toLeftOf="@+id/endBtn"/>
 </RelativeLayout>

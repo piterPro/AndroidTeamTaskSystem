@@ -19,7 +19,9 @@ import android.widget.Toast;
 
 import com.amigold.fundapter.BindDictionary;
 import com.amigold.fundapter.FunDapter;
+import com.amigold.fundapter.extractors.BooleanExtractor;
 import com.amigold.fundapter.extractors.StringExtractor;
+import com.amigold.fundapter.fields.CheckableField;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.piter.piterdiplomna3.ObjectClasses.UserClass;
@@ -106,7 +108,7 @@ public class UserListFragment extends DialogFragment implements CompoundButton.O
         view = inflater.inflate(R.layout.d_fragment_user_list, container, false);
         Initialize(view);
         try {
-            AsyncGetAndPrint(URLs.URL_FETCH_USERS,"");
+            AsyncGetAndPrint(URLs.URL_FETCH_USERS+"?id=all","");
         } catch (Exception e) {            e.printStackTrace();        }
         return view;
     }
@@ -175,6 +177,7 @@ public class UserListFragment extends DialogFragment implements CompoundButton.O
         Request request = new Request.Builder()
                 .url(url)
                 .build();
+        Log.d(TAG, "AsyncGetAndPrint: URL="+url);
         SharedPreferencesManage.client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -187,6 +190,7 @@ public class UserListFragment extends DialogFragment implements CompoundButton.O
                 String responseString;
                 responseString = response.body().string();
                 response.body().close();
+                Log.d(TAG, "onResponse: responseString="+responseString);
                     Type listType = new TypeToken<List<UserClass>>() {
                     }.getType();
                     yourList = new Gson().fromJson(responseString, listType);
@@ -221,12 +225,16 @@ public class UserListFragment extends DialogFragment implements CompoundButton.O
             public String getStringValue(UserClass item, int position) { return "" + item.getFname()+" "+item.getLname();            }
         });
 
-        dictionary.addStringField(R.id.userCB,new StringExtractor<UserClass>(){
+        dictionary.addCheckableField(R.id.userCB,new BooleanExtractor < UserClass > (){
             @Override
-            public String getStringValue(UserClass item, int position) {
-                return item.getId()+"";
-            }
+            public boolean getBooleanValue(UserClass item, int position){ return item.isChecked();  }
         });
+        //.addStringField(R.id.userCB,new StringExtractor<UserClass>(){
+//            @Override
+//            public String getStringValue(UserClass item, int position) {
+//                return item.isChecked()+"";
+//            }
+//        });
 
 
         adapter = new FunDapter(UserListFragment.this.getActivity(), yourList,R.layout.e_user_entry_layout ,dictionary);

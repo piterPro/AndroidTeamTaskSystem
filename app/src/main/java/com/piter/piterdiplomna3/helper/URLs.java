@@ -24,6 +24,7 @@ public class URLs {
     public static final String URL_FETCH_COMMENTS = ROOT_URL + "comments";
     public static final String URL_SEND_COMMENT = ROOT_URL + "addComment";
     public static final String URL_UPDATE_STATUS = ROOT_URL + "updateStatus";
+    public static final String URL_UPDATE_TASK = ROOT_URL + "updateTask";
 
     public static final String URL_FETCH_MESSAGES = ROOT_URL + "messages";
     public static final String URL_FETCH_LASTMESSAGE = ROOT_URL + "lastmsg";

@@ -3,6 +3,8 @@ package com.piter.piterdiplomna3.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -22,6 +24,7 @@ import com.piter.piterdiplomna3.ObjectClasses.TaskClass;
 import com.piter.piterdiplomna3.R;
 import com.piter.piterdiplomna3.activities.MainActivity;
 import com.piter.piterdiplomna3.fragments.CommentsFragment;
+import com.piter.piterdiplomna3.fragments.EditTaskFragment;
 import com.piter.piterdiplomna3.fragments.MainFragment;
 import com.piter.piterdiplomna3.helper.SharedPreferencesManage;
 import com.piter.piterdiplomna3.helper.URLs;
@@ -39,7 +42,9 @@ import okhttp3.Response;
 public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myViewHolder> implements CommentsFragment.OnFragmentInteractionListener {
     private Context context;
     private ArrayList<TaskClass> taskList;
+    FragmentManager fragmentManager;
     String TAG="TAG MainTasksAdapter";
+    public static Boolean flagToWait=true;
 
     @Override
     public void onFragmentInteraction(Uri uri) {
@@ -92,13 +97,16 @@ public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myVi
                 }
             });
 //            }
+
         }
+
     }
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MainTasksAdapter(Context cont, ArrayList<TaskClass> myDataset, MainFragment fragment) {
+    public MainTasksAdapter(Context cont, ArrayList<TaskClass> myDataset, MainFragment fragment, FragmentManager fragmentManagar) {
         context = cont;
         taskList = myDataset;
         MainActivity.fragment = fragment;
+        fragmentManager = fragmentManagar;
     }
 
     // Create new views (invoked by the layout manager)
@@ -116,7 +124,7 @@ public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myVi
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(final myViewHolder holder, int position) {
+    public void onBindViewHolder(final myViewHolder holder,final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         final TaskClass selectedTasks = taskList.get(position);
@@ -131,6 +139,10 @@ public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myVi
                 View child = View.inflate(context, R.layout.cc_fragment_comments_list, null);
 //                View child = View.inflate(context, R.layout.g_suggest, null);
                 holder.spinnerStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//                    if(MainTasksAdapter.flagToWait=="true"){
+//                        Log.d(TAG, "onClick: fragment visible");
+//                    }
+                    //                        }//fucking wait for the change
 
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -138,6 +150,8 @@ public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myVi
 //                                Log.d(TAG, "onItemSelected: ne pra6ta zaqvka za6toto nqma promeni");
 //                                return;
 //                            }
+
+//                        notifyDataSetChanged();
                         try {
                             holder.statusTV.setVisibility(View.VISIBLE);
                             String newStatus = holder.spinnerStatus.getSelectedItem().toString();
@@ -168,7 +182,6 @@ public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myVi
 //                    final String currentSpinnerSatus = holder.spinnerStatus.getSelectedItem().toString();
 
                     if(holder.mfragment.ready=="false"){
-                        //whait!
                         Toast.makeText(context, "Loading...", Toast.LENGTH_SHORT).show();
                     }
 
@@ -186,23 +199,28 @@ public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myVi
                     holder.beginDateTV.setVisibility(View.GONE);
                     holder.endDateTV.setVisibility(View.GONE);
                     holder.editBtn.setVisibility(View.GONE);
-                    
-                    item.removeAllViews();
+
+//                    if(MainActivity.fragment.id)
                     MainActivity.fragment
                             .getChildFragmentManager()
                             .beginTransaction()
                             .remove(holder.mfragment)
                             .commit();
+                    item.removeAllViews();
                 }
-                
+                holder.editBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.d("TAG", "onClick editBtn: ");
+                        DialogFragment fragment = new EditTaskFragment().newInstance(selectedTasks,position);
+                        fragment.show(fragmentManager, "EditTask");
+                        notifyDataSetChanged();
+                        Log.d(TAG, "onClick: notifyItemChanged position="+position);
+                    }
+                });
             }
         });
-        holder.editBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "onClick editBtn: ");
-            }
-        });
+
         holder.titleTV.setText(selectedTasks.getTitle());
         holder.descriptionTV.setText(selectedTasks.getDescription());
         holder.statusTV.setText(selectedTasks.getStatus());
@@ -242,7 +260,6 @@ public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myVi
                     }
                 });
                 e.printStackTrace();
-                return;
             }
 
             @Override
@@ -255,10 +272,10 @@ public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myVi
                     public void run() {
                         Log.w(TAG, "status Changed" );
                         Toast.makeText(context, "status Changed", Toast.LENGTH_SHORT).show();
-                        return;
                     }
                 });
             }
         });
     }
+
 }
