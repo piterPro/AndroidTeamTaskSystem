@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.piter.piterdiplomna3">
+    package="com.piter.piterdiplomna">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.GET_TASKS" />
 
     <permission
-        android:name="com.piter.piterdiplomna3.permission.C2D_MESSAGE"
+        android:name="com.piter.piterdiplomna.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
     <uses-permission android:name="com.piter.piterdiplomna3.permission.C2D_MESSAGE" />
@@ -21,15 +21,16 @@
     <!-- <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/><uses-permission android:name=".permission.C2D_MESSAGE" /> -->
     <!-- <uses-permission android:name="com.google.android.c2dm.permission.SEND" /> -->
     <application
-        android:name=".helper.SharedPreferencesManage"
+        android:name="com.piter.piterdiplomna.helper.SharedPreferencesManage"
+
+        tools:replace="android:icon,android:theme,android:label"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        tools:replace="android:icon">
+        android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.MainActivity"
+            android:name="com.piter.piterdiplomna.activities.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -38,17 +39,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.LoginActivity" />
-        <activity android:name=".activities.ChatActivity" />
-        <activity android:name=".MyPreferencesActivity" />
+        <activity android:name="com.piter.piterdiplomna.activities.LoginActivity" />
+        <activity android:name="com.piter.piterdiplomna.activities.ChatActivity" />
+        <activity android:name="com.piter.piterdiplomna.MyPreferencesActivity" />
+
         <!-- for alarms -->
         <receiver
-            android:name=".helper.MyAlarmReceiver"
+            android:name="com.piter.piterdiplomna.helper.MyAlarmReceiver"
             android:enabled="true"
             android:exported="false"></receiver>
 
         <service
-            android:name=".helper.MyNewIntentService"
+            android:name="com.piter.piterdiplomna.helper.MyNewIntentService"
             android:exported="false"></service>
 
         <!-- GCM from here on -->
@@ -67,7 +69,7 @@
 
         <!-- GCM Receiver Service -->
         <service
-            android:name=".gcm.GCMPushReceiverService"
+            android:name="com.piter.piterdiplomna.gcm.GCMPushReceiverService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
@@ -76,7 +78,7 @@
 
         <!-- GCM Registration Intent Service -->
         <service
-            android:name=".gcm.GCMRegistrationIntentService"
+            android:name="com.piter.piterdiplomna.gcm.GCMRegistrationIntentService"
             android:exported="false">
             <intent-filter android:priority="10000">
                 <action android:name="com.google.android.gms.iid.InstanceID" />
@@ -84,8 +86,11 @@
         </service>
 
         <activity
-            android:name=".activities.SettingsActivity"
+            android:name="com.piter.piterdiplomna.activities.SettingsActivity"
             android:label="@string/title_activity_settings"></activity>
+        <provider
+            android:name="com.tyczj.extendedcalendarview.CalendarProvider"
+            android:authorities="com.tyczj.extendedcalendarview.calendarprovider" />
     </application>
 
 </manifest>

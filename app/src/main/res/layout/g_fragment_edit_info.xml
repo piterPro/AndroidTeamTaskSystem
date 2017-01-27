@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.piter.piterdiplomna3.fragments.EditInfoFragment">
+    tools:context="com.piter.piterdiplomna.fragments.EditInfoFragment">
 
 
     <ScrollView
@@ -29,12 +29,12 @@
                 android:id="@+id/joinCompanyET"
                 android:hint="Enter Company" />
 
-            <com.piter.piterdiplomna3.helper.MyListView
+            <com.piter.piterdiplomna.helper.MyListView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/suggestCompanyLV">
 
-            </com.piter.piterdiplomna3.helper.MyListView>
+            </com.piter.piterdiplomna.helper.MyListView>
 
             <TextView
                 android:text="Current position:"
@@ -50,12 +50,12 @@
                 android:id="@+id/joinPositionET"
                 android:hint="Enter position" />
 
-            <com.piter.piterdiplomna3.helper.MyListView
+            <com.piter.piterdiplomna.helper.MyListView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/suggestPositionLV">
 
-            </com.piter.piterdiplomna3.helper.MyListView>
+            </com.piter.piterdiplomna.helper.MyListView>
 
         </LinearLayout>
     </ScrollView>

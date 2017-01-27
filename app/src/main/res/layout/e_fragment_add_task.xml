@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.piter.piterdiplomna3.fragments.TaskAddFragment">
+    tools:context="com.piter.piterdiplomna.fragments.TaskAddFragment">
 
     <TextView
         android:text="@string/name"
@@ -64,7 +64,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/viewBtn"
         android:elevation="0dp"
-        android:layout_marginStart="45dp"
+        android:layout_marginStart="35dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="13dp" />
 
@@ -102,7 +102,8 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/beginDateBtn"
         android:layout_alignStart="@+id/viewBtn"
-        android:id="@+id/userSelectBtn" />
+        android:id="@+id/userSelectBtnOld"
+        android:visibility="gone" />
 
     <TextView
         android:text="Data"
@@ -140,4 +141,16 @@
         android:id="@+id/EndDateTimeTv"
         android:layout_below="@+id/EndDateDateTv"
         android:layout_toLeftOf="@+id/endBtn"/>
+
+    <ImageButton
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:src="@drawable/add_users_icon"
+        android:layout_alignTop="@+id/beginDateBtn"
+        android:layout_alignStart="@+id/viewBtn"
+        android:id="@+id/userSelectBtn"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:scaleType="centerInside"
+        android:paddingLeft="10dp"
+        android:paddingRight="5dp" />
 </RelativeLayout>

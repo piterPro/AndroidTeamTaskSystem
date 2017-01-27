@@ -1,0 +1,269 @@
+package com.piter.piterdiplomna.fragments;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
+import java.lang.reflect.Type;
+import com.google.gson.reflect.TypeToken;
+import com.piter.piterdiplomna.ObjectClasses.*;
+import com.piter.piterdiplomna.R;
+import com.piter.piterdiplomna.activities.MainActivity;
+import com.piter.piterdiplomna.adapters.MainTasksAdapter;
+import com.piter.piterdiplomna.helper.SharedPreferencesManage;
+import com.piter.piterdiplomna.helper.URLs;
+//import com.tyczj.extendedcalendarview.CalendarProvider;
+//import com.tyczj.extendedcalendarview.Event;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import okhttp3.*;
+
+
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class MainFragment extends Fragment{
+    String TAG="TAG MainFragment";
+    View view;
+    ArrayList<TaskClass> yourList;
+//    ArrayList<UserClass> UserClass;
+//    ArrayList<ChatMessageClass> ChatList = new ArrayList();
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+    public static MainFragment mainFragment;
+    private Spinner MainMenuSpinner;
+
+    public MainFragment() {
+        // Required empty public constructor
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        view = inflater.inflate(R.layout.c_fragment_main, container, false);
+        MainMenuSpinner = (Spinner) view.findViewById(R.id.MainMenuspinner);
+
+        List<String> listStatus = new ArrayList<String>(Arrays.asList(new String[]{"All", "Daily task", "I created tasks"}));//TODO: change to use the current status as first element or at least use listStatus from strings file
+
+        ArrayAdapter<String> dataAdapterStatus = new ArrayAdapter<>(((Activity)view.getContext()),
+                android.R.layout.simple_spinner_item, listStatus);
+        dataAdapterStatus.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        MainMenuSpinner.setAdapter(dataAdapterStatus);
+        SpinnerMenuMake();
+
+//        try {
+//            AsyncGetTasksAndPrint(URLs.URL_FETCH_TASKS+"?id="+ MainActivity.user_id,"AddRecyclerView");
+//        } catch (Exception e) {            e.printStackTrace();        }
+        return view;
+    }
+
+
+    public void SpinnerMenuMake(){
+        MainMenuSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                            if(currentSpinnerSatus.matches(holder.spinnerStatus.getSelectedItem().toString()))
+//                                return;
+                try {
+                    String newStatus = MainMenuSpinner.getSelectedItem().toString();
+//                                Log.d(TAG, "onItemClick: klikna spinnera");
+                    try {
+                        switch (newStatus){
+                            case "Daily task": AsyncGetTasksAndPrint(URLs.URL_FETCH_TASKS+"?id="+ MainActivity.user_id+"&key=0","AddRecyclerView");
+//                            case "All": AsyncGetTasksAndPrint(URLs.URL_FETCH_TASKS+"?id="+ MainActivity.user_id+"&key=1","AddRecyclerView"); break;
+                            case "I created tasks": AsyncGetTasksAndPrint(URLs.URL_FETCH_TASKS+"?id="+ MainActivity.user_id+"&key=2","AddRecyclerView");break;
+                            default: AsyncGetTasksAndPrint(URLs.URL_FETCH_TASKS+"?id="+ MainActivity.user_id+"&key=1","AddRecyclerView"); break;
+
+                        }
+
+                    } catch (Exception e) {            e.printStackTrace();        }
+
+                } catch (Exception e) {                                e.printStackTrace();                            }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {                        }
+        });
+    }
+
+    //
+    //function AsyncGetNameOfReceiver uses Get url and write that to main fragment
+    //
+    public void AsyncGetTasksAndPrint(final String url, final String S) throws Exception{
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        Log.d(TAG, "AsyncGetTasksAndPrint: URL="+url);
+        SharedPreferencesManage.client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i("TAG", "onFailure:async task  ");
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.w(TAG, "run: Can't connect to server" );
+                        Toast.makeText(getContext(), "Can't connect to server", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String responseString;
+                responseString = response.body().string();
+
+                Log.d(TAG, "onResponse:FETCH_TASKS= "+responseString);
+                response.body().close();
+                    Type listType = new TypeToken<List<TaskClass>>() {
+                    }.getType();
+                    try {
+                        yourList = new Gson().fromJson(responseString, listType);
+                        if(url.contains("&key=1")){
+                            //redownload all the db and save it to local temp db
+//                            yourList
+//                            CalendarProvider asdasd = new CalendarProvider();
+//                            asdasd.deleteDB();
+
+//                            getContext().deleteDatabase("Calendar");
+//                            CalendarProvider tozi = new CalendarProvider();
+//                            tozi.onCreate();
+                            Log.d(TAG, "initializeCalendar: dali se napravi DB?");
+//                            getContext().getContentResolver().notifyChange(CalendarProvider.CONTENT_URI,null);
+//                            Log.d(TAG, "onResponse: Vlezna v calendara i iztri bazata");
+//                            for(int i=0;i<yourList.size();i++) {
+//                                TaskClass temp = yourList.get(i);
+//                                ContentValues values = new ContentValues();
+//                                values.put(CalendarProvider.COLOR, Event.COLOR_RED);
+//                                values.put(CalendarProvider.DESCRIPTION, temp.getDescription());
+//                                values.put(CalendarProvider.begin_date, temp.getBegin_date());
+//                                values.put(CalendarProvider.end_date, temp.getEnd_date());
+//                                values.put(CalendarProvider.STATUS, temp.getStatus());
+//                                values.put(CalendarProvider.TITLE, temp.getTitle());
+//                                values.put(CalendarProvider.user_made_by_id, temp.getUser_made_by_id());
+//                                values.put(CalendarProvider.user_made_for_id, temp.getUser_made_for_id());
+//                                values.put(CalendarProvider.EVENT, "Test Event");
+////
+//                                Calendar cal = Calendar.getInstance();
+//                                TimeZone tz = TimeZone.getDefault();
+//
+//                                //Day julianStartDay = new Day(getActivity(), 25, 2014, 04);
+////                                MyDateHelper halp = new MyDateHelper();
+////                                String begin_date = temp.getBegin_date();
+////                                cal=SharedPreferencesManage.getInstance().convertFromString(begin_date);
+////                                cal.set(2017, 00, 25, 13, 0);
+//                                Log.d(TAG, "initializeCalendar:is it correct? day1" + cal.getTime().toString());
+//                                int julianDay = Time.getJulianDay(cal.getTimeInMillis(), TimeUnit.MILLISECONDS.toSeconds(tz.getOffset(cal.getTimeInMillis())));
+//                                Log.d(TAG, "initializeCalendar: julianDay=" + julianDay);
+//
+//                                values.put(CalendarProvider.START, cal.getTimeInMillis());
+//                                values.put(CalendarProvider.START_DAY, julianDay);
+//
+//
+//                                String end_date = temp.getBegin_date();
+//                                cal=SharedPreferencesManage.getInstance().convertFromString(end_date);
+////                                cal.set(2017, 00, 29, 13, 0);
+//                                Log.d(TAG, "initializeCalendar: day2" + cal.getTime().toString());
+//                                int endDayJulian = Time.getJulianDay(cal.getTimeInMillis(), TimeUnit.MILLISECONDS.toSeconds(tz.getOffset(cal.getTimeInMillis())));
+//
+//                                values.put(CalendarProvider.END, cal.getTimeInMillis());
+//                                values.put(CalendarProvider.END_DAY, endDayJulian);//CalendarProvider.CONTENT_URI
+////                                CalendarProvider.CONTENT_URI.
+////                                getActivity().getContentResolver().update(CalendarProvider.CONTENT_URI,)
+////                                Uri uri = getActivity().getContentResolver().insert(CalendarProvider.CONTENT_URI, values);
+//                            }
+                        }
+
+                    }catch(Exception e) {
+                        if (responseString.contains("!DOCTYPE html")) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Log.w(TAG, "run: Error from the server" );
+                                    Toast.makeText(getContext(), "Error from the server", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            return;
+                        }else{Log.d(TAG, "onResponse: ne sudurja DOCTYPE");}
+                    }
+                    //za da se izpulni vinagi ot glavnata ni6ka
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                AddRecyclerView(yourList, yourList.size());
+                            } catch (IOException e) {
+                                Log.i(TAG, "run: yourList se precaka");
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+            }
+        });
+    }
+
+    //
+    //function AddRecyclerView
+    //
+    public void AddRecyclerView(final ArrayList<TaskClass> yourList, int m) throws IOException {
+        //recycler view
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
+//        mRecyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+//            @Override
+//            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+//                if(rv.getChildCount() > 0) {
+//                    View childView = rv.findChildViewUnder(e.getX(), e.getY());
+//                    if(rv.getChildPosition(childView) == [listview position]) {
+//                        int action = e.getAction();
+//                        switch (action) {
+//                            case MotionEvent.ACTION_DOWN:
+//                                rv.requestDisallowInterceptTouchEvent(true);
+//                        }
+//                    }
+//                }
+//                return false;
+//            }
+
+//            @Override
+//            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+//
+//            }
+//
+//            @Override
+//            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+//
+//            }
+//        });
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        // specify an adapter (see also next example)
+        mAdapter = new MainTasksAdapter(getContext(), yourList, mainFragment,getFragmentManager());
+        mRecyclerView.setAdapter(mAdapter);
+        Log.d("TAG", "AddRecyclerView: adapter added!");
+    }
+
+}
