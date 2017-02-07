@@ -129,7 +129,8 @@ public class MainActivity extends AppCompatActivity
 //                    Log.d(TAG, "onReceive:collapse_key "+collapse_key);
                     NotificationHandler notificationHandler = new NotificationHandler(getApplicationContext());
                     Intent intent2 = new Intent(getApplicationContext(), ChatActivity.class);
-                    intent2.putExtra("id", intent.getStringExtra("user_send_id"));
+                    Log.d(TAG, "onReceive: new Intent");
+                    intent2.putExtra("id", user_send_id);
                     notificationHandler.showNotificationMessage(title, message, intent2);
                 }
             }

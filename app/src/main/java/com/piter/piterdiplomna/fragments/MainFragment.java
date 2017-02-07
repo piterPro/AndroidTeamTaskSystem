@@ -1,10 +1,13 @@
 package com.piter.piterdiplomna.fragments;
 
 import android.app.Activity;
+import android.content.ContentValues;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,13 +26,18 @@ import com.piter.piterdiplomna.activities.MainActivity;
 import com.piter.piterdiplomna.adapters.MainTasksAdapter;
 import com.piter.piterdiplomna.helper.SharedPreferencesManage;
 import com.piter.piterdiplomna.helper.URLs;
+import com.tyczj.extendedcalendarview.CalendarProvider;
+import com.tyczj.extendedcalendarview.Event;
 //import com.tyczj.extendedcalendarview.CalendarProvider;
 //import com.tyczj.extendedcalendarview.Event;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.*;
 
@@ -139,57 +147,73 @@ public class MainFragment extends Fragment{
                         yourList = new Gson().fromJson(responseString, listType);
                         if(url.contains("&key=1")){
                             //redownload all the db and save it to local temp db
-//                            yourList
 //                            CalendarProvider asdasd = new CalendarProvider();
 //                            asdasd.deleteDB();
+                            // OR this wich one actually delete the DB
 
-//                            getContext().deleteDatabase("Calendar");
-//                            CalendarProvider tozi = new CalendarProvider();
-//                            tozi.onCreate();
-                            Log.d(TAG, "initializeCalendar: dali se napravi DB?");
+//                            CalendarProvider tozi = new CalendarProvider();//CalendarProvider.CONTENT_URI
+//                            if(getContext().databaseList().length>0) {
+//                                Log.d(TAG, "onResponse: getContext().databaseList().length="+getContext().databaseList().length+" databaselist="+getContext().databaseList()[0].toString());
+//                                getContext().deleteDatabase("Calendar");//TRIE KAKTO TRQBVA
+//                                Log.d(TAG, "onResponse: iztri bazata");
+//                                tozi.db.execSQL("DELETE FROM events WHERE _id>0;");
+//                                  OR
+
+                            
+//                                getActivity().getContentResolver().delete(CalendarProvider.CONTENT_URI, CalendarProvider.ID+">0",null);
+//                                Log.d(TAG, "onResponse: dropnaha li se vsi4ki?");
+//                                
+// 
+// 
+//                                  tozi.update(CalendarProvider.CONTENT_URI,)
+//                            }
+//                            Log.d(TAG, "initializeCalendar: dali se napravi DB?");
 //                            getContext().getContentResolver().notifyChange(CalendarProvider.CONTENT_URI,null);
 //                            Log.d(TAG, "onResponse: Vlezna v calendara i iztri bazata");
-//                            for(int i=0;i<yourList.size();i++) {
-//                                TaskClass temp = yourList.get(i);
-//                                ContentValues values = new ContentValues();
-//                                values.put(CalendarProvider.COLOR, Event.COLOR_RED);
-//                                values.put(CalendarProvider.DESCRIPTION, temp.getDescription());
-//                                values.put(CalendarProvider.begin_date, temp.getBegin_date());
-//                                values.put(CalendarProvider.end_date, temp.getEnd_date());
-//                                values.put(CalendarProvider.STATUS, temp.getStatus());
-//                                values.put(CalendarProvider.TITLE, temp.getTitle());
-//                                values.put(CalendarProvider.user_made_by_id, temp.getUser_made_by_id());
-//                                values.put(CalendarProvider.user_made_for_id, temp.getUser_made_for_id());
-//                                values.put(CalendarProvider.EVENT, "Test Event");
-////
-//                                Calendar cal = Calendar.getInstance();
-//                                TimeZone tz = TimeZone.getDefault();
+                            int sizeOfList = yourList.size();
+                            Log.d(TAG, "onResponse: sizeOfList="+sizeOfList);
+                            for(int i=0;i<sizeOfList;i++) {
+                                TaskClass temp = yourList.get(i);
+                                ContentValues values = new ContentValues();
+                                values.put(CalendarProvider.COLOR, Event.COLOR_RED);
+                                values.put(CalendarProvider.DESCRIPTION, temp.getDescription());
+                                values.put(CalendarProvider.begin_date, temp.getBegin_date());
+                                values.put(CalendarProvider.end_date, temp.getEnd_date());
+                                values.put(CalendarProvider.STATUS, temp.getStatus());
+                                values.put(CalendarProvider.TITLE, temp.getTitle());
+                                values.put(CalendarProvider.user_made_by_id, temp.getUser_made_by_id());
+                                values.put(CalendarProvider.user_made_for_id, temp.getUser_made_for_id());
+                                values.put(CalendarProvider.EVENT, "Test Event №"+i);
 //
-//                                //Day julianStartDay = new Day(getActivity(), 25, 2014, 04);
-////                                MyDateHelper halp = new MyDateHelper();
-////                                String begin_date = temp.getBegin_date();
-////                                cal=SharedPreferencesManage.getInstance().convertFromString(begin_date);
-////                                cal.set(2017, 00, 25, 13, 0);
-//                                Log.d(TAG, "initializeCalendar:is it correct? day1" + cal.getTime().toString());
-//                                int julianDay = Time.getJulianDay(cal.getTimeInMillis(), TimeUnit.MILLISECONDS.toSeconds(tz.getOffset(cal.getTimeInMillis())));
-//                                Log.d(TAG, "initializeCalendar: julianDay=" + julianDay);
-//
-//                                values.put(CalendarProvider.START, cal.getTimeInMillis());
-//                                values.put(CalendarProvider.START_DAY, julianDay);
-//
-//
-//                                String end_date = temp.getBegin_date();
-//                                cal=SharedPreferencesManage.getInstance().convertFromString(end_date);
-////                                cal.set(2017, 00, 29, 13, 0);
-//                                Log.d(TAG, "initializeCalendar: day2" + cal.getTime().toString());
-//                                int endDayJulian = Time.getJulianDay(cal.getTimeInMillis(), TimeUnit.MILLISECONDS.toSeconds(tz.getOffset(cal.getTimeInMillis())));
-//
-//                                values.put(CalendarProvider.END, cal.getTimeInMillis());
-//                                values.put(CalendarProvider.END_DAY, endDayJulian);//CalendarProvider.CONTENT_URI
-////                                CalendarProvider.CONTENT_URI.
-////                                getActivity().getContentResolver().update(CalendarProvider.CONTENT_URI,)
-////                                Uri uri = getActivity().getContentResolver().insert(CalendarProvider.CONTENT_URI, values);
-//                            }
+                                Calendar cal = Calendar.getInstance();
+                                TimeZone tz = TimeZone.getDefault();
+
+                                //Day julianStartDay = new Day(getActivity(), 25, 2014, 04);
+//                                MyDateHelper halp = new MyDateHelper();
+                                String begin_date = temp.getBegin_date();
+                                cal=SharedPreferencesManage.getInstance().convertFromString(begin_date);
+//                                cal.set(2017, 00, 25, 13, 0);
+                                Log.d(TAG, "initializeCalendar:is it correct? day1" + cal.getTime().toString());
+                                int julianDay = Time.getJulianDay(cal.getTimeInMillis(), TimeUnit.MILLISECONDS.toSeconds(tz.getOffset(cal.getTimeInMillis())));
+                                Log.d(TAG, "initializeCalendar: julianDay=" + julianDay);
+
+                                values.put(CalendarProvider.START, cal.getTimeInMillis());
+                                values.put(CalendarProvider.START_DAY, julianDay);
+
+
+                                String end_date = temp.getBegin_date();
+                                cal=SharedPreferencesManage.getInstance().convertFromString(end_date);
+//                                cal.set(2017, 00, 29, 13, 0);
+                                Log.d(TAG, "initializeCalendar: day2" + cal.getTime().toString());
+                                int endDayJulian = Time.getJulianDay(cal.getTimeInMillis(), TimeUnit.MILLISECONDS.toSeconds(tz.getOffset(cal.getTimeInMillis())));
+
+                                values.put(CalendarProvider.END, cal.getTimeInMillis());
+                                values.put(CalendarProvider.END_DAY, endDayJulian);//CalendarProvider.CONTENT_URI
+//                                CalendarProvider.CONTENT_URI.
+//                                getActivity().getContentResolver().update(CalendarProvider.CONTENT_URI,)
+//                                Uri uri =
+                                getActivity().getContentResolver().insert(CalendarProvider.CONTENT_URI, values);//(ArrayList<ContentValues>)(ArrayList<TaskClass>) yourList
+                            }
                         }
 
                     }catch(Exception e) {
@@ -202,7 +226,7 @@ public class MainFragment extends Fragment{
                                 }
                             });
                             return;
-                        }else{Log.d(TAG, "onResponse: ne sudurja DOCTYPE");}
+                        }else{Log.d(TAG, "onResponse: ne sudurja DOCTYPE ama ima gre6ka");}
                     }
                     //za da se izpulni vinagi ot glavnata ni6ka
                     getActivity().runOnUiThread(new Runnable() {

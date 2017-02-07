@@ -32,6 +32,7 @@ public class MyNewIntentService extends IntentService {
         builder.setContentText(intent.getStringExtra("description"));
         builder.setSmallIcon(R.drawable.common_google_signin_btn_icon_light);
         Intent notifyIntent = new Intent(this, MainActivity.class);
+        notifyIntent.putExtra("id",intent.getStringExtra("user_sent_id"));
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 //to be able to launch your activity from the notification
         builder.setContentIntent(pendingIntent);

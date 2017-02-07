@@ -47,11 +47,11 @@
         <receiver
             android:name="com.piter.piterdiplomna.helper.MyAlarmReceiver"
             android:enabled="true"
-            android:exported="false"></receiver>
-
+            android:exported="false"/>
+        <!--for managing notification and openning the corect activity-->
         <service
             android:name="com.piter.piterdiplomna.helper.MyNewIntentService"
-            android:exported="false"></service>
+            android:exported="false"/>
 
         <!-- GCM from here on -->
         <!-- GCM Receiver -->
@@ -87,7 +87,8 @@
 
         <activity
             android:name="com.piter.piterdiplomna.activities.SettingsActivity"
-            android:label="@string/title_activity_settings"></activity>
+            android:label="@string/title_activity_settings"/>
+        <!--for the ExtendedCalendarView and -->
         <provider
             android:name="com.tyczj.extendedcalendarview.CalendarProvider"
             android:authorities="com.tyczj.extendedcalendarview.calendarprovider" />
