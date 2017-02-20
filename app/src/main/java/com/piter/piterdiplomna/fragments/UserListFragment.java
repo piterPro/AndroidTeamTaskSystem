@@ -1,8 +1,10 @@
 package com.piter.piterdiplomna.fragments;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
@@ -10,11 +12,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.amigold.fundapter.BindDictionary;
@@ -25,6 +29,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.piter.piterdiplomna.ObjectClasses.UserClass;
 import com.piter.piterdiplomna.R;
+import com.piter.piterdiplomna.activities.MainActivity;
 import com.piter.piterdiplomna.helper.Constants;
 import com.piter.piterdiplomna.helper.SharedPreferencesManage;
 import com.piter.piterdiplomna.helper.URLs;
@@ -67,6 +72,20 @@ public class UserListFragment extends DialogFragment implements CompoundButton.O
     private String mParam1;
     private String mParam2;
 
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        RelativeLayout root = new RelativeLayout(getActivity());
+        root.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(root);
+//        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+//        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+        return dialog;
+//        return super.onCreateDialog(savedInstanceState);
+    }
     private OnFragmentInteractionListener mListener;
 
     public UserListFragment() {
@@ -107,7 +126,7 @@ public class UserListFragment extends DialogFragment implements CompoundButton.O
         view = inflater.inflate(R.layout.d_fragment_user_list, container, false);
         Initialize(view);
         try {
-            AsyncGetAndPrint(URLs.URL_FETCH_USERS+"?id=all","");
+            AsyncGetAndPrint(URLs.URL_FETCH_USERS+"?id=all?key="+MainActivity.user_id, MainActivity.user_id+"");
         } catch (Exception e) {            e.printStackTrace();        }
         return view;
     }
@@ -117,7 +136,6 @@ public class UserListFragment extends DialogFragment implements CompoundButton.O
         DoneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                StringBuilder result = new StringBuilder();//To be finished ;(
                 JSONArray result = new JSONArray();
                 for(int i=0;i<adapter.getCount();i++)
                 {

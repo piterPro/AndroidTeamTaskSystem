@@ -11,4 +11,5 @@
         android:id="@+id/logout_menu" />
     <item android:title="Edit Info"
         android:id="@+id/Edit_info" />
+    <item android:title="Remove set alarm" android:id="@+id/remove_set_alarm"/>
 </menu>

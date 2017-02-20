@@ -73,6 +73,7 @@ public class ChatUserListFragment extends Fragment {
     //
     public void AsyncGetAndPrint(String url) throws Exception {
 //        OkHttpClient client = new OkHttpClient();
+        Log.i("TAG chatUserList", ":url="+url);
         Request request = new Request.Builder()
                 .url(url)
                 .build();

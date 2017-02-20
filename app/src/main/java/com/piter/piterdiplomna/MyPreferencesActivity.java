@@ -16,7 +16,7 @@ import android.preference.PreferenceActivity;
 
 public class MyPreferencesActivity extends PreferenceActivity {
     String TAG = "TAG MyPreferencesActvty";
-
+//   Settings can be manipulated here
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

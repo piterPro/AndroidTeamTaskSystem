@@ -12,13 +12,12 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <ImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:id="@+id/profile_image"
-        android:src="@drawable/profile_picture"
-        android:paddingTop="16dp"/>
+        android:visibility="visible"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -35,6 +34,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/piter_diplomna_tuplovdiv_bg"
-        android:textSize="15sp" />
+        android:textSize="15sp" android:visibility="invisible"/>
 
 </LinearLayout>

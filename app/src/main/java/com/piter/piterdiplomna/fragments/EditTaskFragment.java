@@ -130,7 +130,6 @@ public class EditTaskFragment extends DialogFragment{
                     //Getting message data
                     jsonData = intent.getStringExtra("user_list");
                     Log.d(TAG, "onReceive: data from user task list = "+jsonData);
-
                 }
                 else{
                     Log.d(TAG, "onReceive: polu4i se call-a ama ne e ot tam jsonData= "+jsonData);
@@ -250,9 +249,9 @@ public class EditTaskFragment extends DialogFragment{
 //        }
         Calendar cl = Calendar.getInstance();
         cl.setTimeInMillis(MainActivity.BeginDate);
-        String date1 = "" + cl.get(Calendar.YEAR) + "-" + (cl.get(Calendar.MONTH) +1)+ "-" + cl.get(Calendar.DAY_OF_MONTH) + " " + "00:00:00";//cl.get(Calendar.HOUR_OF_DAY)"-"+cl.get(Calendar.MINUTE)+"-"+cl.get(Calendar.SECOND);
+        String date1 = "" + cl.get(Calendar.YEAR) + "-" + (cl.get(Calendar.MONTH) +1)+ "-" + cl.get(Calendar.DAY_OF_MONTH) + " " + cl.get(Calendar.HOUR_OF_DAY)+":"+cl.get(Calendar.MINUTE)+":"+cl.get(Calendar.SECOND);
         cl.setTimeInMillis(MainActivity.EndDate);
-        String date2 = "" + cl.get(Calendar.YEAR) + "-" + (cl.get(Calendar.MONTH) +1)+ "-" + cl.get(Calendar.DAY_OF_MONTH) + " " + "23:59:59";//cl.get(Calendar.HOUR_OF_DAY)+"-"+cl.get(Calendar.MINUTE)+"-"+cl.get(Calendar.SECOND);
+        String date2 = "" + cl.get(Calendar.YEAR) + "-" + (cl.get(Calendar.MONTH) +1)+ "-" + cl.get(Calendar.DAY_OF_MONTH) + " " + cl.get(Calendar.HOUR_OF_DAY)+":"+cl.get(Calendar.MINUTE)+":"+cl.get(Calendar.SECOND);
         //change the current task with needed modification
         if(!title_of_task.getText().toString().equals(taskToEdit.getTitle())) {
             Log.d(TAG, "updateTask: title_of_task is dirty");
@@ -268,7 +267,7 @@ public class EditTaskFragment extends DialogFragment{
             if(!jsonData.isEmpty()) {
 
                 Log.d(TAG, "updateTask to a lot of ppl json="+jsonData);
-//            taskToEdit.setUser_made_for_id(jsonData);
+            taskToEdit.setUser_made_for_id(jsonData);
             }
             selectUserBtnFlag=false;
         }

@@ -41,22 +41,15 @@ public class CalendarFragment extends Fragment {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.f_fragment_calendar, container, false);
         //copy function hope it works! no?container
-        Log.d(TAG, "onCreateView: shy 2 times bro?");
-        initializeCalendar(view);//no need for it
+//        initializeCalendar(view);//no need for it
         return view;
     }
 
     public void initializeCalendar(View view) {
         calendar = (ExtendedCalendarView) view.findViewById(R.id.calendar);
-//        getActivity().getContentResolver().onU
-//        ContentResolver musicResolver = getActivity().getContentResolver();
-//        getActivity().deleteDatabase("Calendar");
-//        Log.d(TAG, "initializeCalendar: iztri se bazata");
-//        calendar.getDate();
-//        calendar.
-        // Adding events
+
         ContentValues values = new ContentValues();
-        values.put(CalendarProvider.COLOR, Event.COLOR_RED);
+        values.put(CalendarProvider.COLOR, Event.COLOR_BLUE);
         values.put(CalendarProvider.DESCRIPTION, "Sample Description");
         values.put(CalendarProvider.LOCATION, "Sample Location");
         values.put(CalendarProvider.EVENT, "Test Event");
@@ -65,28 +58,26 @@ public class CalendarFragment extends Fragment {
         cal.setFirstDayOfWeek(Calendar.MONDAY);
         TimeZone tz = TimeZone.getDefault();
 
-        //Day julianStartDay = new Day(getActivity(), 25, 2014, 04);
         cal.set(2017, 01, 2, 13, 0);
-        Log.d(TAG, "initializeCalendar: day1"+cal.getTime().toString());
+//        Log.d(TAG, "initializeCalendar: day1"+cal.getTime().toString());
         int julianDay =    Time.getJulianDay(cal.getTimeInMillis(), TimeUnit.MILLISECONDS.toSeconds(tz.getOffset(cal.getTimeInMillis())));
-        Log.d(TAG, "initializeCalendar: julianDay="+julianDay);
+//        Log.d(TAG, "initializeCalendar: julianDay="+julianDay);
 
         values.put(CalendarProvider.START, cal.getTimeInMillis());
         values.put(CalendarProvider.START_DAY, julianDay);
 
         cal.set(2017, 01, 5, 13, 0);
-        Log.d(TAG, "initializeCalendar: day2"+cal.getTime().toString());
+//        Log.d(TAG, "initializeCalendar: day2"+cal.getTime().toString());
         int endDayJulian = Time.getJulianDay(cal.getTimeInMillis(), TimeUnit.MILLISECONDS.toSeconds(tz.getOffset(cal.getTimeInMillis())));
 
         Log.d(TAG, "initializeCalendar: julianDay="+julianDay+" endDayJulian="+endDayJulian);
         values.put(CalendarProvider.END, cal.getTimeInMillis());
         values.put(CalendarProvider.END_DAY, endDayJulian);
 
-//        String empty[];
 //        CalendarProvider tozi = new CalendarProvider();
 //        Log.d(TAG, "initializeCalendar: create new DB but is it here?");
 //        tozi.onCreate();
-//        Log.d(TAG, "initializeCalendar: inserting...");
+        Log.d(TAG, "initializeCalendar: inserting...");
         Uri uri = getActivity().getContentResolver().insert(CalendarProvider.CONTENT_URI,values);
         // sets whether to show the week number.
 //        Calendar c=Calendar.getInstance();

@@ -1,9 +1,12 @@
 package com.piter.piterdiplomna.activities;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -16,9 +19,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amulyakhare.textdrawable.TextDrawable;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.piter.piterdiplomna.MyPreferencesActivity;
@@ -31,11 +36,13 @@ import com.piter.piterdiplomna.fragments.MainFragment;
 import com.piter.piterdiplomna.R;
 import com.piter.piterdiplomna.gcm.GCMRegistrationIntentService;
 import com.piter.piterdiplomna.helper.Constants;
+import com.piter.piterdiplomna.helper.MyAlarmReceiver;
 import com.piter.piterdiplomna.helper.NotificationHandler;
 import com.piter.piterdiplomna.helper.SharedPreferencesManage;
 import com.piter.piterdiplomna.helper.URLs;
 
 import java.io.IOException;
+import java.util.Calendar;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -179,10 +186,15 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View v = navigationView.getHeaderView(0);
         final TextView drawerUserName = (TextView ) v.findViewById(R.id.drawerUserNameTV);
+        final TextDrawable drawable = TextDrawable.builder()
+                .buildRound(O.substring(0,1), Color.MAGENTA);
+
+        final ImageView image = (ImageView) v.findViewById(R.id.profile_image);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 drawerUserName.setText(O);
+                image.setImageDrawable(drawable);
                 Log.d(TAG, "run drawerUserDetails:O= "+O);
             }
         });
@@ -235,6 +247,23 @@ public class MainActivity extends AppCompatActivity
                     getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container,fragment);
             fragmentTransaction.commit();
+        }else
+        if (id == R.id.remove_set_alarm) {
+            Log.d(TAG, "onOptionsItemSelected: Should remove the set alarm");
+            Intent notifyIntent = new Intent(this, MyAlarmReceiver.class);
+
+            PendingIntent pendingIntent = PendingIntent.getBroadcast
+                    (getBaseContext(), 9562094, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//            AlarmManager alarmManager = (AlarmManager) getBaseContext().getSystemService(Context.ALARM_SERVICE);
+//            alarmManager.set(AlarmManager.RTC_WAKEUP, (System.currentTimeMillis() + 1000 * 5),
+//                    pendingIntent);
+//            Toast.makeText(this, "Alarm added ", Toast.LENGTH_SHORT).show();
+//            Log.d(TAG, "onNavigationItemSelected: time" + (System.currentTimeMillis()));
+//            if(alarmManager!=null){
+//                alarmManager.cancel(pendingIntent);
+                pendingIntent.cancel();
+                Log.d(TAG, "onNavigationItemSelected: Alarm canceled");
+//            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -260,19 +289,22 @@ public class MainActivity extends AppCompatActivity
             CalendarFragment fragment=new CalendarFragment();
             fragmentTransaction.replace(R.id.fragment_container,fragment);
         } else if (id == R.id.nav_manage) {
-//            Calendar cl = Calendar.getInstance();cl.getTimeInMillis()+50000
+//            Calendar cl = Calendar.getInstance();
+//            cl.getTimeInMillis()+50000
 //            Intent notifyIntent = new Intent(this, MyAlarmReceiver.class);
-//        PendingIntent pendingIntent = PendingIntent.getBroadcast
-//                (getBaseContext(), 9562090, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-//        AlarmManager alarmManager = (AlarmManager) getBaseContext().getSystemService(Context.ALARM_SERVICE);
-////            alarmManager.set();
-//        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,  (System.currentTimeMillis() + 1000*5),
-//                1000 * 30 , pendingIntent);
 //
-//        Toast.makeText(this, "Alarm added ", Toast.LENGTH_SHORT).show();
-//        Log.d(TAG, "onNavigationItemSelected: time"+(System.currentTimeMillis()));
-//        if(alarmManager!=null)
+//            PendingIntent pendingIntent = PendingIntent.getBroadcast
+//                    (getBaseContext(), 9562094, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//            AlarmManager alarmManager = (AlarmManager) getBaseContext().getSystemService(Context.ALARM_SERVICE);
+//            alarmManager.set(AlarmManager.RTC_WAKEUP, (System.currentTimeMillis() + 1000 * 5),
+//                     pendingIntent);
+//
+//            Toast.makeText(this, "Alarm added ", Toast.LENGTH_SHORT).show();
+//            Log.d(TAG, "onNavigationItemSelected: time" + (System.currentTimeMillis()));
+//        if(alarmManager!=null){
 //            alarmManager.cancel(pendingIntent);
+//            Log.d(TAG, "onNavigationItemSelected: alarm canceled");
+//        }
 
 //                intentArray.add(pi);
 

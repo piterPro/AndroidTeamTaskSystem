@@ -1,4 +1,5 @@
-<com.piter.piterdiplomna.MyRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.piter.piterdiplomna.helper.MyRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
                                           xmlns:tools="http://schemas.android.com/tools"
                                           android:layout_width="match_parent"
                                           android:id="@+id/comment_layout"
@@ -23,7 +24,7 @@
             android:layout_alignParentTop="true"
             android:textAlignment="center"
             android:textColorHighlight="@color/cardview_shadow_start_color"
-            android:background="@color/cardview_shadow_start_color" />
+            android:background="@color/common_google_signin_btn_text_dark_disabled" />
 
 
         <com.piter.piterdiplomna.helper.MyListView
@@ -62,4 +63,4 @@
     </RelativeLayout>
         <!--</RelativeLayout>-->
 
-</com.piter.piterdiplomna.MyRelativeLayout>
+</com.piter.piterdiplomna.helper.MyRelativeLayout>

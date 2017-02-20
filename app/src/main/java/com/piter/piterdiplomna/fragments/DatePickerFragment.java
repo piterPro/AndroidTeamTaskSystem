@@ -60,7 +60,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
             if(MainActivity.WhichDate==2){
                 MainActivity.EndDate = cl.getTimeInMillis();
                 cl.setTimeInMillis(MainActivity.EndDate);
-                String date2 = "" + cl.get(Calendar.DAY_OF_MONTH) + ":" + cl.get(Calendar.MONTH) + ":" + cl.get(Calendar.YEAR);
+                String date2 = "" + cl.get(Calendar.DAY_OF_MONTH) + ":" + (cl.get(Calendar.MONTH)+1) + ":" + cl.get(Calendar.YEAR);
                 Toast.makeText(getContext(),"added EndDate="+date2,Toast.LENGTH_LONG).show();
                 Log.d("TAG DatePicker", "onDateSet2: "+date2);
                 MainActivity.WhichDate = 0;

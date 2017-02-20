@@ -29,7 +29,9 @@ public class MyNewIntentService extends IntentService {
         Log.d(TAG, "onHandleIntent: polu4ih alarma");
         Notification.Builder builder = new Notification.Builder(this);
         builder.setContentTitle(intent.getStringExtra("title"));
+//        builder.setContentTitle("title");
         builder.setContentText(intent.getStringExtra("description"));
+//        builder.setContentText("description");
         builder.setSmallIcon(R.drawable.common_google_signin_btn_icon_light);
         Intent notifyIntent = new Intent(this, MainActivity.class);
         notifyIntent.putExtra("id",intent.getStringExtra("user_sent_id"));
@@ -37,6 +39,8 @@ public class MyNewIntentService extends IntentService {
 //to be able to launch your activity from the notification
         builder.setContentIntent(pendingIntent);
         Notification notificationCompat = builder.build();
+        //flag to cancel the notification when clicked
+        notificationCompat.flags = Notification.FLAG_AUTO_CANCEL;
         NotificationManagerCompat managerCompat = NotificationManagerCompat.from(this);
         managerCompat.notify(NOTIFICATION_ID, notificationCompat);
     }

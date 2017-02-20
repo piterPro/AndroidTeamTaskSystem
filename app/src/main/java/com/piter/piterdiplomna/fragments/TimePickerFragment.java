@@ -57,8 +57,10 @@ public class TimePickerFragment extends DialogFragment
             cl.clear(Calendar.HOUR_OF_DAY);
             cl.clear(Calendar.MINUTE);
             cl.clear(Calendar.SECOND);
+            cl.clear(Calendar.HOUR);//clear the hour too f calendar
             cl.add(Calendar.HOUR_OF_DAY,hourOfDay);
             cl.add(Calendar.MINUTE,minute);
+
             MainActivity.EndDate=cl.getTimeInMillis();
             Log.d("TAG", "onTimeSet: EndDate set="+cl.getTime());
         }
