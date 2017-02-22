@@ -126,7 +126,7 @@ public class UserListFragment extends DialogFragment implements CompoundButton.O
         view = inflater.inflate(R.layout.d_fragment_user_list, container, false);
         Initialize(view);
         try {
-            AsyncGetAndPrint(URLs.URL_FETCH_USERS+"?id=all?key="+MainActivity.user_id, MainActivity.user_id+"");
+            AsyncGetAndPrint(URLs.URL_FETCH_USERS+"?id=all&&key="+MainActivity.user_id, MainActivity.user_id+"");
         } catch (Exception e) {            e.printStackTrace();        }
         return view;
     }

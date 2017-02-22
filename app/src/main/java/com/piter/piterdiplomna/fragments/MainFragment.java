@@ -159,6 +159,7 @@ public class MainFragment extends Fragment{
                         yourList = new Gson().fromJson(responseString, listType);
                         if(url.contains("&key=1")){
                             AddNewDatabase();//
+//                            getContext().deleteDatabase("Calendar");//TRIE KAKTO TRQBVA
                             //redownload all the db and save it to local temp db
 //                            CalendarProvider asdasd = new CalendarProvider();
 //                            asdasd.deleteDB();

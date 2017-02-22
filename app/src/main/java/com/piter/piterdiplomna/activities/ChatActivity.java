@@ -148,7 +148,7 @@ public class ChatActivity extends AppCompatActivity {
 //                    Toast.makeText(getApplicationContext(), "Chatroom Ready...", Toast.LENGTH_SHORT).show();
 
                     //When we received a notification when the app is in foreground
-                } else if (intent.getAction().equals(Constants.PUSH_NOTIFICATION)) {
+                } else if (intent.getAction().equals(Constants.CHAT_NOTIFICATION)) {
                     //Getting message data
                     Log.d(TAG, "onReceive: push notification !!!");
 //                    intent.get
@@ -247,7 +247,7 @@ public class ChatActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
                 new IntentFilter(GCMRegistrationIntentService.REGISTRATION_TOKEN_SENT));
         LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
-                new IntentFilter(Constants.PUSH_NOTIFICATION));
+                new IntentFilter(Constants.CHAT_NOTIFICATION));
     }
 
 
@@ -394,7 +394,7 @@ public class ChatActivity extends AppCompatActivity {
                                 setTitle("Chat " + receiverUser.get(0).getFname() + " " + receiverUser.get(0).getLname());
 //                                            receiverNameTV.setText(receiverUser.get(0).getFname()+" "+receiverUser.get(0).getLname());
                             else
-                                Log.d(TAG, "onResponse: didnt get user edtails from server");
+                                Log.d(TAG, "onResponse: didn't get user details from server");
                         }
                     });
 

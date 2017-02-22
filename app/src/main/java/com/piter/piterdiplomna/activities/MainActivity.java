@@ -1,6 +1,5 @@
 package com.piter.piterdiplomna.activities;
 
-import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -42,7 +41,6 @@ import com.piter.piterdiplomna.helper.SharedPreferencesManage;
 import com.piter.piterdiplomna.helper.URLs;
 
 import java.io.IOException;
-import java.util.Calendar;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -122,7 +120,7 @@ public class MainActivity extends AppCompatActivity
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                if (intent.getAction().equals(Constants.PUSH_NOTIFICATION)) {
+                if (intent.getAction().equals(Constants.CHAT_NOTIFICATION)) {
                     //Getting message data
                     Log.d(TAG, "onReceive: push notification da se predade na Chat activity !!!");
                     String user_send_id = intent.getStringExtra("user_send_id");
@@ -140,6 +138,13 @@ public class MainActivity extends AppCompatActivity
                     intent2.putExtra("id", user_send_id);
                     notificationHandler.showNotificationMessage(title, message, intent2);
                 }
+                else
+                    if (intent.getAction().equals(Constants.TASK_NOTIFICATION)) {
+                        Log.d(TAG, "onReceive: i have received new task or task update");
+                    }else
+                    if (intent.getAction().equals(Constants.NOTIFICATION_REVOKE)) {
+                        Log.d(TAG, "onReceive: i have received new task or task update");
+                    }
             }
         };
     }//end of onCreate
@@ -250,10 +255,10 @@ public class MainActivity extends AppCompatActivity
         }else
         if (id == R.id.remove_set_alarm) {
             Log.d(TAG, "onOptionsItemSelected: Should remove the set alarm");
-            Intent notifyIntent = new Intent(this, MyAlarmReceiver.class);
+        //    Intent notifyIntent = new Intent(this, MyAlarmReceiver.class);
 
-            PendingIntent pendingIntent = PendingIntent.getBroadcast
-                    (getBaseContext(), 9562094, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        //    PendingIntent pendingIntent = PendingIntent.getBroadcast
+        //            (getBaseContext(), 9562094, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 //            AlarmManager alarmManager = (AlarmManager) getBaseContext().getSystemService(Context.ALARM_SERVICE);
 //            alarmManager.set(AlarmManager.RTC_WAKEUP, (System.currentTimeMillis() + 1000 * 5),
 //                    pendingIntent);
@@ -261,10 +266,14 @@ public class MainActivity extends AppCompatActivity
 //            Log.d(TAG, "onNavigationItemSelected: time" + (System.currentTimeMillis()));
 //            if(alarmManager!=null){
 //                alarmManager.cancel(pendingIntent);
-                pendingIntent.cancel();
+         //       pendingIntent.cancel();
                 Log.d(TAG, "onNavigationItemSelected: Alarm canceled");
 //            }
+        }else
+        if (id == R.id.statistic) {
+
         }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -340,7 +349,7 @@ public class MainActivity extends AppCompatActivity
         super.onResume();
         Log.d(TAG, "onResume");
         LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
-                new IntentFilter(Constants.PUSH_NOTIFICATION));
+                new IntentFilter(Constants.CHAT_NOTIFICATION));
     }
     @Override
     protected void onDestroy() {

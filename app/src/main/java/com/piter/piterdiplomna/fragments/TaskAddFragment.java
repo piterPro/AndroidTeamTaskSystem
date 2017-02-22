@@ -225,17 +225,16 @@ public class TaskAddFragment extends Fragment {// implements DatePickerFragment.
         if(!jsonData.isEmpty()) {
             //here to call new insert into db and pass the list_id or send the hole data like string
             newTask = new TaskClass(title_of_task.getText().toString(), description_of_task.getText().toString(), SpinnerStatus.getSelectedItem().toString(), date1, date2, SharedPreferencesManage.getInstance().getUserId() + "", jsonData, "true");//
-            Log.d(TAG, "updateTask: This task was added to a lot of ppl");
+            Log.d(TAG, "addTask: This task was added to a list of ppl");
         }
         else {
             newTask = new TaskClass(title_of_task.getText().toString(), description_of_task.getText().toString(), SpinnerStatus.getSelectedItem().toString(), date1, date2, SharedPreferencesManage.getInstance().getUserId() + "", SharedPreferencesManage.getInstance().getUserId() + "", "false");//
             Toast.makeText(getActivity(), "This task was added to yourself", Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "updateTask: This task was added to yourself");
+            Log.d(TAG, "addTask: This task was added to yourself");
         }
 
 
         Gson gson = new Gson();
-        Log.d(TAG, "updateTask: Beginign of Gson parcing error right after");
         String json = gson.toJson(newTask);
         Log.d(TAG, "updateTask:json "+json);
 //        final OkHttpClient client = new OkHttpClient();

@@ -267,8 +267,9 @@ public class EditTaskFragment extends DialogFragment{
             if(!jsonData.isEmpty()) {
 
                 Log.d(TAG, "updateTask to a lot of ppl json="+jsonData);
-            taskToEdit.setUser_made_for_id(jsonData);
-            }
+                taskToEdit.setUser_made_for_id(jsonData);
+            }else
+            taskToEdit.setTeam(null);
             selectUserBtnFlag=false;
         }
         if(BeginDateBtnFlag){
@@ -296,7 +297,7 @@ public class EditTaskFragment extends DialogFragment{
         Gson gson = new Gson();
 //        Log.d(TAG, "updateTask: Beginning of Gson parcing error right after");
         String json = gson.toJson(taskToEdit);//newTask
-        Log.d(TAG, "updateTask:json "+json);
+        Log.d(TAG, "updateTask:json ="+json);
 //        final OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()

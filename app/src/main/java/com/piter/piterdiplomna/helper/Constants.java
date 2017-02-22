@@ -15,7 +15,9 @@ public class Constants {
     public static final String USER_POSITION= "position";
     public static final String IS_LOGGED_IN= "is_logged_in";
 
-    public static final String PUSH_NOTIFICATION = "pushnotification";
+    public static final String CHAT_NOTIFICATION = "pushnotification";
+    public static final String TASK_NOTIFICATION = "tasknotification";
+    public static final String NOTIFICATION_REVOKE = "revokenotification";
     public static final String USER_TOKEN = "token";
     public static final int NOTIFICATION_ID = 235;//92748725348 maybe
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");

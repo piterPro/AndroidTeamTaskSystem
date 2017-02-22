@@ -515,6 +515,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     //
     public void logUserAndSetDetails(String url) throws Exception{
 //        OkHttpClient client = new OkHttpClient();
+        Log.d(TAG, "logUserAndSetDetails: url="+url);
         Request request = new Request.Builder()
                 .url(url)
                 .build();
