@@ -256,7 +256,7 @@ public class MainFragment extends Fragment{
     //
     public void AddNewDatabase(){
         getActivity().getContentResolver().delete(CalendarProvider.CONTENT_URI, CalendarProvider.ID+">0",null);
-        Log.d(TAG, "onResponse: dropnaha li se vsi4ki?");
+//        Log.d(TAG, "onResponse: dropnaha li se vsi4ki?");
 
         int sizeOfList = yourList.size();
         Log.d(TAG, "onResponse: sizeOfList="+sizeOfList);
@@ -264,7 +264,7 @@ public class MainFragment extends Fragment{
             TaskClass temp = yourList.get(i);
             ContentValues values = new ContentValues();
             values.put(CalendarProvider.COLOR, ColorFlag++);//Event.COLOR_RED);
-            if(ColorFlag==5)    ColorFlag=1;
+            if(ColorFlag>=5)    ColorFlag=1;
             values.put(CalendarProvider.ID, temp.getId());
             values.put(CalendarProvider.DESCRIPTION, temp.getDescription());
             values.put(CalendarProvider.begin_date, temp.getBegin_date());
@@ -296,51 +296,84 @@ public class MainFragment extends Fragment{
             values.put(CalendarProvider.END, cal.getTimeInMillis());
             values.put(CalendarProvider.END_DAY, endDayJulian);//CalendarProvider.CONTENT_URI
             getActivity().getContentResolver().insert(CalendarProvider.CONTENT_URI, values);//(ArrayList<ContentValues>)(ArrayList<TaskClass>) yourList
-            String[] params = {""+temp.getId()};//task_id
-            String[] select = {"task_id"};//
-            Cursor cur = getActivity().getContentResolver().query(CalendarProvider.CONTENTNOTIF_URI,select,"id=?",params,null);
-            if(!cur.isBeforeFirst())//this notification has been dismised
-            {
-                CreateAlarm(temp.getEnd_date(), temp);
-                Log.d(TAG, "AddNewDatabase:  title="+temp.getTitle());
+
+
+//            Log.d(TAG, "AddNewDatabase: tempId="+temp.getId());
+            if(temp.getStatus().equals("Pending")) {//set alarm only to pending tasks
+                String[] params = {"" + temp.getId()};//task_id
+                String[] select = {"task_id"};//
+                Cursor cur = getActivity().getContentResolver().query(CalendarProvider.CONTENTNOTIF_URI, select, "task_id=?", params, null);
+//                Log.d(TAG, "AddNewDatabase: cur.isBeforeFirst()=" + cur.isBeforeFirst());
+
+                if (cur.moveToFirst()) {
+                    RemoveAlarm(temp.getTitle(),temp.getDescription(),""+temp.getId());
+                    Log.d(TAG, "AddNewDatabase: This notification has been dismissed title=" + temp.getTitle());
+                } else {
+                    CreateAlarm(temp.getEnd_date(), temp);
+                    Log.d(TAG, "CreateAlarmHere  title=" + temp.getTitle());
+                }
+                cur.close();
             }
-            else Log.d(TAG, "AddNewDatabase: This notification has been dismissed title="+temp.getTitle());
+            else {
+                Log.d(TAG, "AddNewDatabase:               Task isnt Pending title=" + temp.getTitle());
+            }
         }
     }
-    public void CreateAlarm(String endDate,TaskClass temp) {
+    public void CreateAlarm(String endDate, TaskClass temp) {
         if(temp.getStatus().contains("Done"))
             return;
-        Intent notifyIntent = new Intent(getContext(), MyAlarmReceiver.class);
-        notifyIntent.putExtra("title","End of task"+temp.getTitle());
-        notifyIntent.putExtra("description",temp.getDescription());
-        notifyIntent.putExtra("id",temp.getId());
         MyDateHelper converter = new MyDateHelper();
         Calendar cl = converter.convertFromString(endDate);
+        Log.d(TAG, "CreateAlarm: cl="+cl.getTimeInMillis());
+        Calendar calNow = Calendar.getInstance();
+        if(cl.getTimeInMillis()+3600000>calNow.getTimeInMillis())
+            Log.d(TAG, "CreateAlarm: continue");
+        else {
+            Log.d(TAG, "CreateAlarm: Exit alarm is in the past");
+            return;
+        }
+        String title=temp.getTitle();
+        String description=temp.getDescription();
+        String id=""+temp.getId();
+        Intent notifyIntent = new Intent(getContext(), MyAlarmReceiver.class);
+        notifyIntent.putExtra("title","End of task "+title);
+        notifyIntent.putExtra("description",temp.getDescription());
+        notifyIntent.putExtra("id",""+description);
+        Log.d(TAG, "CreateAlarm: id="+id);
         PendingIntent pendingIntent = PendingIntent.getBroadcast
-                (getContext(), 9562094, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                (getContext(), 9562094, notifyIntent, 0);
         AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getContext());
         String strUserName = SP.getString("oppositeOfDelay", "3600000");
+
+//        MyDateHelper converter = new MyDateHelper();
+
+        Log.d(TAG, "CreateAlarm: cal="+calNow.getTimeInMillis());
+//        Calendar cl = converter.convertFromString(endDate);
+//        Log.d(TAG, "CreateAlarm: cl="+cl.getTimeInMillis());
         int oppositeOfDelay = Integer.parseInt(strUserName);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, (cl.getTimeInMillis() - 3600000),
-                pendingIntent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, (calNow.getTimeInMillis() + oppositeOfDelay), pendingIntent);
 
 //        Toast.makeText(getContext(), "Alarm added ", Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "onNavigationItemSelected: time" + (System.currentTimeMillis()));
+//        Log.d(TAG, "onNavigationItemSelected: time" + (System.currentTimeMillis()));
     }
-    public void RemoveAlarm(){
+    public void RemoveAlarm(String title,String description,String id){
+//        String title=temp.getTitle();
+//        String description=temp.getDescription();
+//        String id=""+temp.getId();
         Intent notifyIntent = new Intent(getContext(), MyAlarmReceiver.class);
-
+        notifyIntent.putExtra("title","End of task "+title);
+        notifyIntent.putExtra("description",description);
+        notifyIntent.putExtra("id",""+id);
+        Log.d(TAG, "RemoveAlarm: id="+id);
         PendingIntent pendingIntent = PendingIntent.getBroadcast
-                (getContext(), 9562094, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-//            AlarmManager alarmManager = (AlarmManager) getBaseContext().getSystemService(Context.ALARM_SERVICE);
-//            alarmManager.set(AlarmManager.RTC_WAKEUP, (System.currentTimeMillis() + 1000 * 5),
-//                    pendingIntent);
+                (getContext(), 9562094, notifyIntent, 0);
+        AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
 //            Toast.makeText(this, "Alarm added ", Toast.LENGTH_SHORT).show();
 //            Log.d(TAG, "onNavigationItemSelected: time" + (System.currentTimeMillis()));
 //            if(alarmManager!=null){
-//                alarmManager.cancel(pendingIntent);
-        pendingIntent.cancel();
+                alarmManager.cancel(pendingIntent);
+//        pendingIntent.cancel();
     }
 
 }

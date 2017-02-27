@@ -13,6 +13,7 @@ import android.util.Log;
 
 import com.piter.piterdiplomna.R;
 import com.piter.piterdiplomna.activities.ChatActivity;
+import com.piter.piterdiplomna.activities.MainActivity;
 
 import java.util.List;
 
@@ -31,15 +32,34 @@ public class NotificationHandler {
     }
 
     //This showNotificationMessage would display the notification
-    public void showNotificationMessage(final String title, final String message, Intent intent) {
+    public void showNotificationMessage(final String user_id,final String title, final String message, Intent intent) {
         Log.d(TAG, "showNotificationMessage: would display the notification");
         NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext);
         builder.setSmallIcon(R.mipmap.ic_launcher);
 
         Intent intent2 = new Intent(mContext, ChatActivity.class);
-        intent2.putExtra("id", intent.getStringExtra("user_send_id"));
-        Log.d(TAG, "showNotificationMessage : message= "+message);
-        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, intent2, 0);
+        intent2.putExtra("id", user_id);
+        Log.d(TAG, "showNotificationMessage : message= "+message+" id="+intent.getStringExtra("id"));
+        Log.d(TAG, "showNotificationMessage2 : message= "+message+" id="+user_id);
+        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 9562094, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(pendingIntent);
+        builder.setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.ic_launcher));
+        builder.setContentTitle(title);
+        builder.setContentText(message);
+        builder.setAutoCancel(true);
+        NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(mContext.NOTIFICATION_SERVICE);
+        notificationManager.notify(Constants.NOTIFICATION_ID, builder.build());
+    }
+    public void showNotificationTask(final String user_id,final String title, final String message, Intent intent) {
+        Log.d(TAG, "showNotificationTask: would display the notification");
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext);
+        builder.setSmallIcon(R.mipmap.ic_launcher);
+
+        Intent intent2 = new Intent(mContext, MainActivity.class);
+        intent2.putExtra("id", user_id);
+//        Log.d(TAG, "showNotificationTask : message= "+message+" id="+intent.getStringExtra("id"));
+//        Log.d(TAG, "showNotificationTask : message= "+message+" id="+user_id);
+        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 9562094, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(pendingIntent);
         builder.setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.ic_launcher));
         builder.setContentTitle(title);

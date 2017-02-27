@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.piter.piterdiplomna.ObjectClasses.ChatMessageClass;
 import com.piter.piterdiplomna.R;
 import com.piter.piterdiplomna.activities.MainActivity;
+import com.piter.piterdiplomna.helper.SharedPreferencesManage;
 
 import java.util.ArrayList;
 
@@ -67,7 +68,7 @@ public class ChatMessageAdapterRV extends RecyclerView.Adapter<ChatMessageAdapte
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         ChatMessageClass selectedMsg = chatMsgList.get(position);
-        Log.d("TAG ChatMessageAdapterRV", "onBindViewHolder: position= "+position+": message= "+selectedMsg.getMessage()+" time= "+selectedMsg.getCreate_date_time());
+        Log.d("TAG ChatMessageAd", "onBindViewHolder: position= "+position+": message= "+selectedMsg.getMessage()+" time= "+selectedMsg.getCreate_date_time());
         //LayoutParams for the gravity on message
         LinearLayout.LayoutParams paramsMsg = new LinearLayout.
                 LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -76,7 +77,7 @@ public class ChatMessageAdapterRV extends RecyclerView.Adapter<ChatMessageAdapte
 //            side=true;
 //        }else side=false;
 
-        side=selectedMsg.getUser_send_id()== MainActivity.user_id?true:false;
+        side=selectedMsg.getUser_send_id()== SharedPreferencesManage.getInstance().getUserId()?true:false;
 //        Log.d("TAG", "onBindViewHolder: side2= "+side2);
         Log.d("TAG", "onBindViewHolder: side= "+side);
 

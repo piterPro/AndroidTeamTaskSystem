@@ -48,6 +48,9 @@
             android:name="com.piter.piterdiplomna.helper.MyAlarmReceiver"
             android:enabled="true"
             android:exported="false"/>
+        <receiver
+            android:name="com.piter.piterdiplomna.helper.AlarmDismissReceiver"
+            android:exported="false"/>
         <!--for managing notification and openning the corect activity-->
         <service
             android:name="com.piter.piterdiplomna.helper.MyNewIntentService"

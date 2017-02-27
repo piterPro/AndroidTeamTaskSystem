@@ -129,7 +129,6 @@ public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myVi
         // - replace the contents of the view with that element
         final TaskClass selectedTasks = taskList.get(position);
         final String currentSpinnerSatus = holder.spinnerStatus.getSelectedItem().toString();
-//        Log.d(TAG, "onClick: final currentSpinnerSatus"+currentSpinnerSatus);
 
         holder.itemView.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -137,21 +136,12 @@ public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myVi
 
                 RelativeLayout item = (RelativeLayout)holder.itemView.findViewById(R.id.comment_fragment_container);
                 View child = View.inflate(context, R.layout.cc_fragment_comments_list, null);
-//                View child = View.inflate(context, R.layout.g_suggest, null);
                 holder.spinnerStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//                    if(MainTasksAdapter.flagToWait=="true"){
-//                        Log.d(TAG, "onClick: fragment visible");
-//                    }
-                    //                        }//fucking wait for the change
+
 
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                            if(currentSpinnerSatus.matches(holder.statusTV.getText().toString())) {
-//                                Log.d(TAG, "onItemSelected: ne pra6ta zaqvka za6toto nqma promeni");
-//                                return;
-//                            }
 
-//                        notifyDataSetChanged();
                         try {
                             holder.statusTV.setVisibility(View.VISIBLE);
                             String newStatus = holder.spinnerStatus.getSelectedItem().toString();
@@ -216,7 +206,7 @@ public class MainTasksAdapter extends RecyclerView.Adapter<MainTasksAdapter.myVi
                         DialogFragment fragment = new EditTaskFragment().newInstance(selectedTasks,position);
                         fragment.show(fragmentManager, "EditTask");
                         notifyDataSetChanged();
-                        Log.d(TAG, "onClick: notifyItemChanged position="+position);
+//                        Log.d(TAG, "onClick: notifyItemChanged position="+position);
                     }
                 });
             }

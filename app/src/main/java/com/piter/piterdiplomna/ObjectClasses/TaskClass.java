@@ -25,7 +25,6 @@ public class TaskClass {
         private int user_made_by_id;
         private String user_made_for_id;
         private String team;
-//        private Context context;//CANT SERIALIZE THAT YOU ANIMAL!
 
     public TaskClass() {
     }

@@ -174,7 +174,7 @@ public class ChatActivity extends AppCompatActivity {
                         NotificationHandler notificationHandler = new NotificationHandler(getApplicationContext());
 //                        Intent intent2 = new Intent(getApplicationContext(), ChatActivity.class);
 //                        intent2.putExtra("user_send_id", intent.getStringExtra("user_send_id"));
-                        notificationHandler.showNotificationMessage(title, message, intent);
+                        notificationHandler.showNotificationMessage(user_send_id,title, message, intent);
                     }
                 }
             }
@@ -328,7 +328,7 @@ public class ChatActivity extends AppCompatActivity {
         String json = gson.toJson(msg);
         Log.d(TAG, "sendChatMessage:ChatMessageClass json= "+json);
 //        final OkHttpClient client = new OkHttpClient();
-
+        Log.d(TAG, "sendChatMessage: URL="+ URLs.URL_SEND_MESSAGE);
         Request request = new Request.Builder()
                 .url(URLs.URL_SEND_MESSAGE)
                 .post(RequestBody.create(Constants.JSON, json))

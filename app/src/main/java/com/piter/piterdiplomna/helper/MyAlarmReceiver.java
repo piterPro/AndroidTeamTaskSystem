@@ -30,50 +30,16 @@ public class MyAlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        Intent intent1 = new Intent(context, MyNewIntentService.class);
         String title=intent.getStringExtra("title");
-
         String description=intent.getStringExtra("description");
+        String id = intent.getStringExtra("id");
+        Log.d("TAG", "onReceive: MyAlarmReceiver id ?="+id);
+
+        Intent intent1 = new Intent(context, MyNewIntentService.class);
         intent1.putExtra("title",title);
         intent1.putExtra("description",description);
-        intent1.putExtra("id",intent.getStringExtra("id"));
-        Log.d("TAG", "onReceive: MyAlarmReceiver");
+        intent1.putExtra("id",id);
         context.startService(intent1);
 
-        //TODO:
-//        Intent Intent = new Intent(context, MyAlarmReceiver.class);
-//        PendingIntent pendingIntent = PendingIntent.getBroadcast                (context, 9562094, Intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        Intent notifyIntent = new Intent(context, MyAlarmReceiver.class);
-
-        notifyIntent.putExtra("title","End of task"+title);
-        notifyIntent.putExtra("description",description);
-        notifyIntent.putExtra("id",intent.getStringExtra("id"));
-        MyDateHelper converter = new MyDateHelper();
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 9562094, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        Log.d("TAG", "onReceive: did i canceled it?");
-        pendingIntent.cancel();
-        Intent pushNotification = new Intent(context,ChatActivity.class);
-        pushNotification.setAction(Constants.CHAT_NOTIFICATION);
-        //Adding notification data to the intent
-//         Intent intent2 = new Intent(mContext, ChatActivity.class);
-        pushNotification.putExtra("title",title);
-        pushNotification.putExtra("description",description);
-//        if(user_send_id==user_to_id)//sam si pi6e6 brat
-//            return;
-        //We will create this class to handle notifications
-        Log.d("TAG", "sendNotification: load all the data here");
-        NotificationHandler notificationHandler = new NotificationHandler(context);
-
-        LocalBroadcastManager.getInstance(context).sendBroadcast(pushNotification);//Log.d(TAG, "sendNotification: AppIs not in Background ");
-        if (!NotificationHandler.isAppIsInBackground(context)) {
-            //Sending a broadcast to the chat to add the new message
-//            Log.d(TAG, "sendNotification: AppIs not in Background ");
-            LocalBroadcastManager.getInstance(context).sendBroadcast(pushNotification);
-        } else {
-            //If app is in foreground displaying push notification
-//            Log.d(TAG, "sendNotification: AppIs is InBackground ");
-            notificationHandler.showNotificationMessage("End of task"+title, description, pushNotification);
-        }
     }
 }

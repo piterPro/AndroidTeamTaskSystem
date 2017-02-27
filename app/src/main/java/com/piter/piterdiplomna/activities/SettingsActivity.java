@@ -90,7 +90,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     };
 
     /**
-     * MyDateHelper method to determine if the device has an extra-large screen. For
+     * isXLargeTablet method to determine if the device has an extra-large screen. For
      * example, 10" tablets are extra-large.
      */
     private static boolean isXLargeTablet(Context context) {

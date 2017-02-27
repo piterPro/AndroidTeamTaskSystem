@@ -595,8 +595,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
 
-        //it is not called anywhere in this code
-        //haha ama 4e si preburzal sus zaklu4eniqta sa6e
         @Override
         protected void onPostExecute(final Boolean success) {
 //            mAuthTask = null;
@@ -615,7 +613,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 startActivity(intent);
 
 //                LoginActivity.this.finish();//zatvarq activity-to
-                Toast.makeText(getBaseContext(),"YAY login successful \nEmail ="+ mUsername +" Pass="+mPassword,Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(),"Login successful",Toast.LENGTH_LONG).show();
             } else {
                 if(response_string!=null) {
                     Toast.makeText(getBaseContext(), "Error \n" + response_string, Toast.LENGTH_SHORT).show();

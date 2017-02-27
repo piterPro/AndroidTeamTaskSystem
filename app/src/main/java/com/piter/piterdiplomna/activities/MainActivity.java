@@ -120,6 +120,7 @@ public class MainActivity extends AppCompatActivity
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
+                Log.d(TAG, "onReceive: Received something");
                 if (intent.getAction().equals(Constants.CHAT_NOTIFICATION)) {
                     //Getting message data
                     Log.d(TAG, "onReceive: push notification da se predade na Chat activity !!!");
@@ -136,7 +137,7 @@ public class MainActivity extends AppCompatActivity
                     Intent intent2 = new Intent(getApplicationContext(), ChatActivity.class);
                     Log.d(TAG, "onReceive: new Intent");
                     intent2.putExtra("id", user_send_id);
-                    notificationHandler.showNotificationMessage(title, message, intent2);
+                    notificationHandler.showNotificationMessage(user_send_id ,title, message, intent2);
                 }
                 else
                     if (intent.getAction().equals(Constants.TASK_NOTIFICATION)) {
@@ -253,8 +254,7 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.replace(R.id.fragment_container,fragment);
             fragmentTransaction.commit();
         }else
-        if (id == R.id.remove_set_alarm) {
-            Log.d(TAG, "onOptionsItemSelected: Should remove the set alarm");
+//            Log.d(TAG, "onOptionsItemSelected: Should remove the set alarm");
         //    Intent notifyIntent = new Intent(this, MyAlarmReceiver.class);
 
         //    PendingIntent pendingIntent = PendingIntent.getBroadcast
@@ -269,7 +269,7 @@ public class MainActivity extends AppCompatActivity
          //       pendingIntent.cancel();
                 Log.d(TAG, "onNavigationItemSelected: Alarm canceled");
 //            }
-        }else
+
         if (id == R.id.statistic) {
 
         }
@@ -359,6 +359,7 @@ public class MainActivity extends AppCompatActivity
     }
     public void checkGplayServices(){
         //if the google play service is not in the device app won't work
+        Log.d(TAG, "checkGplayServices: To check for token!");
         int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());
 
         if (resultCode != ConnectionResult.SUCCESS) {
@@ -371,7 +372,7 @@ public class MainActivity extends AppCompatActivity
             }
         } else {
             Intent intent1;
-            if(SharedPreferencesManage.getInstance().getToken().isEmpty()) {
+            if(SharedPreferencesManage.getInstance().getToken()==null) {
                 intent1 = new Intent(this, GCMRegistrationIntentService.class);
                 startService(intent1);
                 Log.d(TAG, "user to be registered start service");

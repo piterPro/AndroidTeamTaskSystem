@@ -29,6 +29,7 @@ public class URLs {
     public static final String URL_FETCH_MESSAGES = ROOT_URL + "messages";
     public static final String URL_FETCH_LASTMESSAGE = ROOT_URL + "lastmsg";
     public static final String URL_SEND_MESSAGE = ROOT_URL + "sendMsg";
+    public static final String URL_GET_STATISTIC = ROOT_URL + "statistic";
 
 //    public static final String URL_FETCH_STATUS = ROOT_URL + "checkStatus";//do i need this?
 

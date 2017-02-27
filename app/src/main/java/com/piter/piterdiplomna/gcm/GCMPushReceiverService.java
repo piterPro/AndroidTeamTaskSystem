@@ -61,18 +61,18 @@ public class GCMPushReceiverService extends GcmListenerService {
         //If the app is in foreground
         if (!NotificationHandler.isAppIsInBackground(getApplicationContext())) {
             //Sending a broadcast to the chat to add the new message
-            Log.d(TAG, "sendNotification: AppIs in Background ");
+            Log.d(TAG, "sendNotification: AppIs in Foreground ");
             LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
         } else {
             //If app is in foreground displaying push notification
-            Log.d(TAG, "sendNotification: AppIs not in InBackground ");
-            notificationHandler.showNotificationMessage(title, message, pushNotification);
+            Log.d(TAG, "sendNotification: AppIs in InBackground ");
+            notificationHandler.showNotificationMessage(user_send_id,title, message, pushNotification);
         }
     }
     private void sendNotificationToTask(String user_send_id, String user_to_id, String message, String create_date_time, String title) {
-        Log.d(TAG, "sendNotification: with all individual values");
+        Log.d(TAG, "sendNotificationToTask: with all individual values");
         //Creating a broadcast intent
-        Intent pushNotification = new Intent(getApplicationContext(),MainActivity.class);
+        Intent pushNotification = new Intent(getApplicationContext(), MainActivity.class);
         pushNotification.setAction(Constants.TASK_NOTIFICATION);
         //Adding notification data to the intent
 //         Intent intent2 = new Intent(mContext, ChatActivity.class);
@@ -90,12 +90,14 @@ public class GCMPushReceiverService extends GcmListenerService {
         //If the app is in foreground
         if (!NotificationHandler.isAppIsInBackground(getApplicationContext())) {
             //Sending a broadcast to the chat to add the new message
-            Log.d(TAG, "sendNotification: AppIs not in Background ");
-            LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
+            Log.d(TAG, "sendNotification: AppIs in Foreground ");
+//            LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
+            notificationHandler.showNotificationTask(user_send_id,title, message, pushNotification);
         } else {
+
             //If app is in foreground displaying push notification
             Log.d(TAG, "sendNotification: AppIs is InBackground ");
-            notificationHandler.showNotificationMessage(title, message, pushNotification);
+            notificationHandler.showNotificationTask(user_send_id,title, message, pushNotification);
         }
     }
 }

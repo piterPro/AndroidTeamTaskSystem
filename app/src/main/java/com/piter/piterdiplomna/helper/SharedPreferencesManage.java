@@ -99,7 +99,7 @@ public class SharedPreferencesManage extends Application {
     }
     //This showFragment will return the user id of logged in user
     public String getToken() {
-        return getSharedPreferences().getString(Constants.USER_TOKEN, "");
+        return getSharedPreferences().getString(Constants.USER_TOKEN, null);
     }
     public String getTaskListAlarm() {
         return getSharedPreferences().getString(Constants.USER_TOKEN, "");
@@ -176,7 +176,7 @@ public class SharedPreferencesManage extends Application {
         String returnString=null;
 
         Calendar Now = Calendar.getInstance();
-        Log.d(TAG, "cl koeto doide: "+cl.getTime());
+//        Log.d(TAG, "cl koeto doide: "+cl.getTime());
 
         Now.clear(Calendar.HOUR_OF_DAY);
         Now.clear(Calendar.HOUR);
@@ -185,29 +185,29 @@ public class SharedPreferencesManage extends Application {
         Now.clear(Calendar.MILLISECOND);
         int compareNumber = cl.compareTo(Now);
         if(compareNumber==1){
-            Log.d(TAG, "returnCorrectFormatDate: the date is from today! ="+cl.getTime());
+//            Log.d(TAG, "returnCorrectFormatDate: the date is from today! ="+cl.getTime());
             returnString = cl.get(Calendar.HOUR_OF_DAY)+":"+String.format("%02d",cl.get(Calendar.MINUTE));
-            Log.d(TAG, "returnCorrectFormatDate: returnString="+returnString );
+//            Log.d(TAG, "returnCorrectFormatDate: returnString="+returnString );
             return returnString;
         }
         else
         if(compareNumber==-1){
-            Log.d(TAG, "returnCorrectFormatDate: compareNumber=-1");
+//            Log.d(TAG, "returnCorrectFormatDate: compareNumber=-1");
         }
 
         Now.add(Calendar.WEEK_OF_YEAR,-1);
-        Log.d(TAG, "   now-1week="+Now.getTime());
+//        Log.d(TAG, "   now-1week="+Now.getTime());
 
         if(cl.compareTo(Now)==1){
-            Log.d(TAG, "returnCorrectFormatDate: the date is from this week! = "+cl.getTime());
+//            Log.d(TAG, "returnCorrectFormatDate: the date is from this week! = "+cl.getTime());
             cl.setFirstDayOfWeek(Calendar.MONDAY);
             returnString = ""+cl.getDisplayName((Calendar.DAY_OF_WEEK),Calendar.LONG, getDefault());
 //                    DayOfWeek dow = cl.get();
-            Log.d(TAG, "returnCorrectFormatDate: returnString="+returnString );
+//            Log.d(TAG, "returnCorrectFormatDate: returnString="+returnString );
             return returnString;
         }
         returnString=cl.get(Calendar.YEAR)+"-"+(cl.get(Calendar.MONTH)+1)+"-"+cl.get(Calendar.DAY_OF_MONTH);
-        Log.d(TAG, "returnCorrectFormatDate: returnString="+returnString );
+//        Log.d(TAG, "returnCorrectFormatDate: returnString="+returnString );
         return returnString;
     }
 }

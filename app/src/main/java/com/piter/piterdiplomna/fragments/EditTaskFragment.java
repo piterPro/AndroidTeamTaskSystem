@@ -67,6 +67,7 @@ public class EditTaskFragment extends DialogFragment{
 //    private static final String param2 = "param2";
 //    private static final String param3 = "param3";
     public static TaskClass taskToEdit;
+    private boolean teamFlag=false;
     private TextView BeginDateDateTV,BeginDateTimeTV,EndDateDateTV,EndDateTimeTV;
 
     //Broadcast receiver to receive broadcasts
@@ -265,12 +266,13 @@ public class EditTaskFragment extends DialogFragment{
         if(selectUserBtnFlag){
             Log.d(TAG, "updateTask: butona za list userite is dirty");
             if(!jsonData.isEmpty()) {
-
-                Log.d(TAG, "updateTask to a lot of ppl json="+jsonData);
+                Log.d(TAG, "updateTask to a list of ppl json="+jsonData);
                 taskToEdit.setUser_made_for_id(jsonData);
-            }else
-            taskToEdit.setTeam(null);
+            }
             selectUserBtnFlag=false;
+        }else {
+//                if(taskToEdit.getTeam().contains("true"))
+                    taskToEdit.setTeam(null);
         }
         if(BeginDateBtnFlag){
             Log.d(TAG, "updateTask: BeginDateBtnFlag is dirty");

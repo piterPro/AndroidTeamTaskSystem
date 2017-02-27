@@ -41,7 +41,7 @@ public class CalendarFragment extends Fragment {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.f_fragment_calendar, container, false);
         //copy function hope it works! no?container
-//        initializeCalendar(view);//no need for it
+        initializeCalendar(view);//no need for it
         return view;
     }
 

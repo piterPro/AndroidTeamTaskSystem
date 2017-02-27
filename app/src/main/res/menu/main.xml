@@ -11,9 +11,8 @@
         android:id="@+id/logout_menu" />
     <item android:title="Edit Info"
         android:id="@+id/Edit_info" />
-    <item android:title="Remove set alarm" android:id="@+id/remove_set_alarm"/>
     <item
         android:id="@+id/statistic"
         android:actionViewClass="android.support.v7.widget.SearchView"
-        android:title="Search"/>
+        android:title="Statistic"/>
 </menu>
